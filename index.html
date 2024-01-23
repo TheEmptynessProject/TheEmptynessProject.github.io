@@ -19,9 +19,7 @@
       canvas {
         display: block;
         width: 100vw;
-        /* Canvas fills the entire width */
         height: 100vh;
-        /* Canvas fills the entire height */
       }
 
       .input-row,
@@ -71,25 +69,22 @@
     </div>
     <canvas id="waveCanvas" width="1920" height="1080"></canvas>
     <script>
-      // Default colors
       let sinColor = "#ff0000";
       let cosColor = "#0000ff";
       let backgroundColor = "#ffffff";
-      // Function to draw alternating sine and cosine bars
+      
       function drawAlternatingSineCosineBars(context, amplitude, frequency, barWidth, xOffset) {
         for (let x = 0; x < context.canvas.width; x += barWidth * 2) {
           const sinY = amplitude * Math.sin(((x + xOffset) / context.canvas.width) * frequency * Math.PI * 2);
           const cosY = amplitude * Math.cos(((x + xOffset) / context.canvas.width) * frequency * Math.PI * 2);
-          // Draw sine bar on top
           context.fillStyle = sinColor;
           context.fillRect(x, 0, barWidth, context.canvas.height / 2 + sinY);
-          // Draw cosine bar on bottom
           context.fillStyle = cosColor;
           context.fillRect(x + barWidth, context.canvas.height / 2 - cosY, barWidth, context.canvas.height / 2 + cosY);
         }
         document.body.style.backgroundColor = backgroundColor;
       }
-      // Function to animate the alternating sine and cosine bars
+      
       function animateAlternatingSineCosineBars() {
         const canvas = document.getElementById('waveCanvas');
         const context = canvas.getContext('2d');
@@ -99,20 +94,21 @@
 
         function updateInputsVisibility(event) {
           if (event.clientY < thres) {
-            inputRow.style.top = '0'; // Show input row
+            inputRow.style.top = '0';
           } else {
-            inputRow.style.top = '-50px'; // Hide input row
+            inputRow.style.top = '-50px';
           }
         }
 
         function updateColorInputsVisibility(event) {
-          const threshold = window.innerHeight - thres; // Set the threshold distance from the bottom for showing/hiding color inputs
+          const threshold = window.innerHeight - thres;
           if (event.clientY > threshold) {
-            colorInputRow.style.bottom = '0'; // Show color input row
+            colorInputRow.style.bottom = '0';
           } else {
-            colorInputRow.style.bottom = '-50px'; // Hide color input row
+            colorInputRow.style.bottom = '-50px';
           }
         }
+        
         window.addEventListener('mousemove', updateInputsVisibility);
         window.addEventListener('mousemove', updateColorInputsVisibility);
         const amplitudeSlider = document.getElementById('amplitudeSlider');
@@ -126,6 +122,7 @@
         const sinColorInput = document.getElementById('sinColorInput');
         const cosColorInput = document.getElementById('cosColorInput');
         const backgroundColorInput = document.getElementById('backgroundColorInput');
+        
         let time = 0;
 
         function draw() {
@@ -134,14 +131,14 @@
           const barWidth = parseFloat(Math.abs(barWidthInput.value)) || 1;
           const timeIncrement = parseFloat(timeIncrementInput.value) || 0;
           const xOffset = time;
-          // Update slider values
+
           amplitudeSlider.value = waveAmplitude;
           frequencySlider.value = waveFrequency;
           barWidthSlider.value = barWidth;
           timeIncrementSlider.value = timeIncrement;
           time = time + timeIncrement;
           context.clearRect(0, 0, canvas.width, canvas.height);
-          // Draw alternating sine and cosine bars with animation
+
           drawAlternatingSineCosineBars(context, waveAmplitude, waveFrequency, barWidth, xOffset);
           requestAnimationFrame(draw);
         }
@@ -163,20 +160,16 @@
       function updateInput(sourceId, targetId) {
         const sourceElement = document.getElementById(sourceId);
         const targetElement = document.getElementById(targetId);
-        // Try to parse the input value as a float, fallback to 0 if not a valid number
         const parsedValue = parseFloat(sourceElement.value) || 0;
         targetElement.value = parsedValue;
-        // Update the slider value
         document.getElementById(sourceId.replace('Input', 'Slider')).value = parsedValue;
       }
 
       function updateSlider(sourceId, targetId) {
         const sourceElement = document.getElementById(sourceId);
         const targetElement = document.getElementById(targetId);
-        // Try to parse the input value as a float, fallback to 0 if not a valid number
         const parsedValue = parseFloat(sourceElement.value) || 0;
         targetElement.value = parsedValue;
-        // Update the slider value
         document.getElementById(targetId.replace('Input', 'Slider')).value = parsedValue;
       }
       animateAlternatingSineCosineBars();
