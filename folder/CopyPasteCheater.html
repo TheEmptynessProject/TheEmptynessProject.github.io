@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clipboard Change Tracker</title>
+</head>
+<body>
+    <div id="clipboardContent" style="border: 1px solid #ccc; padding: 10px;">
+        Clipboard content will appear here.
+    </div>
+    <button onclick="requestClipboardPermission()">Get Clipboard Permission</button>
+    <script>
+        let initialClipboardData = '';
+
+        document.addEventListener('copy', function(event) {
+            const copiedText = window.getSelection().toString();
+            console.log('User copied text:', copiedText);
+            initialClipboardData = copiedText;
+        });
+
+        document.addEventListener('cut', function(event) {
+            const cutText = window.getSelection().toString();
+            console.log('User cut text:', cutText);
+            initialClipboardData = cutText;
+        });
+
+        document.addEventListener('paste', function(event) {
+            const pastedText = event.clipboardData.getData('text');
+            console.log('User pasted text:', pastedText);
+
+            if (initialClipboardData !== pastedText) {
+                console.log('You copied something in another window Detected');
+                document.getElementById('clipboardContent').innerText = pastedText;
+                initialClipboardData = clipboardContent;
+            }
+        });
+
+        window.addEventListener('focus', function() {
+            console.log('User is on the page');
+        });
+
+        window.addEventListener('blur', function() {
+            console.log('User has left the page');
+        });
+
+        function requestClipboardPermission() {
+            navigator.clipboard.readText().then(clipboardContent => {
+                console.log('Initial clipboard data:', clipboardContent);
+                initialClipboardData = clipboardContent;
+            }).catch(error => {
+                console.error('Clipboard reading error:', error.message);
+            });
+        }
+    </script>
+</body>
+</html>
