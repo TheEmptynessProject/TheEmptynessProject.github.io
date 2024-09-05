@@ -49,8 +49,7 @@
         const clipboardContentEl = document.getElementById('clipboardContent');
         const statusEl = document.getElementById('status');
         const permissionBtn = document.getElementById('permissionBtn');
-        const modeToggleBtn = document.getElementById('modeToggleBtn');
-        const currentModeEl = document.getElementById('currentMode');
+        const modeToggleBtn = document.getElementrentMode');
 
         function updateStatus(message) {
             statusEl.textContent = message;
@@ -66,7 +65,30 @@
             modeToggleBtn.textContent = hasPermission ? "Switch to No Permission Mode" : "Switch to Permission Mode";
             permissionBtn.style.display = hasPermission ? "none" : "inline-block";
         }
+		
+		document.addEventListener('dragover', function(event) {
+            event.preventDefault(); // Necessary to allow dropping
+        });
 
+        document.addEventListener('drop', function(event) {
+            event.preventDefault(); // Prevent default drop behavior
+
+            const droppedText = event.dataTransfer.getData('text');
+            console.log('User dropped text:', droppedText);
+
+            if (hasPermission) {
+                if (initialClipboardData !== droppedText) {
+                    console.log('New content dropped from another window');
+                    updateClipboardContent(droppedText);
+                    updateStatus('New content dropped from another window');
+                } else {
+                    updateStatus('Content dropped (matches current clipboard content)');
+                }
+            } else {
+                updateStatus('Content dropped (content not visible due to no permission)');
+            }
+        });
+		
         document.addEventListener('copy', function(event) {
             const copiedText = window.getSelection().toString();
             console.log('User copied text:', copiedText);
