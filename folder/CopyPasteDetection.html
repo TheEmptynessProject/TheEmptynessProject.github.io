@@ -4,54 +4,159 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clipboard Change Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #clipboardContent {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            min-height: 100px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        #status {
+            margin-top: 20px;
+            font-style: italic;
+        }
+        .mode-indicator {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div id="clipboardContent" style="border: 1px solid #ccc; padding: 10px;">
-        Clipboard content will appear here.
-    </div>
-    <button onclick="requestClipboardPermission()">Get Clipboard Permission</button>
+    <h1>Clipboard Change Tracker</h1>
+    <div class="mode-indicator">Current Mode: <span id="currentMode">No Permission</span></div>
+    <div id="clipboardContent">Clipboard content will appear here.</div>
+    <button id="permissionBtn" onclick="togglePermissionMode()">Get Clipboard Permission</button>
+    <button id="modeToggleBtn" onclick="toggleMode()">Switch to No Permission Mode</button>
+    <div id="status"></div>
+
     <script>
         let initialClipboardData = '';
+        let hasPermission = false;
+        const clipboardContentEl = document.getElementById('clipboardContent');
+        const statusEl = document.getElementById('status');
+        const permissionBtn = document.getElementById('permissionBtn');
+        const modeToggleBtn = document.getElementById('modeToggleBtn');
+        const currentModeEl = document.getElementById('currentMode');
+
+        function updateStatus(message) {
+            statusEl.textContent = message;
+        }
+
+        function updateClipboardContent(content) {
+            clipboardContentEl.textContent = content;
+            initialClipboardData = content;
+        }
+
+        function updateModeDisplay() {
+            currentModeEl.textContent = hasPermission ? "Permission Granted" : "No Permission";
+            modeToggleBtn.textContent = hasPermission ? "Switch to No Permission Mode" : "Switch to Permission Mode";
+            permissionBtn.style.display = hasPermission ? "none" : "inline-block";
+        }
 
         document.addEventListener('copy', function(event) {
             const copiedText = window.getSelection().toString();
             console.log('User copied text:', copiedText);
-            initialClipboardData = copiedText;
+            updateStatus('Text copied');
         });
 
         document.addEventListener('cut', function(event) {
             const cutText = window.getSelection().toString();
             console.log('User cut text:', cutText);
-            initialClipboardData = cutText;
+            updateStatus('Text cut');
         });
 
         document.addEventListener('paste', function(event) {
-            const pastedText = event.clipboardData.getData('text');
-            console.log('User pasted text:', pastedText);
+            if (hasPermission) {
+                event.preventDefault();
+                const pastedText = event.clipboardData.getData('text');
+                console.log('User pasted text:', pastedText);
 
-            if (initialClipboardData !== pastedText) {
-                console.log('You copied something in another window Detected');
-                document.getElementById('clipboardContent').innerText = pastedText;
-                initialClipboardData = clipboardContent;
+                if (initialClipboardData !== pastedText) {
+                    console.log('Clipboard content changed in another window');
+                    updateClipboardContent(pastedText);
+                    updateStatus('New content pasted from another window');
+                } else {
+                    updateStatus('Content pasted');
+                }
+            } else {
+                updateStatus('Content pasted (content not visible due to no permission)');
             }
         });
 
         window.addEventListener('focus', function() {
             console.log('User is on the page');
+            updateStatus('Welcome back!');
+            if (hasPermission) {
+                checkClipboardChanges();
+            }
         });
 
         window.addEventListener('blur', function() {
             console.log('User has left the page');
+            updateStatus('Come back soon!');
         });
 
-        function requestClipboardPermission() {
-            navigator.clipboard.readText().then(clipboardContent => {
-                console.log('Initial clipboard data:', clipboardContent);
-                initialClipboardData = clipboardContent;
-            }).catch(error => {
-                console.error('Clipboard reading error:', error.message);
-            });
+        async function checkClipboardChanges() {
+            if (!hasPermission) return;
+
+            try {
+                const clipboardContent = await navigator.clipboard.readText();
+                if (initialClipboardData !== clipboardContent) {
+                    console.log('Clipboard content changed while away');
+                    updateClipboardContent(clipboardContent);
+                    updateStatus('Clipboard content changed while you were away');
+                }
+            } catch (error) {
+                console.error('Error reading clipboard:', error);
+            }
         }
+
+        async function requestClipboardPermission() {
+            try {
+                const clipboardContent = await navigator.clipboard.readText();
+                console.log('Initial clipboard data:', clipboardContent);
+                updateClipboardContent(clipboardContent);
+                updateStatus('Clipboard permission granted');
+                hasPermission = true;
+                updateModeDisplay();
+            } catch (error) {
+                console.error('Clipboard reading error:', error.message);
+                updateStatus('Failed to get clipboard permission. Please try again.');
+            }
+        }
+
+        function togglePermissionMode() {
+            if (!hasPermission) {
+                requestClipboardPermission();
+            }
+        }
+
+        function toggleMode() {
+            hasPermission = !hasPermission;
+            updateModeDisplay();
+            if (hasPermission) {
+                requestClipboardPermission();
+            } else {
+                updateClipboardContent('Clipboard content will appear here when permission is granted.');
+                updateStatus('Switched to No Permission mode');
+            }
+        }
+
+        updateModeDisplay();
     </script>
 </body>
 </html>
