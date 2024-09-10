@@ -1,178 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
+    <title>Wave</title>
     <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        position: relative;
-      }
-
-      canvas {
-        display: block;
-        width: 100vw;
-        height: 100vh;
-      }
-
-      .input-row,
-      .color-input-row {
-        display: flex;
-        align-items: center;
-        position: absolute;
-        width: 100%;
-        justify-content: space-evenly;
-        background-color: lightgray;
-        height: 50px;
-      }
-
-      .input-row {
-        top: 0;
-        transition: top 0.5s ease-in-out;
-      }
-
-      .color-input-row {
-        bottom: 0;
-        transition: bottom 0.5s ease-in-out;
-      }
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+        }
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+        .input-row, .color-input-row {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            justify-content: space-evenly;
+            background-color: lightgray;
+            height: 50px;
+            transition: 0.5s ease-in-out;
+        }
+        .input-row { top: 0px; }
+        .color-input-row { bottom: 0px; }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="input-row">
-      <label for="amplitude">Wave Amplitude:</label>
-      <input type="range" id="amplitudeSlider" min="-1/0" max="1/0" value="10" oninput="updateInput('amplitudeSlider', 'amplitudeInput')">
-      <input type="text" id="amplitudeInput" value="10" oninput="updateSlider('amplitudeInput', 'amplitudeSlider')">
-      <label for="frequency">Wave Frequency:</label>
-      <input type="range" id="frequencySlider" min="-1/0" max="1/0" value="10" oninput="updateInput('frequencySlider', 'frequencyInput')">
-      <input type="text" id="frequencyInput" value="10" oninput="updateSlider('frequencyInput', 'frequencySlider')">
-      <label for="barWidth">Bar Width:</label>
-      <input type="range" id="barWidthSlider" min="1" max="1/0" value="10" oninput="updateInput('barWidthSlider', 'barWidthInput')">
-      <input type="text" id="barWidthInput" value="10" oninput="updateSlider('barWidthInput', 'barWidthSlider')">
-      <label for="timeIncrement">Time Increment:</label>
-      <input type="range" id="timeIncrementSlider" min="0" max="2" step="0.001" value="0" oninput="updateInput('timeIncrementSlider', 'timeIncrementInput')">
-      <input type="text" id="timeIncrementInput" value="0" oninput="updateSlider('timeIncrementInput', 'timeIncrementSlider')">
+        <label>Wave Amplitude: <input type="range" id="amplitudeSlider" min="0" max="1000" value="10"></label>
+        <label>Wave Frequency: <input type="range" id="frequencySlider" min="0" max="1000" value="10"></label>
+        <label>Bar Width: <input type="range" id="barWidthSlider" min="1" max="1000" value="10"></label>
+        <label>Time Increment: <input type="range" id="timeIncrementSlider" min="0" max="2" step="0.001" value="0.5"></label>
     </div>
     <div class="color-input-row">
-      <label for="sinColor">Sin Bars Color:</label>
-      <input type="color" id="sinColorInput" value="#ff0000" oninput="updateColor('sinColorInput', 'sinColor')">
-      <label for="cosColor">Cos Bars Color:</label>
-      <input type="color" id="cosColorInput" value="#0000ff" oninput="updateColor('cosColorInput', 'cosColor')">
-      <label for="backgroundColor">Background Color:</label>
-      <input type="color" id="backgroundColorInput" value="#ffffff" oninput="updateColor('backgroundColorInput', 'backgroundColor')">
+        <label>Sin Bars: <input type="color" id="sinColorInput" value="#ff0000"></label>
+        <label>Cos Bars: <input type="color" id="cosColorInput" value="#0000ff"></label>
+        <label>Background: <input type="color" id="backgroundColorInput" value="#ffffff"></label>
     </div>
-    <canvas id="waveCanvas" width="1920" height="1080"></canvas>
+    <canvas id="waveCanvas"></canvas>
     <script>
-      let sinColor = "#ff0000";
-      let cosColor = "#0000ff";
-      let backgroundColor = "#ffffff";
-      
-      function drawAlternatingSineCosineBars(context, amplitude, frequency, barWidth, xOffset) {
-        for (let x = 0; x < context.canvas.width; x += barWidth * 2) {
-          const sinY = amplitude * Math.sin(((x + xOffset) / context.canvas.width) * frequency * Math.PI * 2);
-          const cosY = amplitude * Math.cos(((x + xOffset) / context.canvas.width) * frequency * Math.PI * 2);
-          context.fillStyle = sinColor;
-          context.fillRect(x, 0, barWidth, context.canvas.height / 2 + sinY);
-          context.fillStyle = cosColor;
-          context.fillRect(x + barWidth, context.canvas.height / 2 - cosY, barWidth, context.canvas.height / 2 + cosY);
-        }
-        document.body.style.backgroundColor = backgroundColor;
-      }
-      
-      function animateAlternatingSineCosineBars() {
         const canvas = document.getElementById('waveCanvas');
-        const context = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d');
         const inputRow = document.querySelector('.input-row');
         const colorInputRow = document.querySelector('.color-input-row');
-        const thres = 100
-
-        function updateInputsVisibility(event) {
-          if (event.clientY < thres) {
-            inputRow.style.top = '0';
-          } else {
-            inputRow.style.top = '-50px';
-          }
-        }
-
-        function updateColorInputsVisibility(event) {
-          const threshold = window.innerHeight - thres;
-          if (event.clientY > threshold) {
-            colorInputRow.style.bottom = '0';
-          } else {
-            colorInputRow.style.bottom = '-50px';
-          }
-        }
         
-        window.addEventListener('mousemove', updateInputsVisibility);
-        window.addEventListener('mousemove', updateColorInputsVisibility);
-        const amplitudeSlider = document.getElementById('amplitudeSlider');
-        const amplitudeInput = document.getElementById('amplitudeInput');
-        const frequencySlider = document.getElementById('frequencySlider');
-        const frequencyInput = document.getElementById('frequencyInput');
-        const barWidthSlider = document.getElementById('barWidthSlider');
-        const barWidthInput = document.getElementById('barWidthInput');
-        const timeIncrementSlider = document.getElementById('timeIncrementSlider');
-        const timeIncrementInput = document.getElementById('timeIncrementInput');
-        const sinColorInput = document.getElementById('sinColorInput');
-        const cosColorInput = document.getElementById('cosColorInput');
-        const backgroundColorInput = document.getElementById('backgroundColorInput');
-        
+        let sinColor = "#ff0000";
+        let cosColor = "#0000ff";
+        let backgroundColor = "#ffffff";
         let time = 0;
 
-        function draw() {
-          const waveAmplitude = parseFloat(amplitudeInput.value) || 0;
-          const waveFrequency = parseFloat(frequencyInput.value) || 0;
-          const barWidth = parseFloat(Math.abs(barWidthInput.value)) || 1;
-          const timeIncrement = parseFloat(timeIncrementInput.value) || 0;
-          const xOffset = time;
+        const sliders = {
+            amplitude: document.getElementById('amplitudeSlider'),
+            frequency: document.getElementById('frequencySlider'),
+            barWidth: document.getElementById('barWidthSlider'),
+            timeIncrement: document.getElementById('timeIncrementSlider')
+        };
 
-          amplitudeSlider.value = waveAmplitude;
-          frequencySlider.value = waveFrequency;
-          barWidthSlider.value = barWidth;
-          timeIncrementSlider.value = timeIncrement;
-          time = time + timeIncrement;
-          context.clearRect(0, 0, canvas.width, canvas.height);
+        const colorInputs = {
+            sin: document.getElementById('sinColorInput'),
+            cos: document.getElementById('cosColorInput'),
+            background: document.getElementById('backgroundColorInput')
+        };
 
-          drawAlternatingSineCosineBars(context, waveAmplitude, waveFrequency, barWidth, xOffset);
-          requestAnimationFrame(draw);
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
-        draw();
-      }
 
-      function updateColor(sourceId, target) {
-        const colorInput = document.getElementById(sourceId);
-        const color = colorInput.value;
-        if (target === 'sinColor') {
-          sinColor = color;
-        } else if (target === 'cosColor') {
-          cosColor = color;
-        } else if (target === 'backgroundColor') {
-          backgroundColor = color;
+        function drawAlternatingSineCosineBars(amplitude, frequency, barWidth, xOffset) {
+            ctx.fillStyle = sinColor;
+            for (let x = 0; x < canvas.width; x += barWidth * 2) {
+                const sinY = amplitude * Math.sin(((x + xOffset) / canvas.width) * frequency * Math.PI * 2);
+                ctx.fillRect(x, 0, barWidth, canvas.height / 2 + sinY);
+            }
+
+            ctx.fillStyle = cosColor;
+            for (let x = barWidth; x < canvas.width; x += barWidth * 2) {
+                const cosY = amplitude * Math.cos(((x + xOffset) / canvas.width) * frequency * Math.PI * 2);
+                ctx.fillRect(x, canvas.height / 2 - cosY, barWidth, canvas.height / 2 + cosY);
+            }
         }
-      }
 
-      function updateInput(sourceId, targetId) {
-        const sourceElement = document.getElementById(sourceId);
-        const targetElement = document.getElementById(targetId);
-        const parsedValue = parseFloat(sourceElement.value) || 0;
-        targetElement.value = parsedValue;
-        document.getElementById(sourceId.replace('Input', 'Slider')).value = parsedValue;
-      }
+        function animate() {
+            const amplitude = parseFloat(sliders.amplitude.value);
+            const frequency = parseFloat(sliders.frequency.value);
+            const barWidth = parseFloat(sliders.barWidth.value);
+            const timeIncrement = parseFloat(sliders.timeIncrement.value);
 
-      function updateSlider(sourceId, targetId) {
-        const sourceElement = document.getElementById(sourceId);
-        const targetElement = document.getElementById(targetId);
-        const parsedValue = parseFloat(sourceElement.value) || 0;
-        targetElement.value = parsedValue;
-        document.getElementById(targetId.replace('Input', 'Slider')).value = parsedValue;
-      }
-      animateAlternatingSineCosineBars();
+            ctx.fillStyle = backgroundColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            drawAlternatingSineCosineBars(amplitude, frequency, barWidth, time);
+            
+            time += timeIncrement;
+            requestAnimationFrame(animate);
+        }
+
+        function updateInputsVisibility(event) {
+            inputRow.style.top = event.clientY < 100 ? '0' : '-50px';
+            colorInputRow.style.bottom = event.clientY > window.innerHeight - 100 ? '0' : '-50px';
+        }
+
+        window.addEventListener('mousemove', updateInputsVisibility);
+        window.addEventListener('resize', resizeCanvas);
+
+        Object.values(colorInputs).forEach(input => {
+            input.addEventListener('input', () => {
+                sinColor = colorInputs.sin.value;
+                cosColor = colorInputs.cos.value;
+                backgroundColor = colorInputs.background.value;
+            });
+        });
+
+        resizeCanvas();
+        animate();
     </script>
-  </body>
+</body>
 </html>
