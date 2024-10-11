@@ -25,6 +25,7 @@ const projects = [
         image: "",
         link: "projects/useless-waves/index.html"
     },
+   {
     title: "Black Hole and Stars",
     briefDescription: "When you have too much memory.",
         fullDescription: `Beautiful! (im also not doing this today, the day after the today of "Useless Wave Visualizer")`,
