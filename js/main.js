@@ -75,10 +75,16 @@ function showProjectDetails(project) {
     
     const closeButton = document.createElement('button');
     closeButton.innerText = 'Close';
-    closeButton.addEventListener('click', () => document.body.removeChild(modal));
+    closeButton.addEventListener('click', () => {
+        modal.classList.remove('active');
+        setTimeout(() => document.body.removeChild(modal), 300);
+    });
+
     modal.querySelector('.project-details').appendChild(closeButton);
     
     document.body.appendChild(modal);
+    
+    setTimeout(() => modal.classList.add('active'), 0);
 }
 
 document.addEventListener('DOMContentLoaded', loadProjects);
