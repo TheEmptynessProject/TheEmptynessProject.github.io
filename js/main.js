@@ -76,7 +76,7 @@ function showProjectDetails(project) {
     const closeButton = document.createElement('button');
     closeButton.innerText = 'Close';
     closeButton.addEventListener('click', () => {
-        modal.classList.remove('active');
+        modal.classList.remove('modal-active');
         setTimeout(() => document.body.removeChild(modal), 300);
     });
 
