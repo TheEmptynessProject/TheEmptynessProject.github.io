@@ -104,7 +104,7 @@ nav a:hover {
     transition: all 0.3s ease;
 }
 
-.modal.active {
+.modal-active {
     opacity: 1;
     visibility: visible;
 }
@@ -121,7 +121,7 @@ nav a:hover {
     transition: all 0.3s ease;
 }
 
-.modal.active .project-details {
+.modal-active .project-details {
     transform: scale(1);
 }
 
