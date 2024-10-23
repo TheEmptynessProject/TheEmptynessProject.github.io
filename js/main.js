@@ -32,6 +32,13 @@ const projects = [
         image: "",
         link: "projects/too-many-particles-blackhole/index.html"
     },
+   {
+    title: "Imaginary Numbers",
+    briefDescription: "Useful things",
+        fullDescription: `someday`,
+        image: "",
+        link: "projects/imaginary-numbers-utils/index.html"
+    },
 ];
 
 function createProjectCard(project) {
