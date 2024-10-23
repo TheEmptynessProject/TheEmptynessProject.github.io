@@ -84,7 +84,7 @@ function showProjectDetails(project) {
     
     document.body.appendChild(modal);
     
-    setTimeout(() => modal.classList.add('active'), 0);
+    setTimeout(() => modal.classList.add('modal-active'), 0);
 }
 
 document.addEventListener('DOMContentLoaded', loadProjects);
