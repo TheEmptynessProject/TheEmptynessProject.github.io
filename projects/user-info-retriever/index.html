@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Device Info Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Device Info Dashboard</h1>
+        <div id="clock"></div>
+
+        <div class="section">
+            <h2>Browser Information</h2>
+            <div class="info-item">
+                <span class="label">User Agent:</span>
+                <span id="userAgent"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Browser Name:</span>
+                <span id="browserName"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Browser Version:</span>
+                <span id="browserVersion"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Cookies Enabled:</span>
+                <span id="cookiesEnabled"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Language:</span>
+                <span id="language"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Device Information</h2>
+            <div class="info-item">
+                <span class="label">Platform:</span>
+                <span id="platform"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">OS:</span>
+                <span id="os"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Screen Resolution:</span>
+                <span id="screenResolution"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Window Size:</span>
+                <span id="windowSize"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Color Depth:</span>
+                <span id="colorDepth"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Device Pixel Ratio:</span>
+                <span id="devicePixelRatio"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Touch Support:</span>
+                <span id="touchSupport"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Network Information</h2>
+            <div class="info-item">
+                <span class="label">Online Status:</span>
+                <span id="onlineStatus"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Connection Type:</span>
+                <span id="connectionType"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Geolocation</h2>
+            <div class="info-item">
+                <span class="label">Geolocation Support:</span>
+                <span id="geoSupport"></span>
+            </div>
+            <button id="getLocation">Get Location</button>
+            <div id="locationInfo"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
