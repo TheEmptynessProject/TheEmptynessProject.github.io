@@ -1,43 +1,33 @@
 const projects = [
    {
     title: "Clipboard Monitor and Copy Paste Detection",
-    briefDescription: "A web-based tool that can detect copy-paste and drag-drop actions or if user changed windows at any time during an online exam.",
-    fullDescription: `This tool demo provides real-time monitoring of clipboard activities and window focus.
-
-    Features:
-    • Copy-Paste Detection: Detect when user attempts to copy/paste content during the exam.
-    • Drag-and-Drop Monitoring: Detects any attempts to drag and drop text into the exam interface.
-    • Window Focus Tracking: Logs when user switches away from the exam window, potentially accessing unauthorized resources.
-    
-    How?
-    • Uses the Clipboard API to monitor clipboard changes.
-    • Event listeners for various useful events.
-    • Pure Javascript with no external dependencies.
-    
-    This opens up the possibility to create a more fair remote exam environment.`,
-        image: "",
-        link: "projects/clipboard-monitor-copy-paste-detection/index.html"
+    description: "A web-based tool that can detect copy-paste and drag-drop actions or if user changed windows at any time during an online exam.",
+    image: "",
+    link: "projects/clipboard-monitor-copy-paste-detection/index.html"
     },
     {
     title: "Useless Wave Visualizer",
-    briefDescription: "A fever dream for people with ADHD.",
-        fullDescription: `yea im not doing this today`,
-        image: "",
-        link: "projects/useless-waves/index.html"
+    description: "A fever dream for people with ADHD.",
+    image: "",
+    link: "projects/useless-waves/index.html"
     },
    {
     title: "Black Hole and Stars",
-    briefDescription: "When you have too much memory.",
-        fullDescription: `Beautiful! (im also not doing this today, the day after the today of "Useless Wave Visualizer")`,
-        image: "",
-        link: "projects/too-many-particles-blackhole/index.html"
+    description: "When you have too much memory.",
+    image: "",
+    link: "projects/too-many-particles-blackhole/index.html"
     },
    {
     title: "Imaginary Numbers",
-    briefDescription: "Useful things",
-        fullDescription: `someday`,
-        image: "",
-        link: "projects/imaginary-numbers-utils/index.html"
+    description: "Useful things",
+    image: "",
+    link: "projects/imaginary-numbers-utils/index.html"
+    },
+   {
+    title: "User Info Retriever",
+    description: "Get user info like user-agent and things",
+    image: "",
+    link: "projects/imaginary-numbers-utils/index.html"
     },
 ];
 
@@ -47,7 +37,7 @@ function createProjectCard(project) {
             <img src="${project.image}" alt="${project.title}">
             <div class="content">
                 <h3>${project.title}</h3>
-                <p>${project.briefDescription}</p>
+                <p>${project.description}</p>
                 <a href="${project.link}" class="view-project">View Project</a>
             </div>
         </div>
@@ -71,7 +61,6 @@ function showProjectDetails(project) {
         <div class="project-details">
             <h2>${project.title}</h2>
             <img src="${project.image}" alt="${project.title}">
-            <p>${project.fullDescription}</p>
             <a href="${project.link}" target="_blank">View Full Project</a>
         </div>
     `;
