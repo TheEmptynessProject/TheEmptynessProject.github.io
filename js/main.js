@@ -27,7 +27,7 @@ const projects = [
     title: "User Info Retriever",
     description: "Get user info like user-agent and things",
     image: "",
-    link: "projects/imaginary-numbers-utils/index.html"
+    link: "projects/user-info-retriever/index.html"
     },
 ];
 
