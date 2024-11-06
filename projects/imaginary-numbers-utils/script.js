@@ -29,7 +29,7 @@ function convertAll() {
 }
 
 function convertFromPolar(input) {
-    const polarRegex = /^(\d+(?:\.\d+)?)\s*arg\s*\((\d+(?:\.\d+)?)\s*(deg|rad|°)?\)$/i;
+    const polarRegex = /^(\d+(?:\.\d+)?)\s*arg\s*\(\s*(-?\d+(?:\.\d+)?)\s*(deg|rad|°)?\s*\)$/i;
     if (polarRegex.test(input)) {
         const match = input.match(polarRegex);
         const magnitude = parseFloat(match[1]);
@@ -47,16 +47,16 @@ function convertFromPolar(input) {
             angle
         };
     }
-    alert("Invalid polar format. Please use '60 arg(45deg)', '60arg(45°)', or '60arg(0.26rad)'.");
+    alert("Invalid polar format. Please use '60 arg(45deg)', '60 arg(-30°)', or '60arg(0.26rad)'.");
     return null;
 }
 
 function convertFromRectangular(input) {
-    const rectRegex = /^(-?\d+(?:\.\d+)?)?([+-]\d+(?:\.\d+)?)?i$/;
+    const rectRegex = /^(-?\d+(?:\.\d+)?)?\s*([+-]?\s*\d+(?:\.\d+)?)?\s*i?$/;
     if (rectRegex.test(input)) {
         const match = input.match(rectRegex);
-        const real = match[1] ? parseFloat(match[1]) : 0;
-        const imaginary = match[2] ? parseFloat(match[2].replace('i', '')) : 0;
+        const real = match[1] ? parseFloat(match[1].replace(/\s+/g, '')) : 0;
+        const imaginary = match[2] ? parseFloat(match[2].replace(/\s+|i/g, '')) : 0;
         const magnitude = Math.sqrt(real * real + imaginary * imaginary);
         const angle = Math.atan2(imaginary, real);
         return {
@@ -66,7 +66,7 @@ function convertFromRectangular(input) {
             angle
         };
     }
-    alert("Invalid rectangular format. Please use '3+4i'.");
+    alert("Invalid rectangular format. Please use '3+4i', '3 - 4i', or '30i'.");
     return null;
 }
 
