@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pincushion</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+        #canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let centerX, centerY, radius;
+        let time = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            centerX = canvas.width / 2;
+            centerY = canvas.height / 2;
+            radius = Math.min(centerX, centerY);
+        }
+
+        function drawGrid(distortionFactor) {
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.lineWidth = 1;
+
+            const gridSize = 20;
+
+            for (let y = 0; y <= canvas.height; y += gridSize) {
+                for (let x = 0; x <= canvas.width; x += gridSize) {
+                    const dx = x - centerX;
+                    const dy = y - centerY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const factor = Math.pow(distance / radius, 2) * distortionFactor;
+                    
+                    const newX = x + factor * dx;
+                    const newY = y + factor * dy;
+
+                    ctx.beginPath();
+                    ctx.moveTo(newX - 5, newY);
+                    ctx.lineTo(newX + 5, newY);
+                    ctx.moveTo(newX, newY - 5);
+                    ctx.lineTo(newX, newY + 5);
+                    ctx.stroke();
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+          
+            const gradient = ctx.createRadialGradient(
+                centerX + Math.cos(time) * 50, 
+                centerY + Math.sin(time) * 50, 
+                0, 
+                centerX, 
+                centerY, 
+                radius
+            );
+            gradient.addColorStop(0, '#f0f0f0');
+            gradient.addColorStop(1, '#d0d0d0');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const distortionFactor = 0.3 + Math.sin(time) * 0.2;
+
+            drawGrid(distortionFactor);
+
+            time += 0.02;
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        resizeCanvas();
+        animate();
+    </script>
+</body>
+</html>
