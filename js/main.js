@@ -1,50 +1,38 @@
-const projects = [
-   {
-    title: "Clipboard Monitor and Copy Paste Detection",
-    description: "A web-based tool that can detect copy-paste and drag-drop actions or if user changed windows at any time during an online exam.",
-    image: "",
-    link: "projects/clipboard-monitor-copy-paste-detection/index.html"
-    },
-    {
-    title: "Useless Wave Visualizer",
-    description: "A fever dream for people with ADHD.",
-    image: "",
-    link: "projects/useless-waves/index.html"
-    },
-   {
-    title: "Black Hole and Stars",
-    description: "When you have too much memory.",
-    image: "",
-    link: "projects/too-many-particles-blackhole/index.html"
-    },
-   {
-    title: "Imaginary Numbers",
-    description: "Useful things",
-    image: "",
-    link: "projects/imaginary-numbers-utils/index.html"
-    },
-   {
-    title: "User Info Retriever",
-    description: "Get user info like user-agent and things",
-    image: "",
-    link: "projects/user-info-retriever/index.html"
-    },
-];
+let projects = [];
+
+async function fetchProjects() {
+    const url = 'https://github.com/TheEmptynessProject/TheEmptynessProject.github.io/tree/main/projects';
+    const response = await fetch(url);
+    const html = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    
+    const folderRows = doc.querySelectorAll('[id^="folder-row-"]');
+    
+    projects = Array.from(folderRows).slice(1).map(row => {
+        const link = row.querySelector('a');
+        return {
+            title: link.textContent.trim(),
+            link: `projects/${link.textContent.trim()}/index.html`,
+            description: "",
+            image: ""
+        };
+    });
+}
 
 function createProjectCard(project) {
     return `
         <div class="project-card">
-            <img src="${project.image}" alt="${project.title}">
             <div class="content">
                 <h3>${project.title}</h3>
-                <p>${project.description}</p>
                 <a href="${project.link}" class="view-project">View Project</a>
             </div>
         </div>
     `;
 }
 
-function loadProjects() {
+async function loadProjects() {
+    await fetchProjects();
     const projectGrid = document.querySelector('.project-grid');
     projectGrid.innerHTML = projects.map(createProjectCard).join('');
     
@@ -60,7 +48,6 @@ function showProjectDetails(project) {
     const detailsHTML = `
         <div class="project-details">
             <h2>${project.title}</h2>
-            <img src="${project.image}" alt="${project.title}">
             <a href="${project.link}" target="_blank">View Full Project</a>
         </div>
     `;
