@@ -1,24 +1,41 @@
-let projects = [];
-
-async function fetchProjects() {
-    const url = 'https://github.com/TheEmptynessProject/TheEmptynessProject.github.io/tree/main/projects';
-    const response = await fetch(url);
-    const html = await response.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    
-    const folderRows = doc.querySelectorAll('[id^="folder-row-"]');
-    
-    projects = Array.from(folderRows).slice(1).map(row => {
-        const link = row.querySelector('a');
-        return {
-            title: link.textContent.trim(),
-            link: `projects/${link.textContent.trim()}/index.html`,
-            description: "",
-            image: ""
-        };
-    });
-}
+const projects = [
+   {
+    title: "clipboard-monitor-copy-paste-detection",
+    link: "projects/clipboard-monitor-copy-paste-detection/index.html"
+   },
+   {
+    title: "imaginary-numbers-utils",
+    link: "projects/imaginary-numbers-utils/index.html"
+   },
+   {
+    title: "pincushion-illusion",
+    link: "projects/pincushion-illusion/index.html"
+   },
+   {
+    title: "pixel-revealer",
+    link: "projects/pixel-revealer/index.html"
+   },
+   {
+    title: "random-3d-cube",
+    link: "projects/random-3d-cube/index.html"
+   },
+   {
+    title: "to-do-list-unfinished",
+    link: "projects/to-do-list-unfinished/index.html"
+   },
+   {
+    title: "too-many-particles-blackhole",
+    link: "projects/too-many-particles-blackhole/index.html"
+   },
+   {
+    title: "useless-waves",
+    link: "projects/useless-waves/index.html"
+   },
+   {
+    title: "user-info-retriever",
+    link: "projects/user-info-retriever/index.html"
+   }
+];
 
 function createProjectCard(project) {
     return `
@@ -31,8 +48,7 @@ function createProjectCard(project) {
     `;
 }
 
-async function loadProjects() {
-    await fetchProjects();
+function loadProjects() {
     const projectGrid = document.querySelector('.project-grid');
     projectGrid.innerHTML = projects.map(createProjectCard).join('');
     
