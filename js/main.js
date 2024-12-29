@@ -50,9 +50,14 @@ const projects = [
     link: "projects/binary-differences/index.html"
    },
    {
-    title: "Drawing with velocity relative thickness",
-    description: "A tool for retrieving user information.",
+    title: "Velocity Sketch",
+    description: "Dynamic drawing tool that adjusts line thickness based on drawing speed.",
     link: "projects/velocity-drawing/index.html"
+   },
+   {
+    title: "Zalgo Generator",
+    description: "Try not to crash.",
+    link: "projects/zalgo-generator/index.html"
    }
 ];
 
