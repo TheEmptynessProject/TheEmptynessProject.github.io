@@ -48,6 +48,11 @@ const projects = [
     title: "Binary File Difference",
     description: "A tool for finding binary differences between two files.",
     link: "projects/binary-differences/index.html"
+   },
+   {
+    title: "Drawing with velocity relative thickness",
+    description: "A tool for retrieving user information.",
+    link: "projects/velocity-drawing/index.html"
    }
 ];
 
