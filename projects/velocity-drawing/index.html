@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRAW!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="toolbar">
+        <button id="penTool" class="tool-btn active">Pen</button>
+        <button id="eraserTool" class="tool-btn">Eraser</button>
+        <button id="panTool" class="tool-btn">Pan</button>
+        <button id="zoomInTool" class="tool-btn">Zoom In</button>
+        <button id="zoomOutTool" class="tool-btn">Zoom Out</button>
+        <button id="resetView" class="tool-btn">Reset View</button>
+        <input type="color" id="colorPicker" value="#000000">
+        <input type="range" id="sizeSlider" min="1" max="500" value="5">
+    </div>
+    <canvas id="canvas"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
