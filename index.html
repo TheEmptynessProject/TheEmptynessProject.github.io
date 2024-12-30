@@ -3,33 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Emptyness Project - Portfolio</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>The Emptyness Project</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
-    <header>
-        <div class="container">
-            <h1>The Emptyness Project</h1>
-            <nav>
-                <a href="#projects">Projects</a>
-                <a href="https://github.com/TheEmptynessProject" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-            </nav>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <header class="fixed w-full bg-white dark:bg-gray-800 shadow-md z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-gray-800 dark:text-white">The Emptyness Project</h1>
+                </div>
+                <nav class="flex items-center space-x-6">
+                    <a href="#projects" class="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300">Projects</a>
+                    <a href="https://github.com/TheEmptynessProject" target="_blank" class="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:inline"></i>
+                    </button>
+                </nav>
+            </div>
         </div>
     </header>
 
-    <main>
-        <section id="projects">
-            <div class="container">
-                <h2>My Projects</h2>
-                <div class="project-grid"></div>
+    <main class="pt-24">
+        <section id="projects" class="container mx-auto px-6 py-12">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white text-center">Projects</h2>
+                <p class="mt-4 text-gray-600 dark:text-gray-400 text-center max-w-2xl mx-auto">Explore my collection of interactive web experiments and tools.</p>
             </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="project-grid"></div>
         </section>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 The Emptyness Project. All rights reserved.</p>
+    <footer class="bg-white dark:bg-gray-800 shadow-inner mt-16">
+        <div class="container mx-auto px-6 py-8">
+            <p class="text-center text-gray-600 dark:text-gray-400">&copy; 2024 The Emptyness Project. All rights reserved.</p>
         </div>
     </footer>
 
