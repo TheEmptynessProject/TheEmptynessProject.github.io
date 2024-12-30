@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text to Speech</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+  <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Text to Speech</h1>
+    
+    <div class="space-y-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Text Input</label>
+        <textarea 
+          id="text-to-speech-input" 
+          class="w-full h-32 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Enter text to convert to speech..."></textarea>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2" for="voice-selector">Voice</label>
+          <select 
+            id="voice-selector"
+            class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2" for="language-selector">Language</label>
+          <select 
+            id="language-selector"
+            class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          </select>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <div class="flex justify-between">
+            <label class="block text-sm font-medium text-gray-700" for="rate-slider">Speed</label>
+            <span id="rate-value" class="text-sm text-gray-500">1.0x</span>
+          </div>
+          <input type="range" id="rate-slider" min="0.1" max="3" step="0.1" value="1"
+            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+        </div>
+
+        <div>
+          <div class="flex justify-between">
+            <label class="block text-sm font-medium text-gray-700" for="pitch-slider">Pitch</label>
+            <span id="pitch-value" class="text-sm text-gray-500">1.0</span>
+          </div>
+          <input type="range" id="pitch-slider" min="0.1" max="2" step="0.1" value="1"
+            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+        </div>
+
+        <div>
+          <div class="flex justify-between">
+            <label class="block text-sm font-medium text-gray-700" for="volume-slider">Volume</label>
+            <span id="volume-value" class="text-sm text-gray-500">100%</span>
+          </div>
+          <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1"
+            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+        </div>
+      </div>
+
+      <div class="flex space-x-4">
+        <button id="text-to-speech-button"
+          class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+          Convert to Speech
+        </button>
+        <button id="stop-button"
+          class="bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors">
+          Stop
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const textInput = document.getElementById('text-to-speech-input');
+    const speakButton = document.getElementById('text-to-speech-button');
+    const stopButton = document.getElementById('stop-button');
+    const voiceSelector = document.getElementById('voice-selector');
+    const languageSelector = document.getElementById('language-selector');
+    const rateSlider = document.getElementById('rate-slider');
+    const pitchSlider = document.getElementById('pitch-slider');
+    const volumeSlider = document.getElementById('volume-slider');
+    const rateValue = document.getElementById('rate-value');
+    const pitchValue = document.getElementById('pitch-value');
+    const volumeValue = document.getElementById('volume-value');
+
+    const synth = window.speechSynthesis;
+    let currentUtterance = null;
+    let languages = new Set();
+
+    function populateVoiceList() {
+      const voices = synth.getVoices();
+      voiceSelector.innerHTML = '';
+      languageSelector.innerHTML = '';
+      languages.clear();
+
+      voices.forEach(voice => {
+        const option = document.createElement('option');
+        option.textContent = `${voice.name} (${voice.lang})`;
+        option.setAttribute('data-lang', voice.lang);
+        option.setAttribute('data-name', voice.name);
+        voiceSelector.appendChild(option);
+        languages.add(voice.lang);
+      });
+
+      Array.from(languages).sort().forEach(lang => {
+        const option = document.createElement('option');
+        option.textContent = lang;
+        option.value = lang;
+        languageSelector.appendChild(option);
+      });
+    }
+
+    populateVoiceList();
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = populateVoiceList;
+    }
+
+    function updateSliderValue(slider, display) {
+      const value = parseFloat(slider.value);
+      switch(slider.id) {
+        case 'rate-slider':
+          display.textContent = `${value.toFixed(1)}x`;
+          break;
+        case 'pitch-slider':
+          display.textContent = value.toFixed(1);
+          break;
+        case 'volume-slider':
+          display.textContent = `${(value * 100).toFixed(0)}%`;
+          break;
+      }
+    }
+
+    rateSlider.addEventListener('input', () => updateSliderValue(rateSlider, rateValue));
+    pitchSlider.addEventListener('input', () => updateSliderValue(pitchSlider, pitchValue));
+    volumeSlider.addEventListener('input', () => updateSliderValue(volumeSlider, volumeValue));
+
+    languageSelector.addEventListener('change', (e) => {
+      const selectedLang = e.target.value;
+      const voices = synth.getVoices();
+      voiceSelector.innerHTML = '';
+      
+      voices.filter(voice => voice.lang === selectedLang).forEach(voice => {
+        const option = document.createElement('option');
+        option.textContent = `${voice.name} (${voice.lang})`;
+        option.setAttribute('data-lang', voice.lang);
+        option.setAttribute('data-name', voice.name);
+        voiceSelector.appendChild(option);
+      });
+    });
+
+    function convertToSpeech() {
+      if (synth.speaking) {
+        synth.cancel();
+      }
+
+      const text = textInput.value;
+      if (!text) return;
+
+      currentUtterance = new SpeechSynthesisUtterance(text);
+
+      const selectedVoice = voiceSelector.selectedOptions[0].getAttribute('data-name');
+      const voices = synth.getVoices();
+      currentUtterance.voice = voices.find(voice => voice.name === selectedVoice);
+
+      currentUtterance.rate = parseFloat(rateSlider.value);
+      currentUtterance.pitch = parseFloat(pitchSlider.value);
+      currentUtterance.volume = parseFloat(volumeSlider.value);
+
+      synth.speak(currentUtterance);
+    }
+
+    speakButton.addEventListener('click', convertToSpeech);
+
+    stopButton.addEventListener('click', () => {
+      synth.cancel();
+    });
+
+    updateSliderValue(rateSlider, rateValue);
+    updateSliderValue(pitchSlider, pitchValue);
+    updateSliderValue(volumeSlider, volumeValue);
+  </script>
+</body>
+</html>
