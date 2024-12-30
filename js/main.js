@@ -103,22 +103,31 @@ function loadProjects() {
 
 const themeToggle = document.getElementById('theme-toggle');
 
-function toggleTheme() {
-    if (document.documentElement.classList.contains('dark')) {
-        document.documentElement.classList.remove('dark');
-        localStorage.theme = 'light';
-    } else {
+function setTheme(isDark) {
+    if (isDark) {
         document.documentElement.classList.add('dark');
         localStorage.theme = 'dark';
+    } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
     }
 }
 
-if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark');
+function toggleTheme() {
+    const isDark = document.documentElement.classList.contains('dark');
+    setTheme(!isDark);
 }
+
+setTheme(localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches));
 
 themeToggle.addEventListener('click', toggleTheme);
 document.addEventListener('DOMContentLoaded', loadProjects);
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.theme) {
+        setTheme(e.matches);
+    }
+});
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
