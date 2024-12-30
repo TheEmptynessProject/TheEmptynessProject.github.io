@@ -58,7 +58,12 @@ const projects = [
     title: "Zalgo Generator",
     description: "Try not to crash.",
     link: "projects/zalgo-generator/index.html"
-   }
+   },
+   {
+    title: "Text to Speech",
+    description: "Experiment with text to speech.",
+    link: "projects/tts-ui/index.html"
+   },
 ];
 
 function createProjectCard(project) {
