@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Infinity</title>
+    <style>
+        body { 
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas { 
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        #stats {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 5px;
+        }
+        #controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="stats">
+        Distance traveled:<br>
+        <span id="meters">0</span> meters<br>
+        <span id="miles">0</span> miles<br>
+        Speed: <span id="speed">0</span> m/s<br>
+        Acceleration: <span id="acceleration">0</span> m/s²<br>
+        Peak Acceleration: <span id="peakAcceleration">0</span> m/s²
+    </div>
+    <div id="controls">
+        Controls:<br>
+        W - Hold to accelerate
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        let distanceMeters = 0;
+        let totalOffset = 0;
+
+        const baseAcceleration = 2;
+        const friction = 2;
+        
+        let currentVelocity = 0;
+        let moveForward = false;
+        let isPageVisible = true;
+        let isWindowFocused = true;
+        let hue = 0;
+		let currentAcceleration = 0;
+        let peakAcceleration = 0;
+
+        const textureSize = 1;
+        const gridCanvas = document.createElement('canvas');
+        gridCanvas.width = 256;
+        gridCanvas.height = 256;
+        const ctx = gridCanvas.getContext('2d');
+        
+        const gradient = ctx.createLinearGradient(0, 0, 256, 256);
+        gradient.addColorStop(0, '#2c2c2c');
+        gradient.addColorStop(1, '#1a1a1a');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 256, 256);
+
+        ctx.strokeStyle = '#999999';
+        ctx.lineWidth = 2;
+        for(let i = 0; i <= 256; i += 4) {
+            ctx.beginPath();
+            ctx.moveTo(0, i);
+            ctx.lineTo(256, i);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(i, 0);
+            ctx.lineTo(i, 256);
+            ctx.stroke();
+        }
+
+        ctx.strokeStyle = '#3f3f3f';
+        ctx.lineWidth = 1;
+        for(let i = 0; i <= 256; i += 512) {
+            ctx.beginPath();
+            ctx.moveTo(0, i);
+            ctx.lineTo(256, i);
+            ctx.stroke();
+        }
+        
+        const texture = new THREE.CanvasTexture(gridCanvas);
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(10, 1);
+
+        function createCorridor() {
+            const length = 1000;
+            const width = 1000;
+            const height = 10;
+
+            const floorGeometry = new THREE.PlaneGeometry(width, length);
+            const floorMaterial = new THREE.MeshPhongMaterial({
+                map: texture,
+                side: THREE.DoubleSide
+            });
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.position.z = -length/2;
+            scene.add(floor);
+
+            const ceiling = floor.clone();
+            ceiling.position.y = height;
+            ceiling.rotation.x = -Math.PI / 2;
+            scene.add(ceiling);
+
+            const wallGeometry = new THREE.PlaneGeometry(height, length);
+            const wallMaterial = new THREE.MeshPhongMaterial({
+                map: texture,
+                side: THREE.DoubleSide
+            });
+
+            const leftWall = new THREE.Mesh(wallGeometry, wallMaterial);
+            leftWall.rotation.y = Math.PI / 2;
+            leftWall.position.x = -width/2;
+            leftWall.position.y = height/2;
+            leftWall.position.z = -length/2;
+            scene.add(leftWall);
+
+            const rightWall = leftWall.clone();
+            rightWall.position.x = width/2;
+            scene.add(rightWall);
+
+            return { floor, ceiling, leftWall, rightWall };
+        }
+
+        const corridor = createCorridor();
+
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(1, 2, 1);
+        scene.add(directionalLight);
+
+        document.addEventListener('keydown', (event) => {
+            if(event.code === 'KeyW') moveForward = true;
+        });
+
+        document.addEventListener('keyup', (event) => {
+            if(event.code === 'KeyW') moveForward = false;
+        });
+        
+        function initializeDistance() {
+            const storedDistance = localStorage.getItem('distanceTraveled');
+            if (storedDistance !== null) {
+                distanceMeters = parseFloat(storedDistance);
+            }
+			const storedPeak = localStorage.getItem('peakAccel');
+			if (storedPeak !== null) {
+                peakAcceleration = parseFloat(storedPeak);
+            }
+            updateDisplay();
+            hueUpdate();
+        }
+        
+        function updateDisplay(){
+            document.getElementById('meters').textContent = distanceMeters.toFixed(1);
+            document.getElementById('miles').textContent = (distanceMeters * 0.000621371).toFixed(2);
+            document.getElementById('speed').textContent = Math.abs(currentVelocity).toFixed(1);
+            document.getElementById('acceleration').textContent = -1*currentAcceleration.toFixed(1);
+            document.getElementById('peakAcceleration').textContent = peakAcceleration.toFixed(1);
+        }
+        
+        function hueUpdate(){
+            const velocityFactor = Math.max(1, Math.abs(currentVelocity));
+            const hueChangeRate = 1 / velocityFactor;
+            
+            const targetHue = (distanceMeters / 1000) % 1;
+            const maxHueChange = hueChangeRate * (0.8/60); //less than 1 frame at 60fps
+            
+            if (hue !== targetHue) {
+                const diff = targetHue - hue;
+                
+                if (Math.abs(diff) > 0.5) {
+                    if (diff > 0) {
+                        hue = hue + Math.min(maxHueChange, 1 - diff);
+                    } else {
+                        hue = hue - Math.min(maxHueChange, 1 + diff);
+                    }
+                } else {
+                    hue = hue + Math.sign(diff) * Math.min(Math.abs(diff), maxHueChange);
+                }
+                
+                hue = (hue + 1) % 1;
+            }
+
+            const newColor = new THREE.Color();
+            newColor.setHSL(hue, 0.6, 0.5);
+
+            [corridor.floor.material, corridor.ceiling.material, 
+             corridor.leftWall.material, corridor.rightWall.material].forEach(material => {
+                material.color.copy(newColor);
+                material.needsUpdate = true;
+            });
+        }
+
+        function updateMovement(deltaTime) {
+            const previousVelocity = currentVelocity;
+
+            if (moveForward) {
+                const accelerationMultiplier = 1 + (Math.abs(currentVelocity) / 50);
+                const instantAcceleration = baseAcceleration * accelerationMultiplier;
+                currentVelocity -= instantAcceleration * deltaTime;
+                
+                currentAcceleration = (currentVelocity - previousVelocity) / deltaTime;
+                
+                peakAcceleration = Math.max(peakAcceleration, Math.abs(currentAcceleration));
+            } else {
+                if (currentVelocity < 0) {
+                    currentVelocity = Math.min(0, currentVelocity + friction * deltaTime);
+                } else if (currentVelocity > 0) {
+                    currentVelocity = Math.max(0, currentVelocity - friction * deltaTime);
+                }
+
+                currentAcceleration = (currentVelocity - previousVelocity) / deltaTime;
+            }
+
+            const movement = currentVelocity * deltaTime;
+            distanceMeters -= movement;
+            totalOffset -= movement;
+
+            const scrollMultiplier = Math.min(1, 10 / Math.abs(currentVelocity));
+            
+            [corridor.floor.material.map, corridor.ceiling.material.map, 
+             corridor.leftWall.material.map, corridor.rightWall.material.map].forEach(map => {
+                map.offset.y = totalOffset * scrollMultiplier / 10;
+                map.needsUpdate = true;
+            });
+
+            hueUpdate();
+            updateDisplay();
+            localStorage.setItem('distanceTraveled', distanceMeters.toFixed(1));
+			localStorage.setItem('peakAccel', peakAcceleration.toFixed(1));
+        }
+
+        let lastTime = performance.now();
+        
+        initializeDistance();        
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const currentTime = performance.now();
+            const deltaTime = (currentTime - lastTime) / 1000;
+            lastTime = currentTime;
+
+            updateMovement(deltaTime);
+            camera.position.y = 2;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        function handleVisibilityChange() {
+            isPageVisible = !document.hidden;
+            if (!isPageVisible) {
+                stopMovement();
+            }
+        }
+
+        function handleWindowBlur() {
+            isWindowFocused = false;
+            stopMovement();
+        }
+
+        function handleWindowFocus() {
+            isWindowFocused = true;
+        }
+
+        function stopMovement() {
+            moveForward = false;
+        }
+        
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        window.addEventListener('blur', handleWindowBlur);
+        window.addEventListener('focus', handleWindowFocus);
+
+        animate();
+    </script>
+</body>
+</html>
