@@ -81,6 +81,12 @@ const projects = [{
         description: "Transform images into pure ascii",
         link: "projects/ascii-art-gen/index.html",
         icon: "fas fa-font"
+    },
+    {
+        title: "Infinity",
+        description: "Just keep accelerating!",
+        link: "projects/infinity-speed/index.html",
+        icon: "fas fa-infinity"
     }
 ];
 
