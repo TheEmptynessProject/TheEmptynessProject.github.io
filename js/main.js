@@ -75,6 +75,12 @@ const projects = [{
         description: "Experiment with text to speech.",
         link: "projects/tts-ui/index.html",
         icon: "fas fa-volume-up"
+    },
+    {
+        title: "ASCII Art Generator",
+        description: "Transform images into pure ascii",
+        link: "projects/ascii-art-gen/index.html",
+        icon: "fas fa-font"
     }
 ];
 
