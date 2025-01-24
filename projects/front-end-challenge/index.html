@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Challenges Navigator</title>
+    <style>
+        :root {
+            --primary-color: #2d3436;
+            --background-color: #f5f6fa;
+        }
 
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--background-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Frontend Challenges</h1>
+    <div class="navigation">
+        <button id="prevBtn" onclick="navigate(-1)">Previous Challenge</button>
+        <button id="nextBtn" onclick="navigate(1)">Next Challenge</button>
+    </div>
+
+    <script>
+        const currentPath = window.location.pathname;
+        let currentChallenge = parseInt(currentPath.split('/')[1]) || 0;
+        
+        function navigate(direction) {
+            const newChallenge = currentChallenge + direction;
+            if (newChallenge > 0) {
+                window.location.href = `/${newChallenge}/index.html`;
+            }
+        }
+
+        document.getElementById('prevBtn').disabled = currentChallenge <= 1;
+    </script>
+</body>
+</html>
