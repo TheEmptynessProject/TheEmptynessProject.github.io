@@ -114,6 +114,11 @@ function createProjectCard(project) {
     `;
 }
 
+function loadProjects() {
+    const projectGrid = document.getElementById('project-grid');
+    projectGrid.innerHTML = projects.map(createProjectCard).join('');
+}
+
 function setTheme(isDark) {
     if (isDark) {
         document.documentElement.classList.add('dark');
