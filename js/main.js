@@ -87,6 +87,12 @@ const projects = [{
         description: "Just keep accelerating!",
         link: "projects/infinity-speed/index.html",
         icon: "fas fa-infinity"
+    },
+    {
+        title: "Front End Challenges",
+        description: "A collection of 50 front-end challenges",
+        link: "projects/front-end-challenge/index.html",
+        icon: "fas fa-code"
     }
 ];
 
