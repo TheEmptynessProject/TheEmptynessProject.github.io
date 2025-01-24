@@ -3,114 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List</title>
+    <title>Advanced Task Manager</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-	<script is:inline>
-    function getThemePreference() {
-      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-        return localStorage.getItem('theme');
-      }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    
-    const theme = getThemePreference();
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    
-    window.addEventListener('load', () => {
-      document.documentElement.classList.add('theme-loaded');
-    });
-  </script>
-  <style>
-  .js-loading { visibility: hidden; }
-  .js-loaded { visibility: visible; }
-</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>My To-Do List</h1>
-            <button id="toggleTheme" aria-label="Toggle dark mode">
-                <i class="fas fa-moon"></i>
-            </button>
+            <h1>Task Manager Pro</h1>
+            <div class="header-actions">
+                <button id="toggleTheme" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="exportData" aria-label="Export tasks">
+                    <i class="fas fa-file-export"></i>
+                </button>
+                <button id="importData" aria-label="Import tasks">
+                    <i class="fas fa-file-import"></i>
+                </button>
+            </div>
         </header>
-        <div class="add-task">
-            <input type="text" id="taskInput" placeholder="Add new task" aria-label="Task title">
-            <input type="date" id="taskDueDate" aria-label="Due date">
-            <select id="taskPriority" aria-label="Task priority">
+
+        <div class="task-input-section">
+            <input type="text" id="taskInput" placeholder="Enter task title" required>
+            <input type="date" id="taskDueDate">
+            <select id="taskPriority">
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
             </select>
-            <select id="taskCategory" aria-label="Task category">
-                <option value="">Select Category</option>
+            <select id="taskCategory">
+                <option value="">Category</option>
                 <option value="work">Work</option>
                 <option value="personal">Personal</option>
-                <option value="shopping">Shopping</option>
+                <option value="learning">Learning</option>
+                <option value="health">Health</option>
                 <option value="other">Other</option>
             </select>
-            <button onclick="addTask()" class="btn-add" aria-label="Add task">Add Task</button>
+            <textarea id="taskDescription" placeholder="Optional task description"></textarea>
+            <button id="addTaskBtn" class="btn-add">Add Task</button>
         </div>
+
         <div class="task-controls">
-            <div class="sort-tasks">
-                <label for="sortOrder">Sort by:</label>
-                <select id="sortOrder" aria-label="Sort tasks">
-                    <option value="priority">Priority</option>
-                    <option value="dueDate">Due Date</option>
-                    <option value="added">Date Added</option>
-                    <option value="alphabetical">Alphabetical</option>
+            <div class="filter-section">
+                <select id="priorityFilter">
+                    <option value="">All Priorities</option>
+                    <option value="high">High Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="low">Low Priority</option>
+                </select>
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                </select>
+                <select id="statusFilter">
+                    <option value="all">All Tasks</option>
+                    <option value="active">Active</option>
+                    <option value="completed">Completed</option>
                 </select>
             </div>
-            <div class="search-tasks">
-                <input type="text" id="searchInput" placeholder="Search tasks" aria-label="Search tasks">
+            <div class="search-section">
+                <input type="text" id="searchInput" placeholder="Search tasks...">
             </div>
         </div>
-        <ul id="taskList" class="task-list"></ul>
+
+        <div id="taskList" class="task-list"></div>
+
+        <div class="task-stats">
+            <div id="taskSummary" class="task-summary"></div>
+            <div id="progressCharts" class="progress-charts"></div>
+        </div>
     </div>
-    <div id="editModal" class="modal">
+
+    <div id="taskModal" class="modal">
         <div class="modal-content">
-            <h2>Edit Task</h2>
-            <input type="text" id="editTaskInput" aria-label="Edit task title">
-            <input type="date" id="editTaskDueDate" aria-label="Edit due date">
-            <select id="editTaskPriority" aria-label="Edit task priority">
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </select>
-            <select id="editTaskCategory" aria-label="Edit task category">
-                <option value="">Select Category</option>
-                <option value="work">Work</option>
-                <option value="personal">Personal</option>
-                <option value="shopping">Shopping</option>
-                <option value="other">Other</option>
-            </select>
-            <textarea id="editTaskDescription" placeholder="Task description" aria-label="Edit task description"></textarea>
-            <div class="recurring-options">
-                <label for="editTaskRecurring">Recurring:</label>
-                <select id="editTaskRecurring" aria-label="Edit recurring task">
-                    <option value="none">None</option>
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                </select>
-            </div>
-			<div class="subtasks-section">
-			  <h3>Subtasks</h3>
-			  <ul id="subtaskList"></ul>
-			  <button onclick="showSubtaskPopup()" class="btn-add-subtask">Add Subtask</button>
-			</div>
-            <button onclick="saveEditedTask()" class="btn-save">Save</button>
-            <button onclick="closeEditModal()" class="btn-cancel">Cancel</button>
+            <h2>Task Details</h2>
+            <div id="taskDetailsContent"></div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
+    <input type="file" id="importInput" accept=".json" style="display:none;">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
-<script>
-  document.documentElement.className = 'js-loading';
-  window.addEventListener('DOMContentLoaded', (event) => {
-    document.documentElement.className = 'js-loaded';
-  });
-</script>
 </body>
-<script>0</script>
 </html>
