@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+n<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -58,7 +58,7 @@
         function navigate(direction) {
             const newChallenge = currentChallenge + direction;
             if (newChallenge > 0) {
-                window.location.href = `/${newChallenge}/index.html`;
+                window.location.href = currentPath.replace(/\/index\.html$/, `/${newChallenge}/index.html`);
             }
         }
 
