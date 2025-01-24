@@ -98,28 +98,21 @@ const projects = [{
 
 function createProjectCard(project) {
     return `
-<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
-    <div class="p-6">
-<div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
-    <i class="${project.icon} text-blue-500 dark:text-blue-400 text-2xl"></i>
-</div>
-<h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">${project.title}</h3>
-<p class="text-gray-600 dark:text-gray-400 mb-4">${project.description}</p>
-<a href="${project.link}" target="_blank" class="inline-flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300">
-    View Project
-    <i class="fas fa-arrow-right ml-2"></i>
-</a>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
+        <div class="p-6">
+            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
+                <i class="${project.icon} text-blue-500 dark:text-blue-400 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">${project.title}</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">${project.description}</p>
+            <a href="${project.link}" target="_blank" class="inline-flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300">
+                View Project
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
     </div>
-</div>
     `;
 }
-
-function loadProjects() {
-    const projectGrid = document.getElementById('project-grid');
-    projectGrid.innerHTML = projects.map(createProjectCard).join('');
-}
-
-const themeToggle = document.getElementById('theme-toggle');
 
 function setTheme(isDark) {
     if (isDark) {
@@ -136,16 +129,22 @@ function toggleTheme() {
     setTheme(!isDark);
 }
 
-setTheme(localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches));
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    setTheme(true);
+} else {
+    setTheme(false);
+}
 
+const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('click', toggleTheme);
-document.addEventListener('DOMContentLoaded', loadProjects);
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     if (!localStorage.theme) {
         setTheme(e.matches);
     }
 });
+
+document.addEventListener('DOMContentLoaded', loadProjects);
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
