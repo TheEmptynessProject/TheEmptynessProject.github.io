@@ -1,4 +1,4 @@
-n<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,63 +6,115 @@ n<!DOCTYPE html>
     <title>Frontend Challenges Navigator</title>
     <style>
         :root {
-            --primary-color: #2d3436;
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
             --background-color: #f5f6fa;
+            --text-color: #2c3e50;
+            --shadow-color: rgba(0, 0, 0, 0.1);
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--background-color);
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
         }
 
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        #currentChallenge {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
         .navigation {
             display: flex;
-            gap: 20px;
-            margin: 20px 0;
+            gap: 15px;
+            justify-content: center;
         }
 
         button {
-            padding: 10px 20px;
+            padding: 12px 24px;
             font-size: 16px;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             background: var(--primary-color);
             color: white;
             cursor: pointer;
-            transition: opacity 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
         }
 
         button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
+        }
+
+        #selectBtn {
+            background: var(--secondary-color);
+        }
+
+        #selectBtn:hover {
+            background: var(--primary-color);
         }
     </style>
 </head>
 <body>
-    <h1>Frontend Challenges</h1>
-    <div class="navigation">
-        <button id="prevBtn" onclick="navigate(-1)">Previous Challenge</button>
-        <button id="nextBtn" onclick="navigate(1)">Next Challenge</button>
+    <div class="container">
+        <h1>Frontend Challenges Navigator</h1>
+        <div id="currentChallenge">Current Challenge: <span id="challengeNumber"></span></div>
+        <div class="navigation">
+            <button id="prevBtn" onclick="navigate(-1)">Previous</button>
+            <button id="selectBtn" onclick="selectChallenge()">Select Challenge</button>
+            <button id="nextBtn" onclick="navigate(1)">Next</button>
+        </div>
     </div>
 
     <script>
         const currentPath = window.location.pathname;
-        let currentChallenge = parseInt(currentPath.split('/')[1]) || 0;
-        
+        let currentChallenge = parseInt(currentPath.split('/')[1]) || 1;
+
+        function updateUI() {
+            document.getElementById('challengeNumber').textContent = currentChallenge;
+            document.getElementById('prevBtn').disabled = currentChallenge <= 1;
+        }
+
         function navigate(direction) {
-            const newChallenge = currentChallenge + direction;
-            if (newChallenge > 0) {
-                window.location.href = currentPath.replace(/\/index\.html$/, `/${newChallenge}/index.html`);
+            currentChallenge += direction;
+            if (currentChallenge < 1) currentChallenge = 1;
+            updateUI();
+        }
+
+        function selectChallenge() {
+            if (currentChallenge > 0) {
+                window.location.href = currentPath.replace(/\/index\.html$/, `/${currentChallenge}/index.html`);
             }
         }
 
-        document.getElementById('prevBtn').disabled = currentChallenge <= 1;
+        updateUI();
     </script>
 </body>
 </html>
