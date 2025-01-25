@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Image Carousel</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div id="image-carousel" class="carousel" role="region" aria-label="Image Carousel">
+      <div class="carousel-inner" role="list">
+        <div class="slide" role="listitem" aria-hidden="true">
+          <img src="https://picsum.photos/600/400?random=1" alt="Descriptive alt text for image 1">
+          <div class="slide-content">
+            <h2>Slide Title 1</h2>
+            <p>Brief description of slide 1</p>
+          </div>
+        </div>
+        <div class="slide" role="listitem" aria-hidden="true">
+          <img src="https://picsum.photos/600/400?random=2" alt="Descriptive alt text for image 2">
+          <div class="slide-content">
+            <h2>Slide Title 2</h2>
+            <p>Brief description of slide 2</p>
+          </div>
+        </div>
+        <div class="slide" role="listitem" aria-hidden="true">
+          <img src="https://picsum.photos/600/400?random=3" alt="Descriptive alt text for image 3">
+          <div class="slide-content">
+            <h2>Slide Title 3</h2>
+            <p>Brief description of slide 3</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-prev" aria-label="Previous slide" title="Previous slide"> &#10096; </button>
+      <button class="carousel-next" aria-label="Next slide" title="Next slide"> &#10097; </button>
+      <div class="carousel-indicators" role="tablist">
+        <button class="indicator" role="tab" aria-selected="true" aria-label="Go to slide 1"></button>
+        <button class="indicator" role="tab" aria-selected="false" aria-label="Go to slide 2"></button>
+        <button class="indicator" role="tab" aria-selected="false" aria-label="Go to slide 3"></button>
+      </div>
+    </div>
+    <script src="script.js" defer></script>
+  </body>
+</html>
