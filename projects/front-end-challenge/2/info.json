@@ -1,0 +1,12 @@
+{
+  "name": "Image Carousel",
+  "key_features": [
+    "Infinite loop scrolling",
+    "Auto-play functionality",
+    "Navigation buttons",
+    "Slide indicators",
+    "Responsive design",
+    "Accessibility features"
+  ],
+  "notes": ["I still feel like there is something missing"]
+}
