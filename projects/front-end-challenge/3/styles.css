@@ -1,0 +1,113 @@
+:root {
+    --primary-bg-color: #2c3e50;
+    --secondary-bg-color: #34495e;
+    --text-color: #ecf0f1;
+    --hover-color: #3498db;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background-color: #f4f4f4;
+}
+
+#nav-menu {
+    position: fixed;
+    background-color: var(--primary-bg-color);
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#nav-menu.horizontal {
+    width: 100%;
+    min-height: 100px;
+    height: auto;
+}
+
+#nav-menu.vertical {
+    height: 100%;
+    width: auto;
+    min-width: 100px;
+}
+
+#nav-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+#nav-menu.horizontal ul {
+    flex-direction: row;
+    justify-content: center;
+}
+
+#nav-menu.vertical ul {
+    flex-direction: column;
+    justify-content: center;
+}
+
+#nav-menu ul li {
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    transition: padding 0.5s ease, background-color 0.2s ease, transform 0.3s ease;
+}
+
+#nav-menu.horizontal ul li {
+    padding: 10px 25px 10px 25px;
+}
+
+#nav-menu.vertical ul li {
+    padding: 25px 10px 25px 10px;
+}
+
+#nav-menu ul li:hover {
+    background-color: var(--hover-color);
+    transform: scale(1.05);
+}
+
+#nav-menu ul li i {
+    font-size: 1.2em;
+}
+
+#nav-menu.dragging {
+    opacity: 0.7;
+    cursor: grabbing;
+}
+
+@media (max-width: 768px) {
+    #nav-menu ul li span {
+        display: none;
+    }
+
+    #nav-menu ul li i {
+        display: block;
+    }
+
+    #nav-menu ul {
+        gap: 20px;
+    }
+}
+
+@media (min-width: 769px) {
+    #nav-menu ul li i {
+        display: none;
+    }
+}
