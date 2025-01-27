@@ -1,0 +1,9 @@
+{
+  "name": "Navigation Menu",
+  "description": "An interactive navigation menu with snap-on positioning.",
+  "key_features": [
+    "Draggable menu positioning",
+    "Automatic orientation switching (horizontal/vertical)",
+    "Text to icon display"
+  ]
+}
