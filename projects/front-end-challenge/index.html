@@ -11,8 +11,8 @@
             --background-color: #f5f6fa;
             --text-color: #2c3e50;
             --shadow-color: rgba(0, 0, 0, 0.1);
+            --post-it-color: #fff740;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--background-color);
@@ -25,31 +25,86 @@
             margin: 0;
             padding: 20px;
         }
-
         .container {
             background-color: white;
             border-radius: 10px;
             padding: 30px;
             box-shadow: 0 4px 6px var(--shadow-color);
             text-align: center;
+            max-width: 600px;
+            width: 100%;
         }
-
         h1 {
             color: var(--primary-color);
             margin-bottom: 20px;
         }
-
         #currentChallenge {
             font-size: 18px;
             margin-bottom: 20px;
         }
-
+        .challenge-info {
+            background-color: var(--background-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+            display: none;
+        }
+        .challenge-name {
+            font-size: 20px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        .features-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .features-list li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+        .features-list li:before {
+            content: "•";
+            color: var(--secondary-color);
+            position: absolute;
+            left: 8px;
+        }
+        .notes {
+            margin-top: 25px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: var(--post-it-color);
+            padding: 20px;
+            position: relative;
+            transform: rotate(-2deg);
+            box-shadow: 
+                0 4px 6px rgba(0, 0, 0, 0.1),
+                0 1px 3px rgba(0, 0, 0, 0.1);
+            color: #333;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+            border-radius: 2px;
+        }
+        .notes::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 24px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 4px 4px 0 0;
+        }
         .navigation {
             display: flex;
             gap: 15px;
             justify-content: center;
+            margin-top: 30px;
         }
-
         button {
             padding: 12px 24px;
             font-size: 16px;
@@ -61,22 +116,18 @@
             transition: all 0.3s ease;
             box-shadow: 0 2px 4px var(--shadow-color);
         }
-
         button:hover {
             background: var(--secondary-color);
             transform: translateY(-2px);
         }
-
         button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
-
         #selectBtn {
             background: var(--secondary-color);
         }
-
         #selectBtn:hover {
             background: var(--primary-color);
         }
@@ -86,20 +137,64 @@
     <div class="container">
         <h1>Frontend Challenges Navigator</h1>
         <div id="currentChallenge">Current Challenge: <span id="challengeNumber"></span></div>
+        <div id="challengeInfo" class="challenge-info">
+            <div class="challenge-name"></div>
+            <ul class="features-list"></ul>
+            <div class="notes"></div>
+        </div>
         <div class="navigation">
             <button id="prevBtn" onclick="navigate(-1)">Previous</button>
             <button id="selectBtn" onclick="selectChallenge()">Select Challenge</button>
             <button id="nextBtn" onclick="navigate(1)">Next</button>
         </div>
     </div>
-
     <script>
         const currentPath = window.location.pathname;
         let currentChallenge = parseInt(currentPath.split('/')[1]) || 1;
 
+        async function loadChallengeInfo(challengeNumber) {
+            try {
+                const url = currentPath.replace(/\/index\.html$/, `/${currentChallenge}/info.json`);
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Challenge info not found');
+                }
+                const data = await response.json();
+                displayChallengeInfo(data);
+            } catch (error) {
+                console.error('Error loading challenge info:', error);
+                hideChallengeInfo();
+            }
+        }
+
+        function displayChallengeInfo(info) {
+            const infoSection = document.getElementById('challengeInfo');
+            const nameElement = infoSection.querySelector('.challenge-name');
+            const featuresList = infoSection.querySelector('.features-list');
+            const notesElement = infoSection.querySelector('.notes');
+
+            nameElement.textContent = info.name;
+
+            featuresList.innerHTML = '';
+            info.key_features.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                featuresList.appendChild(li);
+            });
+
+            notesElement.textContent = info.notes?.join(' ') || '';
+            
+            infoSection.style.display = 'block';
+        }
+
+        function hideChallengeInfo() {
+            document.getElementById('challengeInfo').style.display = 'none';
+        }
+
         function updateUI() {
             document.getElementById('challengeNumber').textContent = currentChallenge;
             document.getElementById('prevBtn').disabled = currentChallenge <= 1;
+            loadChallengeInfo(currentChallenge);
         }
 
         function navigate(direction) {
