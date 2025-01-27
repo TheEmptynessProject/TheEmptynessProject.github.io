@@ -1,0 +1,9 @@
+{
+  "name": "Sign-up Form with Validation",
+  "key_features": [
+    "Real-time input validation",
+    "Password strength meter",
+    "Dynamic progress bar",
+    "Responsive design"
+  ]
+}
