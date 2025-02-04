@@ -1,0 +1,142 @@
+:root {
+    --primary-color: #2563eb;
+    --error-color: #dc2626;
+    --success-color: #16a34a;
+    --border-color: #e5e7eb;
+    --text-color: #1f2937;
+    --bg-color: #ffffff;
+    --hover-bg: #f3f4f6;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #f9fafb;
+    color: var(--text-color);
+}
+
+.upload-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--bg-color);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    padding: 24px;
+}
+
+.upload-zone {
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 40px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.upload-zone.drag-over {
+    border-color: var(--primary-color);
+    background: var(--hover-bg);
+}
+
+.upload-zone p {
+    margin: 0;
+    font-size: 1.1em;
+    color: #6b7280;
+}
+
+.upload-button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 16px;
+    transition: opacity 0.2s;
+}
+
+.upload-button:hover {
+    opacity: 0.9;
+}
+
+.file-list {
+    margin-top: 24px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.file-preview {
+    width: 50px;
+    height: 50px;
+    margin-right: 16px;
+    border-radius: 4px;
+    object-fit: cover;
+    background: var(--hover-bg);
+}
+
+.file-info {
+    flex-grow: 1;
+}
+
+.file-name {
+    margin: 0 0 4px 0;
+    font-weight: 500;
+}
+
+.file-size {
+    color: #6b7280;
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.progress-bar {
+    height: 4px;
+    background: var(--border-color);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--primary-color);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 0.9em;
+    margin-top: 4px;
+}
+
+.success-message {
+    color: var(--success-color);
+    font-size: 0.9em;
+    margin-top: 4px;
+}
+
+.supported-formats {
+    margin-top: 16px;
+    padding: 12px;
+    background: var(--hover-bg);
+    border-radius: 6px;
+    font-size: 0.9em;
+    color: #6b7280;
+}
+
+.upload-speed {
+    font-size: 0.8em;
+    color: #6b7280;
+    margin-top: 4px;
+}
