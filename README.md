@@ -17,4 +17,4 @@
 13. **Text to Speech**: Experiment with text-to-speech technology.
 14. **ASCII Art Generator**: Transform images into pure ASCII art.
 15. **Infinity**: An endless runner-style game where you keep accelerating.
-16. **50 Days of Front-End**: A self-imposed challenge to create 50 frontend design ideas.
+16. **Front-End Challenges**: A collection of some common UI components.
