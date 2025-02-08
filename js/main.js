@@ -93,7 +93,13 @@ const projects = [{
         description: "A collection of some common UI components",
         link: "projects/front-end-challenge/index.html",
         icon: "fas fa-code"
-    }
+    },
+    {
+        title: "Cellular Automaton Simulator",
+        description: "A cellular automaton simulator with customizable rules",
+        link: "projects/cellular-automaton-simulator/index.html",
+        icon: "fas fa-th"
+    },         
 ];
 
 function createProjectCard(project) {
