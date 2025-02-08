@@ -90,7 +90,7 @@ const projects = [{
     },
     {
         title: "Front End Challenges",
-        description: "A collection of 50 front-end challenges",
+        description: "A collection of some common UI components",
         link: "projects/front-end-challenge/index.html",
         icon: "fas fa-code"
     }
