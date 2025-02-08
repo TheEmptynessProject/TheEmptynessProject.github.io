@@ -18,3 +18,4 @@
 14. **ASCII Art Generator**: Transform images into pure ASCII art.
 15. **Infinity**: An endless runner-style game where you keep accelerating.
 16. **Front-End Challenges**: A collection of some common UI components.
+17. **Cellular Automaton Simulator**: A cellular automaton simulator with customizable rules.
