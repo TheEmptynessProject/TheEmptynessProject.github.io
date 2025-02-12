@@ -142,7 +142,7 @@ document.addEventListener('mousemove', resetMenuTimeout);
 function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	ctx.strokeStyle = '#eee';
+	ctx.strokeStyle = isFullscreen ? '#000' : '#fff';
 	for (let x = 0; x <= canvas.width; x += cellSize) {
 		ctx.beginPath();
 		ctx.moveTo(x, 0);
