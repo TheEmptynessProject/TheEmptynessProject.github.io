@@ -19,3 +19,5 @@
 15. **Infinity**: An endless runner-style game where you keep accelerating.
 16. **Front-End Challenges**: A collection of some common UI components.
 17. **Cellular Automaton Simulator**: A cellular automaton simulator with customizable rules.
+18. **Tic Tac Toe vs Bot**: Play tic tac toe against the perfect bot.
+19. **Connect Four vs Bot**: Play connect four against the perfect bot.
