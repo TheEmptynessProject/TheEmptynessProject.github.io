@@ -99,7 +99,19 @@ const projects = [{
         description: "A cellular automaton simulator with customizable rules",
         link: "projects/cellular-automaton-simulator/index.html",
         icon: "fas fa-th"
-    },         
+    },
+    {
+        title: "Tic Tac Toe vs Bot",
+        description: "Play tic tac toe against the perfect bot",
+        link: "projects/tic-tac-toe-bot/index.html",
+        icon: "fas fa-times"
+    },     
+    {
+        title: "Connect Four vs Bot",
+        description: "Play connect four against the perfect bot",
+        link: "projects/connect-four-bot/index.html",
+        icon: "fas fa-grip-lines-vertical"
+    },     
 ];
 
 function createProjectCard(project) {
