@@ -110,7 +110,7 @@ class ConnectFour {
     findBestMove() {
         let bestScore = -Infinity;
         let bestMove = -1;
-        const depth = 10;
+        const depth = 6;
         for (let col = 0; col < this.cols; col++) {
             const row = this.getLowestEmptyRow(col);
             if (row !== -1) {
