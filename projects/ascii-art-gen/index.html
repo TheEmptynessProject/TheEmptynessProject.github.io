@@ -10,95 +10,196 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-color: #1a1a1a;
+            color: #fff;
         }
-
+    
         .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: #2d2d2d;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
-
+    
         .controls {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
+            flex-direction: row;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #363636;
+            border-radius: 8px;
         }
-
+    
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 8px;
         }
-
+    
         label {
-            font-weight: bold;
-            color: #333;
+            font-weight: 500;
+            color: #fff;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-
+    
         input[type="file"] {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 12px;
+            background-color: #444;
+            border: 2px solid #555;
+            border-radius: 6px;
+            color: #fff;
+            cursor: pointer;
         }
-
+    
         input[type="number"] {
-            width: 100px;
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            width: 120px;
+            padding: 8px 12px;
+            background-color: #444;
+            border: 2px solid #555;
+            border-radius: 6px;
+            color: #fff;
         }
-
+    
         button {
-            padding: 10px 20px;
-            background-color: #007bff;
+            padding: 12px 24px;
+            background-color: #4CAF50;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-
+    
         button:hover {
-            background-color: #0056b3;
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
         }
-
+    
         #preview {
             max-width: 100%;
             margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-
+    
         #result {
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
             white-space: pre;
             overflow-x: auto;
-            background-color: #222;
+            background-color: #1a1a1a;
             color: #fff;
-            padding: 20px;
-            border-radius: 4px;
+            padding: 25px;
+            border-radius: 8px;
             font-size: 8px;
             line-height: 1;
+            border: 1px solid #444;
         }
-
+    
         .row {
             display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 30px;
+            margin-bottom: 30px;
         }
-
+    
         .column {
             flex: 1;
+            background-color: #363636;
+            padding: 20px;
+            border-radius: 8px;
         }
-
+    
+        h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #4CAF50;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+    
         #downloadBtn {
-            background-color: #28a745;
+            background-color: #2196F3;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+    
+        #downloadBtn:hover {
+            background-color: #1976D2;
+        }
+    
+        /* Custom scrollbar for the result container */
+        #result::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+    
+        #result::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+    
+        #result::-webkit-scrollbar-thumb {
+            background: #4CAF50;
+            border-radius: 4px;
+        }
+    
+        #result::-webkit-scrollbar-thumb:hover {
+            background: #45a049;
         }
 
-        #downloadBtn:hover {
-            background-color: #218838;
-        }
+        .zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 5px;
+    background: #1a1a1a;
+    border-radius: 6px;
+}
+
+.zoom-btn {
+    padding: 8px 12px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    width: 40px;
+    height: 40px;
+}
+
+#zoomLevel {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: center;
+}
+
+#result {
+    transform-origin: top left;
+    transition: transform 0.2s ease;
+}
+.mode-select {
+        padding: 8px 12px;
+        background-color: #444;
+        border: 2px solid #555;
+        border-radius: 6px;
+        color: #fff;
+        cursor: pointer;
+        width: 150px;
+    }
+
+    .mode-select:hover {
+        border-color: #4CAF50;
+    }
+
+    .mode-select option {
+        background-color: #2d2d2d;
+    }
     </style>
 </head>
 <body>
@@ -107,6 +208,17 @@
             <div class="input-group">
                 <label for="imageInput">Choose an image:</label>
                 <input type="file" id="imageInput" accept="image/*">
+            </div>
+
+            <div class="input-group">
+                <label for="modeSelect">Art Style:</label>
+                <select id="modeSelect" class="mode-select">
+                    <option value="ascii">Classic ASCII</option>
+                    <option value="shading">Shading Blocks</option>
+                    <option value="vertical">Vertical Blocks</option>
+                    <option value="horizontal">Horizontal Blocks</option>
+                    <option value="quadrant">Quadrant Blocks</option>
+                </select>
             </div>
             
             <div class="input-group">
@@ -123,6 +235,11 @@
             <div class="column">
                 <h3>ASCII Result</h3>
                 <button id="downloadBtn" style="display: none;">Download ASCII Art</button>
+                <div class="zoom-controls">
+                    <button id="zoomOutBtn" class="zoom-btn">-</button>
+                    <span id="zoomLevel">100%</span>
+                    <button id="zoomInBtn" class="zoom-btn">+</button>
+                </div>
                 <div id="result"></div>
             </div>
         </div>
@@ -130,7 +247,36 @@
 
     <script>
         const ASCII_CHARS = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,"^`\'. ';
-        
+        const SHADING_BLOCKS = '█▓▒░ ';
+const VERTICAL_BLOCKS = '█▇▆▅▄▃▂▁ ';
+const HORIZONTAL_BLOCKS = '█▉▊▋▌▍▎▏ ';
+const QUADRANT_BLOCKS = '█▀▄▌▐░▒▓ ▖▗▘▙▚▛▜▝▞▟';
+
+        const modeSelect = document.getElementById('modeSelect');
+
+        function getCharacterSet() {
+    switch(modeSelect.value) {
+        case 'shading':
+            return SHADING_BLOCKS;
+        case 'vertical':
+            return VERTICAL_BLOCKS;
+        case 'horizontal':
+            return HORIZONTAL_BLOCKS;
+        case 'quadrant':
+            return QUADRANT_BLOCKS;
+        default:
+            return ASCII_CHARS;
+    }
+}
+function updateResultStyle() {
+    if (modeSelect.value === 'ascii') {
+        result.style.fontSize = '8px';
+        result.style.lineHeight = '1';
+    } else {
+        result.style.fontSize = '12px';
+        result.style.lineHeight = '1.2';
+    }
+}
         function mapRange(value, inMin, inMax, outMin, outMax) {
             return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
         }
@@ -140,39 +286,47 @@
         }
 
         function convertToAscii(ctx, width, height, outputWidth) {
-            const imageData = ctx.getImageData(0, 0, width, height);
-            const pixels = imageData.data;
-            
-            const heightRatio = height / width;
-            const outputHeight = Math.floor(outputWidth * heightRatio * 0.5);
-            
-            const cellWidth = width / outputWidth;
-            const cellHeight = height / outputHeight;
-            
-            let result = '';
-            
-            for (let y = 0; y < outputHeight; y++) {
-                for (let x = 0; x < outputWidth; x++) {
-                    const pixelX = Math.floor(x * cellWidth);
-                    const pixelY = Math.floor(y * cellHeight);
-                    
-                    const i = (pixelY * width + pixelX) * 4;
-                    const brightness = getPixelBrightness(
-                        pixels[i],
-                        pixels[i + 1],
-                        pixels[i + 2]
-                    );
-                    
-                    const charIndex = Math.floor(
-                        mapRange(brightness, 0, 255, 0, ASCII_CHARS.length - 1)
-                    );
-                    result += ASCII_CHARS[charIndex];
-                }
-                result += '\n';
+        const imageData = ctx.getImageData(0, 0, width, height);
+        const pixels = imageData.data;
+        
+        const heightRatio = height / width;
+        const outputHeight = Math.floor(outputWidth * heightRatio * 0.5);
+        
+        const cellWidth = width / outputWidth;
+        const cellHeight = height / outputHeight;
+        
+        let result = '';
+        const chars = getCharacterSet();
+        
+        for (let y = 0; y < outputHeight; y++) {
+            for (let x = 0; x < outputWidth; x++) {
+                const pixelX = Math.floor(x * cellWidth);
+                const pixelY = Math.floor(y * cellHeight);
+                
+                const i = (pixelY * width + pixelX) * 4;
+                const brightness = getPixelBrightness(
+                    pixels[i],
+                    pixels[i + 1],
+                    pixels[i + 2]
+                );
+                
+                const charIndex = Math.floor(
+                    mapRange(brightness, 0, 255, 0, chars.length - 1)
+                );
+                result += chars[charIndex];
             }
-            
-            return result;
+            result += '\n';
         }
+        
+        return result;
+    }
+
+    modeSelect.addEventListener('change', () => {
+    if (preview.src) {
+        processImage();
+        updateResultStyle();
+    }
+});
 
         const imageInput = document.getElementById('imageInput');
         const widthInput = document.getElementById('widthInput');
@@ -231,6 +385,34 @@
             result.textContent = ascii;
             downloadBtn.style.display = 'block';
         }
+
+        const zoomInBtn = document.getElementById('zoomInBtn');
+const zoomOutBtn = document.getElementById('zoomOutBtn');
+const zoomLevel = document.getElementById('zoomLevel');
+
+let currentZoom = 1;
+const zoomStep = 0.1;
+const minZoom = 0.2;
+const maxZoom = 3;
+
+function updateZoom() {
+    result.style.transform = `scale(${currentZoom})`;
+    zoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
+}
+
+zoomInBtn.addEventListener('click', () => {
+    if (currentZoom < maxZoom) {
+        currentZoom += zoomStep;
+        updateZoom();
+    }
+});
+
+zoomOutBtn.addEventListener('click', () => {
+    if (currentZoom > minZoom) {
+        currentZoom -= zoomStep;
+        updateZoom();
+    }
+});
     </script>
 </body>
 </html>

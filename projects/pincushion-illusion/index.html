@@ -24,6 +24,46 @@
 
         let centerX, centerY, radius;
         let time = 0;
+        let currentModeIndex = 0;
+        let animationSpeed = 0.02;
+        const modes = [
+            {
+                name: '🌈 Rainbow Plus',
+                colors: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD'],
+                rotation: true,
+                bounce: true,
+                size: 8,
+                shape: 'plus',
+                gridSize: 20
+            },
+            {
+                name: '🤖 Matrix Rain',
+                colors: ['#00FF00', '#33FF33', '#66FF66'],
+                rotation: false,
+                bounce: true,
+                size: 4,
+                shape: 'kanji',
+                gridSize: 15
+            },
+            {
+                name: '🌟 Galaxy',
+                colors: ['#FFD700', '#FFA500', '#FF69B4', '#9370DB'],
+                rotation: true,
+                bounce: true,
+                size: 3,
+                shape: 'spiral',
+                gridSize: 25
+            },
+            {
+                name: '🎨 Neon Waves',
+                colors: ['#FF00FF', '#00FFFF', '#FFFF00'],
+                rotation: true,
+                bounce: false,
+                size: 6,
+                shape: 'triangle',
+                gridSize: 30
+            }
+        ];
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -34,29 +74,108 @@
         }
 
         function drawGrid(distortionFactor) {
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
-            ctx.lineWidth = 1;
+            const mode = modes[currentModeIndex];
+            ctx.lineWidth = 2;
 
-            const gridSize = 20;
+            const gridSize = mode.gridSize;
+            let colorIndex = 0;
 
             for (let y = 0; y <= canvas.height; y += gridSize) {
                 for (let x = 0; x <= canvas.width; x += gridSize) {
                     const dx = x - centerX;
                     const dy = y - centerY;
                     const distance = Math.sqrt(dx * dx + dy * dy);
-                    const factor = Math.pow(distance / radius, 2) * distortionFactor;
+                    const bounceFactor = mode.bounce ? Math.sin(distance / 50 + time * 2) * 0.2 : 0;
+                    const factor = (Math.pow(distance / radius, 2) * distortionFactor) + bounceFactor;
                     
                     const newX = x + factor * dx;
                     const newY = y + factor * dy;
 
-                    ctx.beginPath();
-                    ctx.moveTo(newX - 5, newY);
-                    ctx.lineTo(newX + 5, newY);
-                    ctx.moveTo(newX, newY - 5);
-                    ctx.lineTo(newX, newY + 5);
-                    ctx.stroke();
+                    ctx.save();
+                    ctx.translate(newX, newY);
+                    if (mode.rotation) {
+                        ctx.rotate(time + distance / 100);
+                    }
+                    ctx.strokeStyle = mode.colors[colorIndex % mode.colors.length];
+                    
+                    drawShape(mode.shape, mode.size);
+                    
+                    ctx.restore();
+                    colorIndex++;
                 }
             }
+        }
+
+        function drawShape(shape, size) {
+            switch(shape) {
+                case 'kanji':
+                    const kanjis = '日月火水木金土';
+                    ctx.font = size * 2 + 'px Arial';
+                    ctx.fillText(kanjis[Math.floor(time * 10) % kanjis.length], -size, size);
+                    break;
+                case 'spiral':
+                    for(let i = 0; i < 2; i++) {
+                        ctx.beginPath();
+                        ctx.arc(0, 0, size * (i + 1), time * 5, time * 5 + Math.PI * 1.5);
+                        ctx.stroke();
+                    }
+                    break;
+                case 'triangle':
+                    ctx.beginPath();
+                    ctx.moveTo(0, -size);
+                    ctx.lineTo(size * Math.cos(Math.PI/6), size * Math.sin(Math.PI/6));
+                    ctx.lineTo(-size * Math.cos(Math.PI/6), size * Math.sin(Math.PI/6));
+                    ctx.closePath();
+                    ctx.stroke();
+                    break;
+                case 'plus':
+                    drawPlus(size);
+                    break;
+                case 'dot':
+                    drawDot(size);
+                    break;
+                case 'star':
+                    drawStar(size);
+                    break;
+            }
+        }
+
+        function drawPlus(size) {
+            ctx.beginPath();
+            ctx.moveTo(-size, 0);
+            ctx.lineTo(size, 0);
+            ctx.moveTo(0, -size);
+            ctx.lineTo(0, size);
+            ctx.stroke();
+        }
+
+        function drawDot(size) {
+            ctx.beginPath();
+            ctx.arc(0, 0, size/2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawStar(size) {
+            for (let i = 0; i < 4; i++) {
+                ctx.beginPath();
+                ctx.moveTo(-size, 0);
+                ctx.lineTo(size, 0);
+                ctx.rotate(Math.PI / 4);
+                ctx.stroke();
+            }
+        }
+
+        function showModeInfo() {
+            ctx.save();
+            ctx.fillStyle = 'rgba(0,0,0,0.7)';
+            ctx.fillRect(10, 10, 250, 100);
+            ctx.fillStyle = 'white';
+            ctx.font = '20px Arial';
+            ctx.fillText(modes[currentModeIndex].name, 20, 40);
+            ctx.font = '14px Arial';
+            ctx.fillText(`Speed: ${animationSpeed.toFixed(2)} (←/→)`, 20, 70);
+            ctx.fillText(`Press Space to change mode`, 20, 90);
+            ctx.restore();
         }
 
         function animate() {
@@ -79,11 +198,25 @@
 
             drawGrid(distortionFactor);
 
-            time += 0.02;
+            showModeInfo();
+            time += animationSpeed;
             requestAnimationFrame(animate);
         }
 
         window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('keydown', (e) => {
+            switch(e.code) {
+                case 'Space':
+                    currentModeIndex = (currentModeIndex + 1) % modes.length;
+                    break;
+                case 'ArrowLeft':
+                    animationSpeed = Math.max(0.01, animationSpeed - 0.01);
+                    break;
+                case 'ArrowRight':
+                    animationSpeed = Math.min(10, animationSpeed + 0.01);
+                    break;
+            }
+        });
 
         resizeCanvas();
         animate();

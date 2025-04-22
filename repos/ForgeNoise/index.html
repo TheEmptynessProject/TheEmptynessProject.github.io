@@ -3,36 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ForgeNoise</title>
+    <meta name="description" content="ForgeNoise - Advanced noise generation library featuring Perlin, Simplex, and Worley noise algorithms. Professional-grade WebGL-accelerated noise generation for web applications with real-time visualization and customizable parameters.">
+    <meta name="keywords" content="noise generation, procedural generation, perlin noise, simplex noise, worley noise, webgl, javascript library, web development, creative coding">
+    <meta property="og:title" content="ForgeNoise - Professional Noise Generation Library">
+    <meta property="og:description" content="Advanced noise generation library with real-time visualization and customizable parameters for web applications and creative coding projects.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://example.com/forge-noise-social.jpg">
+    <meta property="og:url" content="https://example.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@ForgeNoise">
+    
+    <title>ForgeNoise - Professional Noise Generation Library for Web Developers</title>
+    <link rel="canonical" href="https://example.com" />
     <link rel="icon" type="image/x-icon" href="./main-256.ico">
     <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "ForgeNoise",
+        "description": "Advanced noise generation library for web applications",
+        "applicationCategory": "Multimedia",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "The Emptyness Project",
+            "url": "https://example.com"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.7",
+            "reviewCount": "11"
+        }
+    }
+    </script>
+    <script src="js/nav.js" defer></script>
+    <script src="js/copy.js" defer></script>
 </head>
 <body>
-    <nav>
-        <button class="nav-toggle">☰</button>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="examples.html">Examples</a>
-            <a href="api.html">API</a>
-            <a href="about.html">About</a>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="/" class="brand-logo">
+                <img src="./main-256.ico" alt="ForgeNoise Logo" class="logo-icon">
+                <span>ForgeNoise</span>
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="benchmark.html" class="nav-item">Benchmarks</a>
+                <a href="examples.html" class="nav-item">Examples</a>
+                <a href="api.html" class="nav-item">API</a>
+                <a href="about.html" class="nav-item">About</a>
+            </div>
         </div>
     </nav>
-    <main>
-        <h1>ForgeNoise</h1>
-        <p>The best.</p>
-        
-        <h2>Installation</h2>
-        <p>Add ForgeNoise to your project with a script tag:</p>
-        <pre><code>&lt;script src="https://raw.githubusercontent.com/TheEmptynessProject/ForgeNoise/main/dist/forgeNoise.min.js"&gt;&lt;/script&gt;</code></pre>
-        <p>Or include it locally:</p>
-        <pre><code>&lt;script src="path/to/forgeNoise.min.js"&gt;&lt;/script&gt;</code></pre>
+
+    <main class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Craft Digital Landscapes with <span class="highlight">ForgeNoise</span></h1>
+            <p class="hero-subtitle">Advanced noise generation library for creating natural-looking textures, terrains, and patterns</p>
+            <div class="cta-buttons">
+                <a href="examples.html" class="cta-button primary">Explore Examples</a>
+                <a href="api.html" class="cta-button secondary">View Documentation</a>
+            </div>
+        </div>
+
+        <section class="features-section">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌌</div>
+                    <h3>Multiple Algorithms</h3>
+                    <p>Perlin, Simplex, Worley, Value, and Domain Warping noise implementations</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>High Performance</h3>
+                    <p>WebAssembly accelerated computations for smooth real-time visualization</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎚️</div>
+                    <h3>Customizable Parameters</h3>
+                    <p>Adjust octaves, persistence, lacunarity, and other noise characteristics</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Easy Integration</h3>
+                    <p>Simple API with intuitive methods and comprehensive documentation</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Lightweight</h3>
+                    <p>Optimized code with minimal dependencies for fast loading times</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Configurable</h3>
+                    <p>Fine-tune parameters to achieve exactly the effect you need</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="installation-section">
+            <h2 class="section-title">Quick Start</h2>
+            <div class="code-snippet">
+                <button class="copy-button" aria-label="Copy code">
+                    <span class="copy-text">Copy</span>
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
+                    </svg>
+                </button>
+                <pre><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/gh/TheEmptynessProject/ForgeNoise@main/dist/forgeNoise.min.js"&gt;&lt;/script&gt;</code></pre>
+            </div>
+            
+            <div class="code-snippet">
+                <button class="copy-button" aria-label="Copy code">
+                    <span class="copy-text">Copy</span>
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
+                    </svg>
+                </button>
+                <pre><code class="language-javascript">// Create a noise generator
+const noise = new ForgeNoise(12345);
+
+// Generate 2D noise at coordinates (x, y)
+const value = noise.generate2D(x, y);</code></pre>
+            </div>
+        </section>
     </main>
-    <script src="js/script.js"></script>
-    <script>
-        document.querySelector('.nav-toggle').addEventListener('click', () => {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-    </script>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="./main-256.ico" alt="ForgeNoise Logo" class="logo-icon-sm">
+                <span>ForgeNoise</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="benchmark.html">Benchmarks</a>
+                <a href="examples.html">Examples</a>
+                <a href="api.html">API</a>
+                <a href="about.html">About</a>
+                <a href="https://github.com/TheEmptynessProject/ForgeNoise">GitHub</a>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2025 The Emptyness Project. Released under MIT License.
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

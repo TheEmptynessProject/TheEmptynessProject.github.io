@@ -4,31 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - ForgeNoise</title>
+    <meta name="description" content="Learn about ForgeNoise, a professional noise generation library for web developers. Discover our mission, team, and the technology behind our library.">
     <link rel="icon" type="image/x-icon" href="./main-256.ico">
     <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <script src="js/nav.js" defer></script>
 </head>
 <body>
-    <nav>
-        <button class="nav-toggle">☰</button>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="examples.html">Examples</a>
-            <a href="api.html">API</a>
-            <a href="about.html">About</a>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="/" class="brand-logo">
+                <img src="./main-256.ico" alt="ForgeNoise Logo" class="logo-icon">
+                <span>ForgeNoise</span>
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="benchmark.html" class="nav-item">Benchmarks</a>
+                <a href="examples.html" class="nav-item">Examples</a>
+                <a href="api.html" class="nav-item">API</a>
+                <a href="about.html" class="nav-item">About</a>
+            </div>
         </div>
     </nav>
-    <main>
-        <h1>About ForgeNoise</h1>
-        <p>idk what to put here.</p>
-        
-        <h2>License</h2>
-        <p>Released under the MIT License. View the full license on GitHub: <a href="https://github.com/TheEmptynessProject/forgeNoise/blob/main/LICENSE">LICENSE</a>.</p>
+
+    <main class="content-wrapper">
+        <section class="about-section">
+            <h1 class="section-title">About ForgeNoise</h1>
+            
+            <div class="about-content">
+                <div class="about-card">
+                    <h2>Our Mission</h2>
+                    <p>ForgeNoise.</p>
+                </div>
+                
+                <div class="about-card">
+                    <h2>The Technology</h2>
+                    <p>Javascript.</p>
+                </div>
+                
+                <div class="about-card">
+                    <h2>The Team</h2>
+                    <p>The Emptyness Project.</p>
+                </div>
+            </div>
+            
+            <div class="about-card license-card">
+                <h2>License</h2>
+                <p>ForgeNoise is released under the MIT License, providing you with the freedom to use it in both personal and commercial projects.</p>
+                <a href="https://github.com/TheEmptynessProject/forgeNoise/blob/main/LICENSE" class="license-link" target="_blank" rel="noopener">View Full License</a>
+            </div>
+        </section>
     </main>
-    <script>
-        document.querySelector('.nav-toggle').addEventListener('click', () => {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-    </script>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="./main-256.ico" alt="ForgeNoise Logo" class="logo-icon-sm">
+                <span>ForgeNoise</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="benchmark.html">Benchmarks</a>
+                <a href="examples.html">Examples</a>
+                <a href="api.html">API</a>
+                <a href="about.html">About</a>
+                <a href="https://github.com/TheEmptynessProject/ForgeNoise">GitHub</a>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2025 The Emptyness Project. Released under MIT License.
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

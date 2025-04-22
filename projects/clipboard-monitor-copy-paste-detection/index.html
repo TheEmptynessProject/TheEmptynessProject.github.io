@@ -3,182 +3,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clipboard Change Tracker</title>
+    <title>Clipboard Monitor</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: monospace;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            background: #f5f5f5;
         }
+
         #clipboardContent {
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-bottom: 20px;
-            min-height: 100px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            background: white;
+            min-height: 50px;
         }
+
         button {
-            padding: 10px 15px;
-            font-size: 16px;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 5px;
             cursor: pointer;
-            margin-right: 10px;
         }
-        #status {
+
+        #history {
             margin-top: 20px;
-            font-style: italic;
+            border: 1px solid #ddd;
+            background: white;
+            height: 400px;
+            overflow-y: auto;
         }
-        .mode-indicator {
-            font-weight: bold;
-            margin-bottom: 10px;
+
+        .history-entry {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+            font-size: 12px;
+        }
+
+        .event-type {
+            color: #666;
+        }
+
+        .timestamp {
+            color: #999;
+        }
+
+        .content {
+            word-break: break-all;
         }
     </style>
 </head>
 <body>
-    <h1>Clipboard Change Tracker</h1>
-    <div class="mode-indicator">Current Mode: <span id="currentMode">No Permission</span></div>
-    <div id="clipboardContent">Clipboard content will appear here.</div>
-    <button id="permissionBtn" onclick="togglePermissionMode()">Get Clipboard Permission</button>
-    <button id="modeToggleBtn" onclick="toggleMode()">Switch to No Permission Mode</button>
-    <div id="status"></div>
+    <button id="permissionBtn">Enable Monitoring</button>
+    <div id="clipboardContent"></div>
+    <div id="history"></div>
 
     <script>
         let initialClipboardData = '';
         let hasPermission = false;
-        const clipboardContentEl = document.getElementById('clipboardContent');
-        const statusEl = document.getElementById('status');
-        const permissionBtn = document.getElementById('permissionBtn');
-        const modeToggleBtn = document.getElementById('modeToggleBtn');
 
-        function updateStatus(message) {
-            statusEl.textContent = message;
+        // Add additional tracking properties
+        let activeApplication = '';
+        let clipboardSource = '';
+        let lastModified = null;
+
+        // Enhance HistoryEntry class
+        class HistoryEntry {
+            constructor(type, content = '', details = '') {
+                this.timestamp = new Date();
+                this.type = type;
+                this.content = content;
+                this.details = details;
+                this.windowTitle = document.title;
+                this.url = window.location.href;
+                this.activeApp = activeApplication;
+                this.source = clipboardSource;
+                this.modifiedTime = lastModified;
+                // Get active browser tab info
+                if (window.chrome && chrome.tabs) {
+                    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                        this.tabInfo = tabs[0];
+                    });
+                }
+                this.browserInfo = this.getBrowserInfo();
+                this.networkStatus = navigator.onLine ? 'online' : 'offline';
+                this.memory = this.getMemoryInfo();
+                this.preciseTime = performance.now();
+                this.mimeType = this.detectContentType(content);
+                this.idleTime = this.getIdleTime();
+                this.systemInfo = {
+                    screenSize: `${window.screen.width}x${window.screen.height}`,
+                    colorDepth: window.screen.colorDepth,
+                    pixelRatio: window.devicePixelRatio,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                };
+                this.mousePosition = lastMousePosition;
+                this.windowSize = {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    scrollX: window.scrollX,
+                    scrollY: window.scrollY
+                };
+            }
+
+            getBrowserInfo() {
+                const ua = navigator.userAgent;
+                return {
+                    userAgent: ua,
+                    language: navigator.language,
+                    platform: navigator.platform,
+                    vendor: navigator.vendor,
+                    cookiesEnabled: navigator.cookieEnabled,
+                    doNotTrack: navigator.doNotTrack,
+                    hardwareConcurrency: navigator.hardwareConcurrency,
+                    maxTouchPoints: navigator.maxTouchPoints
+                };
+            }
+
+            getMemoryInfo() {
+                if (performance.memory) {
+                    return {
+                        jsHeapSizeLimit: performance.memory.jsHeapSizeLimit,
+                        totalJSHeapSize: performance.memory.totalJSHeapSize,
+                        usedJSHeapSize: performance.memory.usedJSHeapSize
+                    };
+                }
+                return null;
+            }
+
+            detectContentType(content) {
+                if (!content) return 'empty';
+                if (content.startsWith('data:')) return 'base64';
+                if (content.match(/^[\w\-]+:\/\//)) return 'url';
+                if (content.match(/<[^>]+>/)) return 'html';
+                if (content.match(/^[\w\-]+=[^\s]/)) return 'key-value';
+                return 'plain-text';
+            }
+
+            getIdleTime() {
+                return performance.now() - lastActivityTime;
+            }
         }
 
+        let history = [];
+        let lastActiveWindow = '';
+        let lastActiveTab = '';
+        let lastActivityTime = performance.now();
+        let lastKeyCombo = [];
+        const keyboardShortcuts = new Set();
+        let lastKeyboardShortcutTime = 0;
+        const KEYBOARD_DEBOUNCE_TIME = 300; // ms
+
+        function addHistoryEntry(entry) {
+            history.unshift(entry);
+            updateHistoryDisplay();
+        }
+
+        // Enhanced history display
+        function updateHistoryDisplay() {
+            const historyDiv = document.getElementById('history');
+            historyDiv.innerHTML = history.map(entry => `
+                <div class="history-entry">
+                    <span class="timestamp">${entry.timestamp.toLocaleTimeString()}.${entry.timestamp.getMilliseconds()}</span>
+                    <span class="event-type">[${entry.type}]</span>
+                    <div class="details">
+                        ${entry.details}
+                        ${entry.source ? `<br>Source: ${entry.source}` : ''}
+                        ${entry.mimeType ? `<br>Content Type: ${entry.mimeType}` : ''}
+                        ${entry.networkStatus ? `<br>Network: ${entry.networkStatus}` : ''}
+                        ${entry.systemInfo ? `<br>Screen: ${entry.systemInfo.screenSize}` : ''}
+                        ${entry.memory ? `<br>Memory Usage: ${Math.round(entry.memory.usedJSHeapSize/1048576)}MB` : ''}
+                        ${entry.idleTime ? `<br>Idle Time: ${Math.round(entry.idleTime/1000)}s` : ''}
+                        ${entry.mousePosition ? `<br>Mouse: (${entry.mousePosition.x}, ${entry.mousePosition.y})` : ''}
+                        ${entry.windowSize ? `<br>Window: ${entry.windowSize.width}x${entry.windowSize.height}` : ''}
+                    </div>
+                    ${entry.content ? `
+                        <div class="content">
+                            <pre>${entry.content.substring(0, 100)}${entry.content.length > 100 ? '...' : ''}</pre>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Enhanced window focus tracking
+        window.addEventListener('focus', async function() {
+            const entry = new HistoryEntry('FOCUS_GAIN', '', `Window gained focus at ${new Date().toLocaleTimeString()}`);
+            addHistoryEntry(entry);
+            
+            if (!hasPermission) return;
+            
+            try {
+                const startTime = performance.now();
+                const currentContent = await navigator.clipboard.readText();
+                const endTime = performance.now();
+
+                if (currentContent !== initialClipboardData) {
+                    clipboardSource = document.hidden ? 'background' : 'other_window';
+                    const clipboardEntry = new HistoryEntry(
+                        'CLIPBOARD_CHANGE',
+                        currentContent,
+                        `Clipboard changed at ${new Date().toLocaleTimeString()}\nDelay: ${(endTime - startTime).toFixed(2)}ms\nPrevious: ${initialClipboardData.substring(0, 50)}...`
+                    );
+                    addHistoryEntry(clipboardEntry);
+                    updateClipboardContent(currentContent);
+                }
+            } catch (error) {
+                console.error('Clipboard check error:', error);
+            }
+        });
+
+        window.addEventListener('blur', function(e) {
+            const entry = new HistoryEntry('FOCUS_LOSS', '', 'Window lost focus');
+            addHistoryEntry(entry);
+        });
+
+        // Enhanced clipboard monitoring
+        document.addEventListener('copy', function(e) {
+            const text = window.getSelection().toString();
+            const entry = new HistoryEntry('COPY', text, `Text copied at ${new Date().toLocaleTimeString()}`);
+            addHistoryEntry(entry);
+        });
+
+        document.addEventListener('cut', function(e) {
+            const text = window.getSelection().toString();
+            const entry = new HistoryEntry('CUT', text, `Text cut at ${new Date().toLocaleTimeString()}`);
+            addHistoryEntry(entry);
+        });
+
+        document.addEventListener('paste', async function(e) {
+            if (hasPermission) {
+                e.preventDefault();
+                const text = e.clipboardData.getData('text');
+                const entry = new HistoryEntry('PASTE', text, `Text pasted at ${new Date().toLocaleTimeString()}`);
+                addHistoryEntry(entry);
+                updateClipboardContent(text);
+            }
+        });
+
+        // Visibility change detection
+        document.addEventListener('visibilitychange', async function() {
+            if (!hasPermission) return;
+            
+            const state = document.hidden ? 'hidden' : 'visible';
+            if (!document.hidden) {
+                try {
+                    const currentContent = await navigator.clipboard.readText();
+                    if (currentContent !== initialClipboardData) {
+                        const entry = new HistoryEntry(
+                            'TAB_VISIBILITY_CLIPBOARD_CHANGE',
+                            currentContent,
+                            `Content changed while tab was hidden\nPrevious: ${initialClipboardData.substring(0, 50)}...`
+                        );
+                        addHistoryEntry(entry);
+                        updateClipboardContent(currentContent);
+                    }
+                } catch (error) {
+                    console.error('Visibility clipboard check error:', error);
+                }
+            }
+            
+            const entry = new HistoryEntry(
+                'VISIBILITY_CHANGE',
+                '',
+                `Tab ${state} (${new Date().toISOString()})`
+            );
+            addHistoryEntry(entry);
+        });
+
+        // Simplified permission handling
+        document.getElementById('permissionBtn').addEventListener('click', async () => {
+            try {
+                const initialContent = await navigator.clipboard.readText();
+                hasPermission = true;
+                document.getElementById('permissionBtn').style.display = 'none';
+                updateClipboardContent(initialContent);
+                const entry = new HistoryEntry('PERMISSION', initialContent, 'Clipboard monitoring enabled');
+                addHistoryEntry(entry);
+            } catch (error) {
+                const entry = new HistoryEntry('ERROR', '', 'Permission denied');
+                addHistoryEntry(entry);
+                alert('Permission denied');
+            }
+        });
+
+        // Enhanced window/tab tracking
+        window.addEventListener('beforeunload', function(e) {
+            const entry = new HistoryEntry('TAB_CLOSE', '', 'Tab being closed');
+            addHistoryEntry(entry);
+        });
+
+        // Track mouse movements between windows
+        document.addEventListener('mouseleave', function(e) {
+            lastMousePosition = { x: e.clientX, y: e.clientY };
+            if (e.clientY <= 0 || e.clientX <= 0 || 
+                e.clientX >= window.innerWidth || 
+                e.clientY >= window.innerHeight) {
+                const entry = new HistoryEntry(
+                    'MOUSE_EXIT',
+                    '',
+                    `Mouse left window at (${e.clientX}, ${e.clientY})`
+                );
+                addHistoryEntry(entry);
+            }
+        });
+
+        // Modify tracking variables
+        let lastMousePosition = { x: 0, y: 0 };
+
+        // Keep only essential mouse events
+        document.addEventListener('mouseenter', function(e) {
+            lastMousePosition = { x: e.clientX, y: e.clientY };
+            const entry = new HistoryEntry(
+                'MOUSE_ENTER',
+                '',
+                `Mouse entered at (${e.clientX}, ${e.clientY})`
+            );
+            addHistoryEntry(entry);
+        });
+
+        document.addEventListener('mousedown', function(e) {
+            lastMousePosition = { x: e.clientX, y: e.clientY };
+            const buttonMap = ['Left', 'Middle', 'Right'];
+            const entry = new HistoryEntry(
+                'MOUSE_CLICK',
+                '',
+                `${buttonMap[e.button]} button clicked at (${e.clientX}, ${e.clientY})`
+            );
+            addHistoryEntry(entry);
+        });
+
+        // Add window resize tracking
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const entry = new HistoryEntry(
+                    'WINDOW_RESIZE',
+                    '',
+                    `Window resized to ${window.innerWidth}x${window.innerHeight}`
+                );
+                addHistoryEntry(entry);
+            }, 500);
+        });
+
+        // Add scroll tracking
+        let scrollTimeout;
+        document.addEventListener('scroll', function() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const entry = new HistoryEntry(
+                    'PAGE_SCROLL',
+                    '',
+                    `Scrolled to position: ${window.scrollX}px, ${window.scrollY}px`
+                );
+                addHistoryEntry(entry);
+            }, 300);
+        });
+
         function updateClipboardContent(content) {
+            const clipboardContentEl = document.getElementById('clipboardContent');
             clipboardContentEl.textContent = content;
             initialClipboardData = content;
         }
 
-        function updateModeDisplay() {
-            currentModeEl.textContent = hasPermission ? "Permission Granted" : "No Permission";
-            modeToggleBtn.textContent = hasPermission ? "Switch to No Permission Mode" : "Switch to Permission Mode";
-            permissionBtn.style.display = hasPermission ? "none" : "inline-block";
-        }
-		
-		document.addEventListener('dragover', function(event) {
-            event.preventDefault(); // Necessary to allow dropping
-        });
-
-        document.addEventListener('drop', function(event) {
-            event.preventDefault(); // Prevent default drop behavior
-
-            const droppedText = event.dataTransfer.getData('text');
-            console.log('User dropped text:', droppedText);
-
-            if (hasPermission) {
-                if (initialClipboardData !== droppedText) {
-                    console.log('New content dropped from another window');
-                    updateClipboardContent(droppedText);
-                    updateStatus('New content dropped from another window');
-                } else {
-                    updateStatus('Content dropped (matches current clipboard content)');
-                }
-            } else {
-                updateStatus('Content dropped (content not visible due to no permission)');
-            }
-        });
-		
-        document.addEventListener('copy', function(event) {
-            const copiedText = window.getSelection().toString();
-            console.log('User copied text:', copiedText);
-            updateStatus('Text copied');
-        });
-
-        document.addEventListener('cut', function(event) {
-            const cutText = window.getSelection().toString();
-            console.log('User cut text:', cutText);
-            updateStatus('Text cut');
-        });
-
-        document.addEventListener('paste', function(event) {
-            if (hasPermission) {
-                event.preventDefault();
-                const pastedText = event.clipboardData.getData('text');
-                console.log('User pasted text:', pastedText);
-
-                if (initialClipboardData !== pastedText) {
-                    console.log('Clipboard content changed in another window');
-                    updateClipboardContent(pastedText);
-                    updateStatus('New content pasted from another window');
-                } else {
-                    updateStatus('Content pasted');
-                }
-            } else {
-                updateStatus('Content pasted (content not visible due to no permission)');
-            }
-        });
-
-        window.addEventListener('focus', function() {
-            console.log('User is on the page');
-            updateStatus('Welcome back!');
-            if (hasPermission) {
-                checkClipboardChanges();
-            }
-        });
-
-        window.addEventListener('blur', function() {
-            console.log('User has left the page');
-            updateStatus('Come back soon!');
-        });
-
-        async function checkClipboardChanges() {
-            if (!hasPermission) return;
-
-            try {
-                const clipboardContent = await navigator.clipboard.readText();
-                if (initialClipboardData !== clipboardContent) {
-                    console.log('Clipboard content changed while away');
-                    updateClipboardContent(clipboardContent);
-                    updateStatus('Clipboard content changed while you were away');
-                }
-            } catch (error) {
-                console.error('Error reading clipboard:', error);
-            }
+        function updateStatus(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const statusEl = document.getElementById('status');
+            statusEl.innerHTML = `<small>${timestamp}</small> - ${message}`;
         }
 
-        async function requestClipboardPermission() {
-            try {
-                const clipboardContent = await navigator.clipboard.readText();
-                console.log('Initial clipboard data:', clipboardContent);
-                updateClipboardContent(clipboardContent);
-                updateStatus('Clipboard permission granted');
-                hasPermission = true;
-                updateModeDisplay();
-            } catch (error) {
-                console.error('Clipboard reading error:', error.message);
-                updateStatus('Failed to get clipboard permission. Please try again.');
+        // Track keyboard combinations with debounce
+        document.addEventListener('keydown', (e) => {
+            const now = performance.now();
+            if (now - lastKeyboardShortcutTime < KEYBOARD_DEBOUNCE_TIME) {
+                return;
             }
-        }
-
-        function togglePermissionMode() {
-            if (!hasPermission) {
-                requestClipboardPermission();
+            
+            lastActivityTime = now;
+            lastKeyCombo.push(e.key);
+            if (lastKeyCombo.length > 3) lastKeyCombo.shift();
+            
+            const combo = lastKeyCombo.join('+');
+            if ((e.ctrlKey || e.metaKey) && e.key !== 'Control' && e.key !== 'Meta') {
+                keyboardShortcuts.add(`${e.ctrlKey ? 'Ctrl' : 'Cmd'}+${e.key}`);
+                const entry = new HistoryEntry(
+                    'KEYBOARD_SHORTCUT',
+                    combo,
+                    `Shortcut detected at ${new Date().toLocaleTimeString()}\nAll shortcuts: ${Array.from(keyboardShortcuts).join(', ')}`
+                );
+                addHistoryEntry(entry);
+                lastKeyboardShortcutTime = now;
             }
-        }
+        });
 
-        function toggleMode() {
-            hasPermission = !hasPermission;
-            updateModeDisplay();
-            if (hasPermission) {
-                requestClipboardPermission();
-            } else {
-                updateClipboardContent('Clipboard content will appear here when permission is granted.');
-                updateStatus('Switched to No Permission mode');
+        // Track network status changes
+        window.addEventListener('online', () => {
+            const entry = new HistoryEntry('NETWORK_CHANGE', '', 'Connection restored');
+            addHistoryEntry(entry);
+        });
+
+        window.addEventListener('offline', () => {
+            const entry = new HistoryEntry('NETWORK_CHANGE', '', 'Connection lost');
+            addHistoryEntry(entry);
+        });
+
+        // Track system idle state
+        let idleCheckInterval = setInterval(() => {
+            const idleTime = performance.now() - lastActivityTime;
+            if (idleTime > 60000) { // 1 minute
+                const entry = new HistoryEntry('IDLE_STATE', '', `System idle for ${Math.floor(idleTime/1000)}s`);
+                addHistoryEntry(entry);
             }
-        }
-
-        updateModeDisplay();
+        }, 30000);
     </script>
 </body>
 </html>

@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Benchmark</title>
+  <title>Benchmark - ForgeNoise</title>
+  <link rel="icon" type="image/x-icon" href="./main-256.ico">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/gh/TheEmptynessProject/ForgeNoise@main/dist/forgeNoise.min.js"></script>
   <script type="module">
     import FastNoiseLite from 'https://cdn.jsdelivr.net/npm/fastnoise-lite@1.1.1/FastNoiseLite.min.js';
@@ -18,262 +23,362 @@
     table {
       border-collapse: collapse;
       width: 100%;
-      margin-bottom: 20px;
+      margin-bottom: 2rem;
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
     }
+    
     th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
+      border: 1px solid rgba(0,0,0,0.1);
+      padding: 0.8rem;
       text-align: center;
     }
+    
     th {
-      background-color: #f2f2f2;
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 500;
     }
+    
+    tr:nth-child(even) {
+      background-color: rgba(0,0,0,0.02);
+    }
+    
     .faster {
       font-weight: bold;
-      color: green;
+      color: var(--accent-color);
+    }
+    
+    .benchmark-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+    
+    .benchmark-btn {
+      padding: 0.7rem 1.2rem;
+      border-radius: var(--border-radius-md);
+      border: none;
+      background-color: var(--secondary-color);
+      color: white;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .benchmark-btn:hover {
+      background-color: var(--accent-color);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .benchmark-btn:active {
+      transform: translateY(0);
+    }
+    
+    .benchmark-results {
+      margin-bottom: 3rem;
+    }
+    
+    @media (max-width: 768px) {
+      table {
+        font-size: 0.9rem;
+      }
+      
+      th, td {
+        padding: 0.6rem 0.4rem;
+      }
     }
   </style>
+  <script src="js/nav.js" defer></script>
 </head>
 <body>
-  <h1>Benchmark</h1>
-  <button id="localStorageToggle">Local Storage (On)</button>
-  <button id="clearLocalStorage">Clear Local Storage</button>
-  <div id="results3D"></div>
-  <div id="results2D"></div>
-  <div id="averageResults"></div>
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="/" class="brand-logo">
+        <img src="./main-256.ico" alt="ForgeNoise Logo" class="logo-icon">
+        <span>ForgeNoise</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <div class="nav-links">
+        <a href="index.html" class="nav-item">Home</a>
+        <a href="benchmark.html" class="nav-item">Benchmarks</a>
+        <a href="examples.html" class="nav-item">Examples</a>
+        <a href="api.html" class="nav-item">API</a>
+        <a href="about.html" class="nav-item">About</a>
+      </div>
+    </div>
+  </nav>
 
-  <script>
-    window.addEventListener('load', () => {
-      const ITERATIONS = 100000;
-      let localStorageEnabled = true;
+  <main>
+    <h1 class="section-title">Performance Benchmark</h1>
+    <p class="hero-subtitle">Compare performance of ForgeNoise against other popular noise libraries</p>
+    
+    <div class="benchmark-controls">
+      <button id="localStorageToggle" class="benchmark-btn">Local Storage (On)</button>
+      <button id="clearLocalStorage" class="benchmark-btn">Clear Local Storage</button>
+    </div>
+    
+    <div id="results3D" class="benchmark-results"></div>
+    <div id="results2D" class="benchmark-results"></div>
+    <div id="averageResults" class="benchmark-results"></div>
 
-      const localStorageToggle = document.getElementById('localStorageToggle');
-      localStorageToggle.addEventListener('click', () => {
-        localStorageEnabled = !localStorageEnabled;
-        localStorageToggle.textContent = `Local Storage (${localStorageEnabled ? 'On' : 'Off'})`;
-      });
+    <script>
+      window.addEventListener('load', () => {
+        const ITERATIONS = 100000;
+        let localStorageEnabled = true;
 
-      document.getElementById('clearLocalStorage').addEventListener('click', () => {
-        Object.keys(localStorage).forEach(key => {
-          if (key.startsWith('noise-benchmark-')) {
-            localStorage.removeItem(key);
-          }
+        const localStorageToggle = document.getElementById('localStorageToggle');
+        localStorageToggle.addEventListener('click', () => {
+          localStorageEnabled = !localStorageEnabled;
+          localStorageToggle.textContent = `Local Storage (${localStorageEnabled ? 'On' : 'Off'})`;
         });
-        alert("Local storage cleared.");
+
+        document.getElementById('clearLocalStorage').addEventListener('click', () => {
+          Object.keys(localStorage).forEach(key => {
+            if (key.startsWith('noise-benchmark-')) {
+              localStorage.removeItem(key);
+            }
+          });
+          alert("Local storage cleared.");
+          displayAverageResults(calculateAveragePerformance());
+        });
+
+        function benchmark3D(name, fn) {
+          const start = performance.now();
+          for (let i = 0; i < ITERATIONS; i++) {
+            fn(Math.random(), Math.random(), Math.random());
+          }
+          const duration = performance.now() - start;
+          return { name, duration: duration.toFixed(2) };
+        }
+
+        function benchmark2D(name, fn) {
+          const start = performance.now();
+          for (let i = 0; i < ITERATIONS; i++) {
+            fn(Math.random(), Math.random());
+          }
+          const duration = performance.now() - start;
+          return { name, duration: duration.toFixed(2) };
+        }
+
+        function saveToLocalStorage(result) {
+          if (!localStorageEnabled) return;
+          const key = `noise-benchmark-${result.name}`;
+          let existing = localStorage.getItem(key);
+          let values = existing ? JSON.parse(existing) : [];
+          values.push(parseFloat(result.duration));
+          localStorage.setItem(key, JSON.stringify(values));
+        }
+
+        function calculateAveragePerformance() {
+          const averages = {};
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('noise-benchmark-')) {
+              const name = key.replace('noise-benchmark-', '');
+              let values = JSON.parse(localStorage.getItem(key));
+              if (values && Array.isArray(values) && values.length > 0) {
+                const sum = values.reduce((a, b) => a + b, 0);
+                averages[name] = sum / values.length;
+              }
+            }
+          }
+          return averages;
+        }
+
+        const libraryColumns = ["ForgeNoise", "SimplexNoise", "FastNoise", "NoiseJS"];
+
+        function displayResults(results, containerId, title) {
+          let grouped = {};
+          results.forEach(r => {
+            let parts = r.name.split(" ");
+            let lib = parts[0];
+            if (lib === "FastNoiseLite") lib = "FastNoise";
+            let category = parts.slice(1).join(" ");
+            if (!grouped[category]) grouped[category] = {};
+            grouped[category][lib] = r;
+          });
+
+          let rows = "";
+          for (let category in grouped) {
+            let fastest = Infinity;
+            libraryColumns.forEach(lib => {
+              if (grouped[category][lib]) {
+                const dur = parseFloat(grouped[category][lib].duration);
+                if (dur < fastest) fastest = dur;
+              }
+            });
+
+            let row = `<tr><td>${category}</td>`;
+            libraryColumns.forEach(lib => {
+              if (grouped[category][lib]) {
+                const duration = grouped[category][lib].duration;
+                const ops = (ITERATIONS / (parseFloat(duration) / 1000)).toFixed(0);
+                const isFastest = parseFloat(duration) === fastest;
+                row += `<td class="${isFastest ? 'faster' : ''}">${duration}ms / ${ops} ops/sec</td>`;
+              } else {
+                row += `<td>-</td>`;
+              }
+            });
+            row += "</tr>";
+            rows += row;
+          }
+
+          const tableHTML = `
+            <h2 class="section-title">${title}</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Noise Function</th>
+                  ${libraryColumns.map(lib => `<th>${lib}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody>
+                ${rows}
+              </tbody>
+            </table>
+          `;
+          document.getElementById(containerId).innerHTML = tableHTML;
+        }
+
+        function displayAverageResults(averages) {
+          let grouped = {};
+          for (let name in averages) {
+            let parts = name.split(" ");
+            let lib = parts[0];
+            if (lib === "FastNoiseLite") lib = "FastNoise";
+            let category = parts.slice(1).join(" ");
+            if (!grouped[category]) grouped[category] = {};
+            grouped[category][lib] = averages[name];
+          }
+
+          let rows = "";
+          for (let category in grouped) {
+            let fastest = Infinity;
+            libraryColumns.forEach(lib => {
+              if (grouped[category][lib] !== undefined) {
+                const dur = grouped[category][lib];
+                if (dur < fastest) fastest = dur;
+              }
+            });
+
+            let row = `<tr><td>${category}</td>`;
+            libraryColumns.forEach(lib => {
+              if (grouped[category][lib] !== undefined) {
+                const avgDuration = grouped[category][lib];
+                const avgOps = (ITERATIONS / (avgDuration / 1000)).toFixed(0);
+                const isFastest = avgDuration === fastest;
+                row += `<td class="${isFastest ? 'faster' : ''}">${avgDuration.toFixed(2)}ms / ${avgOps} ops/sec</td>`;
+              } else {
+                row += `<td>-</td>`;
+              }
+            });
+            row += "</tr>";
+            rows += row;
+          }
+
+          const tableHTML = `
+            <h2 class="section-title">Average Performance</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Noise Function</th>
+                  ${libraryColumns.map(lib => `<th>${lib}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody>
+                ${rows}
+              </tbody>
+            </table>
+          `;
+          document.getElementById("averageResults").innerHTML = tableHTML;
+        }
+
+        const noiseTests3D = [];
+        const noiseTests2D = [];
+
+        const forge = new ForgeNoise();
+        noiseTests3D.push({ name: 'ForgeNoise Perlin 3D', fn: (x, y, z) => forge.generate3D(x, y, z) });
+        noiseTests3D.push({ name: 'ForgeNoise Simplex 3D', fn: (x, y, z) => forge.generateSimplex3D(x, y, z) });
+        noiseTests3D.push({ name: 'ForgeNoise Worley 3D', fn: (x, y, z) => forge.generateWorley3D(x, y, z) });
+        noiseTests3D.push({ name: 'ForgeNoise Value 3D', fn: (x, y, z) => forge.generateValue3D(x, y, z) });
+
+        let fnl_ = window.fnl;
+        let FastNoiseLite = window.FastNoiseLite;
+        fnl_.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+        noiseTests3D.push({ name: 'FastNoiseLite OpenSimplex2 3D', fn: (x, y, z) => fnl_.GetNoise(x, y, z) });
+        fnl_.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
+        noiseTests3D.push({ name: 'FastNoiseLite Perlin 3D', fn: (x, y, z) => fnl_.GetNoise(x, y, z) });
+        fnl_.SetNoiseType(FastNoiseLite.NoiseType.Value);
+        noiseTests3D.push({ name: 'FastNoiseLite Value 3D', fn: (x, y, z) => fnl_.GetNoise(x, y, z) });
+
+        const simplex = new SimplexNoise();
+        noiseTests3D.push({ name: 'SimplexNoise Simplex 3D', fn: (x, y, z) => simplex.noise3D(x, y, z) });
+
+        var noise = new Noise();
+        noiseTests3D.push({ name: 'NoiseJS Perlin 3D', fn: (x, y, z) => noise.perlin3(x, y, z) });
+        noiseTests3D.push({ name: 'NoiseJS Simplex 3D', fn: (x, y, z) => noise.simplex3(x, y, z) });
+
+        const forge2D = new ForgeNoise();
+        noiseTests2D.push({ name: 'ForgeNoise Perlin 2D', fn: (x, y) => forge2D.generate2D(x, y) });
+        noiseTests2D.push({ name: 'ForgeNoise Simplex 2D', fn: (x, y) => forge2D.generateSimplex2D(x, y) });
+        noiseTests2D.push({ name: 'ForgeNoise Worley 2D', fn: (x, y) => forge2D.generateWorley2D(x, y) });
+        noiseTests2D.push({ name: 'ForgeNoise Value 2D', fn: (x, y) => forge2D.generateValue2D(x, y) });
+
+        fnl_.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+        noiseTests2D.push({ name: 'FastNoiseLite OpenSimplex2 2D', fn: (x, y) => fnl_.GetNoise(x, y) });
+        fnl_.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
+        noiseTests2D.push({ name: 'FastNoiseLite Perlin 2D', fn: (x, y) => fnl_.GetNoise(x, y) });
+        fnl_.SetNoiseType(FastNoiseLite.NoiseType.Value);
+        noiseTests2D.push({ name: 'FastNoiseLite Value 2D', fn: (x, y) => fnl_.GetNoise(x, y) });
+
+        const simplex2D = new SimplexNoise();
+        noiseTests2D.push({ name: 'SimplexNoise Simplex 2D', fn: (x, y) => simplex2D.noise2D(x, y) });
+
+        noiseTests2D.push({ name: 'NoiseJS Perlin 2D', fn: (x, y) => noise.perlin2(x, y) });
+        noiseTests2D.push({ name: 'NoiseJS Simplex 2D', fn: (x, y) => noise.simplex2(x, y) });
+
+        const results3D = noiseTests3D.map(test => {
+          const result = benchmark3D(test.name, test.fn);
+          saveToLocalStorage(result);
+          return result;
+        });
+
+        const results2D = noiseTests2D.map(test => {
+          const result = benchmark2D(test.name, test.fn);
+          saveToLocalStorage(result);
+          return result;
+        });
+
+        displayResults(results3D, "results3D", "3D Noise Performance");
+        displayResults(results2D, "results2D", "2D Noise Performance");
         displayAverageResults(calculateAveragePerformance());
       });
-
-      function benchmark3D(name, fn) {
-        const start = performance.now();
-        for (let i = 0; i < ITERATIONS; i++) {
-          fn(Math.random(), Math.random(), Math.random());
-        }
-        const duration = performance.now() - start;
-        return { name, duration: duration.toFixed(2) };
-      }
-
-      function benchmark2D(name, fn) {
-        const start = performance.now();
-        for (let i = 0; i < ITERATIONS; i++) {
-          fn(Math.random(), Math.random());
-        }
-        const duration = performance.now() - start;
-        return { name, duration: duration.toFixed(2) };
-      }
-
-      function saveToLocalStorage(result) {
-        if (!localStorageEnabled) return;
-        const key = `noise-benchmark-${result.name}`;
-        let existing = localStorage.getItem(key);
-        let values = existing ? JSON.parse(existing) : [];
-        values.push(parseFloat(result.duration));
-        localStorage.setItem(key, JSON.stringify(values));
-      }
-
-      function calculateAveragePerformance() {
-        const averages = {};
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key && key.startsWith('noise-benchmark-')) {
-            const name = key.replace('noise-benchmark-', '');
-            let values = JSON.parse(localStorage.getItem(key));
-            if (values && Array.isArray(values) && values.length > 0) {
-              const sum = values.reduce((a, b) => a + b, 0);
-              averages[name] = sum / values.length;
-            }
-          }
-        }
-        return averages;
-      }
-
-      const libraryColumns = ["ForgeNoise", "SimplexNoise", "FastNoise", "NoiseJS"];
-
-      function displayResults(results, containerId, title) {
-        let grouped = {};
-        results.forEach(r => {
-          let parts = r.name.split(" ");
-          let lib = parts[0];
-          if (lib === "FastNoiseLite") lib = "FastNoise";
-          let category = parts.slice(1).join(" ");
-          if (!grouped[category]) grouped[category] = {};
-          grouped[category][lib] = r;
-        });
-
-        let rows = "";
-        for (let category in grouped) {
-          let fastest = Infinity;
-          libraryColumns.forEach(lib => {
-            if (grouped[category][lib]) {
-              const dur = parseFloat(grouped[category][lib].duration);
-              if (dur < fastest) fastest = dur;
-            }
-          });
-
-          let row = `<tr><td>${category}</td>`;
-          libraryColumns.forEach(lib => {
-            if (grouped[category][lib]) {
-              const duration = grouped[category][lib].duration;
-              const ops = (ITERATIONS / (parseFloat(duration) / 1000)).toFixed(0);
-              const isFastest = parseFloat(duration) === fastest;
-              row += `<td class="${isFastest ? 'faster' : ''}">${duration}ms / ${ops} ops/sec</td>`;
-            } else {
-              row += `<td>-</td>`;
-            }
-          });
-          row += "</tr>";
-          rows += row;
-        }
-
-        const tableHTML = `
-          <h2>${title}</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Noise Function</th>
-                ${libraryColumns.map(lib => `<th>${lib}</th>`).join('')}
-              </tr>
-            </thead>
-            <tbody>
-              ${rows}
-            </tbody>
-          </table>
-        `;
-        document.getElementById(containerId).innerHTML = tableHTML;
-      }
-
-      function displayAverageResults(averages) {
-        let grouped = {};
-        for (let name in averages) {
-          let parts = name.split(" ");
-          let lib = parts[0];
-          if (lib === "FastNoiseLite") lib = "FastNoise";
-          let category = parts.slice(1).join(" ");
-          if (!grouped[category]) grouped[category] = {};
-          grouped[category][lib] = averages[name];
-        }
-
-        let rows = "";
-        for (let category in grouped) {
-          let fastest = Infinity;
-          libraryColumns.forEach(lib => {
-            if (grouped[category][lib] !== undefined) {
-              const dur = grouped[category][lib];
-              if (dur < fastest) fastest = dur;
-            }
-          });
-
-          let row = `<tr><td>${category}</td>`;
-          libraryColumns.forEach(lib => {
-            if (grouped[category][lib] !== undefined) {
-              const avgDuration = grouped[category][lib];
-              const avgOps = (ITERATIONS / (avgDuration / 1000)).toFixed(0);
-              const isFastest = avgDuration === fastest;
-              row += `<td class="${isFastest ? 'faster' : ''}">${avgDuration.toFixed(2)}ms / ${avgOps} ops/sec</td>`;
-            } else {
-              row += `<td>-</td>`;
-            }
-          });
-          row += "</tr>";
-          rows += row;
-        }
-
-        const tableHTML = `
-          <h2>Average Performance</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Noise Function</th>
-                ${libraryColumns.map(lib => `<th>${lib}</th>`).join('')}
-              </tr>
-            </thead>
-            <tbody>
-              ${rows}
-            </tbody>
-          </table>
-        `;
-        document.getElementById("averageResults").innerHTML = tableHTML;
-      }
-
-      const noiseTests3D = [];
-      const noiseTests2D = [];
-
-      const forge = new ForgeNoise();
-      noiseTests3D.push({ name: 'ForgeNoise Perlin 3D', fn: (x, y, z) => forge.generate3D(x, y, z) });
-      noiseTests3D.push({ name: 'ForgeNoise Simplex 3D', fn: (x, y, z) => forge.generateSimplex3D(x, y, z) });
-      noiseTests3D.push({ name: 'ForgeNoise Worley 3D', fn: (x, y, z) => forge.generateWorley3D(x, y, z) });
-      noiseTests3D.push({ name: 'ForgeNoise Value 3D', fn: (x, y, z) => forge.generateValue3D(x, y, z) });
-
-      let fnl_ = window.fnl;
-      let FastNoiseLite = window.FastNoiseLite;
-      fnl_.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
-      noiseTests3D.push({ name: 'FastNoiseLite OpenSimplex2 3D', fn: (x, y, z) => fnl_.GetNoise(x, y, z) });
-      fnl_.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
-      noiseTests3D.push({ name: 'FastNoiseLite Perlin 3D', fn: (x, y, z) => fnl_.GetNoise(x, y, z) });
-      fnl_.SetNoiseType(FastNoiseLite.NoiseType.Value);
-      noiseTests3D.push({ name: 'FastNoiseLite Value 3D', fn: (x, y, z) => fnl_.GetNoise(x, y, z) });
-
-      const simplex = new SimplexNoise();
-      noiseTests3D.push({ name: 'SimplexNoise Simplex 3D', fn: (x, y, z) => simplex.noise3D(x, y, z) });
-
-      var noise = new Noise();
-      noiseTests3D.push({ name: 'NoiseJS Perlin 3D', fn: (x, y, z) => noise.perlin3(x, y, z) });
-      noiseTests3D.push({ name: 'NoiseJS Simplex 3D', fn: (x, y, z) => noise.simplex3(x, y, z) });
-
-      const forge2D = new ForgeNoise();
-      noiseTests2D.push({ name: 'ForgeNoise Perlin 2D', fn: (x, y) => forge2D.generate2D(x, y) });
-      noiseTests2D.push({ name: 'ForgeNoise Simplex 2D', fn: (x, y) => forge2D.generateSimplex2D(x, y) });
-      noiseTests2D.push({ name: 'ForgeNoise Worley 2D', fn: (x, y) => forge2D.generateWorley2D(x, y) });
-      noiseTests2D.push({ name: 'ForgeNoise Value 2D', fn: (x, y) => forge2D.generateValue2D(x, y) });
-
-      fnl_.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
-      noiseTests2D.push({ name: 'FastNoiseLite OpenSimplex2 2D', fn: (x, y) => fnl_.GetNoise(x, y) });
-      fnl_.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
-      noiseTests2D.push({ name: 'FastNoiseLite Perlin 2D', fn: (x, y) => fnl_.GetNoise(x, y) });
-      fnl_.SetNoiseType(FastNoiseLite.NoiseType.Value);
-      noiseTests2D.push({ name: 'FastNoiseLite Value 2D', fn: (x, y) => fnl_.GetNoise(x, y) });
-
-      const simplex2D = new SimplexNoise();
-      noiseTests2D.push({ name: 'SimplexNoise Simplex 2D', fn: (x, y) => simplex2D.noise2D(x, y) });
-
-      noiseTests2D.push({ name: 'NoiseJS Perlin 2D', fn: (x, y) => noise.perlin2(x, y) });
-      noiseTests2D.push({ name: 'NoiseJS Simplex 2D', fn: (x, y) => noise.simplex2(x, y) });
-
-      const results3D = noiseTests3D.map(test => {
-        const result = benchmark3D(test.name, test.fn);
-        saveToLocalStorage(result);
-        return result;
-      });
-
-      const results2D = noiseTests2D.map(test => {
-        const result = benchmark2D(test.name, test.fn);
-        saveToLocalStorage(result);
-        return result;
-      });
-
-      displayResults(results3D, "results3D", "3D Noise Performance");
-      displayResults(results2D, "results2D", "2D Noise Performance");
-      displayAverageResults(calculateAveragePerformance());
-    });
-  </script>
+    </script>
+  </main>
+  <footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-logo">
+            <img src="./main-256.ico" alt="ForgeNoise Logo" class="logo-icon-sm">
+            <span>ForgeNoise</span>
+        </div>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="benchmark.html">Benchmarks</a>
+            <a href="examples.html">Examples</a>
+            <a href="api.html">API</a>
+            <a href="about.html">About</a>
+            <a href="https://github.com/TheEmptynessProject/ForgeNoise">GitHub</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2025 The Emptyness Project. Released under MIT License.
+        </div>
+    </div>
+</footer>
 </body>
 </html>

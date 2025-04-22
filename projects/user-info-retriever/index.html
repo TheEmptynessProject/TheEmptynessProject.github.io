@@ -88,6 +88,326 @@
             <button id="getLocation">Get Location</button>
             <div id="locationInfo"></div>
         </div>
+
+        <div class="section">
+            <h2>Battery Information</h2>
+            <div class="info-item">
+                <span class="label">Battery Status:</span>
+                <span id="batteryStatus"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Charging:</span>
+                <span id="batteryCharging"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Battery Level:</span>
+                <span id="batteryLevel"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>System Resources</h2>
+            <div class="info-item">
+                <span class="label">Memory Usage:</span>
+                <span id="memoryUsage"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Logical Processors:</span>
+                <span id="processors"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Browser Capabilities</h2>
+            <div class="info-item">
+                <span class="label">WebGL Support:</span>
+                <span id="webglSupport"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Canvas Support:</span>
+                <span id="canvasSupport"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">WebRTC Support:</span>
+                <span id="webrtcSupport"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Web Workers:</span>
+                <span id="workersSupport"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>GPU Information</h2>
+            <div class="info-item">
+                <span class="label">GPU Renderer:</span>
+                <span id="gpuRenderer"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">GPU Vendor:</span>
+                <span id="gpuVendor"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Audio Capabilities</h2>
+            <div class="info-item">
+                <span class="label">Audio Context Support:</span>
+                <span id="audioSupport"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Audio Formats:</span>
+                <span id="audioFormats"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Storage Information</h2>
+            <div class="info-item">
+                <span class="label">Storage Quota:</span>
+                <span id="storageQuota"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Storage Usage:</span>
+                <span id="storageUsage"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Additional Features</h2>
+            <div class="info-item">
+                <span class="label">WebAssembly Support:</span>
+                <span id="wasmSupport"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Web USB Support:</span>
+                <span id="usbSupport"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Web Bluetooth:</span>
+                <span id="bluetoothSupport"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Web Share:</span>
+                <span id="shareSupport"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Display Details</h2>
+            <div class="info-item">
+                <span class="label">Display Type:</span>
+                <span id="displayType"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Color Gamut:</span>
+                <span id="colorGamut"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">HDR Support:</span>
+                <span id="hdrSupport"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Input Devices</h2>
+            <div class="info-item">
+                <span class="label">Keyboard Layout:</span>
+                <span id="keyboardLayout"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Pointing Method:</span>
+                <span id="pointingMethod"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Max Touch Points:</span>
+                <span id="maxTouchPoints"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Media Devices</h2>
+            <div class="info-item">
+                <span class="label">Webcam Available:</span>
+                <span id="webcamStatus"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Microphone Available:</span>
+                <span id="micStatus"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Speakers Available:</span>
+                <span id="speakerStatus"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Performance Metrics</h2>
+            <div class="info-item">
+                <span class="label">Device Memory:</span>
+                <span id="deviceMemory"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Network Type:</span>
+                <span id="networkType"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Network Speed:</span>
+                <span id="networkSpeed"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Save Data Mode:</span>
+                <span id="saveData"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Device Sensors</h2>
+            <div class="info-item">
+                <span class="label">Accelerometer:</span>
+                <span id="accelerometer"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Gyroscope:</span>
+                <span id="gyroscope"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Ambient Light:</span>
+                <span id="ambientLight"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Device Orientation:</span>
+                <span id="deviceOrientation"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Browser Extensions & Plugins</h2>
+            <div class="info-item">
+                <span class="label">Installed Plugins:</span>
+                <span id="installedPlugins"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Ad Blocker Detected:</span>
+                <span id="adBlocker"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Do Not Track:</span>
+                <span id="doNotTrack"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Advanced Network Info</h2>
+            <div class="info-item">
+                <span class="label">RTT (Round Trip Time):</span>
+                <span id="rtt"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Network Bandwidth:</span>
+                <span id="bandwidth"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">IP Version:</span>
+                <span id="ipVersion"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">WebRTC Local IPs:</span>
+                <span id="localIps"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Browser History & Cache</h2>
+            <div class="info-item">
+                <span class="label">Navigation Timing:</span>
+                <span id="navTiming"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Page Rendering Time:</span>
+                <span id="renderTime"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Previous Page:</span>
+                <span id="previousPage"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Privacy Concerns</h2>
+            <div class="info-item">
+                <span class="label">Installed Fonts:</span>
+                <span id="installedFonts"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Browser Permissions:</span>
+                <span id="browserPermissions"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Clipboard Access:</span>
+                <span id="clipboardAccess"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Auto-fill Available:</span>
+                <span id="autoFillAvailable"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>System Fingerprinting</h2>
+            <div class="info-item">
+                <span class="label">Canvas Fingerprint:</span>
+                <span id="canvasFingerprint"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Audio Fingerprint:</span>
+                <span id="audioFingerprint"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">WebGL Fingerprint:</span>
+                <span id="webglFingerprint"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Hardware Concurrency:</span>
+                <span id="hardwareConcurrency"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Browser Data</h2>
+            <div class="info-item">
+                <span class="label">Local Storage Size:</span>
+                <span id="localStorageSize"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">IndexedDB Databases:</span>
+                <span id="indexedDBList"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Service Workers:</span>
+                <span id="serviceWorkers"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Regional Information</h2>
+            <div class="info-item">
+                <span class="label">User Country:</span>
+                <span id="userCountry"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">User Timezone:</span>
+                <span id="userTimezone"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Date Format:</span>
+                <span id="dateFormat"></span>
+            </div>
+            <div class="info-item">
+                <span class="label">Currency Format:</span>
+                <span id="currencyFormat"></span>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
