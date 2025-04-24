@@ -106,6 +106,9 @@ document.addEventListener('DOMContentLoaded', function() {
     canvases.forEach(canvas => {
 
         canvas.style.cursor = 'zoom-in';
+        if (canvas.classList.contains('popup-canvas')) {
+            canvas.style.display = 'none';
+        }
         canvas.addEventListener('mousemove', (e) => {
             canvas.style.cursor = e.ctrlKey ? 'zoom-out' : 'zoom-in';
         });
