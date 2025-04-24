@@ -491,6 +491,7 @@ canvas[style*="position: fixed"] {
     transition: var(--transition);
     z-index: 1001;
     box-shadow: var(--shadow-md);
+    display: none;
 }
 
 .close-btn:hover {
