@@ -17,7 +17,7 @@ const projects = [
     { title: "Tic Tac Toe vs Bot", description: "Play tic tac toe against the perfect bot", link: "projects/tic-tac-toe-bot/index.html", icon: "fas fa-times" },
     { title: "Connect Four vs Bot", description: "Play connect four against the perfect bot", link: "projects/connect-four-bot/index.html", icon: "fas fa-grip-lines-vertical" },
     { title: "2048 Game", description: "A simple 2048 game clone", link: "projects/2048-game/index.html", icon: "fas fa-th-large" },
-    { title: "Blackjack with Card Counting", description: "A simple blackjack game with a card counting teacher", link: "projects/blackjack-card-counter/index.html", icon: "fas fa-chess" },
+    { title: "Blackjack with Card Counting", description: "A simple blackjack game with a card counting teacher", link: "projects/blackjack-counter/index.html", icon: "fas fa-chess" },
     { title: "Color Palette Generator", description: "Generate color palettes from images", link: "projects/color-palette/index.html", icon: "fas fa-palette" },
     { title: "Emoji Info", description: "Get information about emojis", link: "projects/emoji-info/index.html", icon: "fas fa-smile" },
     { title: "Mancala Game", description: "A simple mancala game", link: "projects/mancala-game/index.html", icon: "fas fa-gamepad" },
