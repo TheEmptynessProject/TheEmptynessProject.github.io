@@ -217,7 +217,7 @@ textarea {
     cursor: pointer;
 }
 
-/* Dark mode styles */
+
 body.dark-mode {
     --bg-color: #333;
     --text-color: #f4f4f4;
@@ -226,7 +226,7 @@ body.dark-mode {
     --border-color: #666;
 }
 
-/* Responsive design */
+
 @media (max-width: 600px) {
     .container {
         width: 90%;
@@ -247,7 +247,7 @@ body.dark-mode {
     }
 }
 
-/* Accessibility improvements */
+
 .btn:focus,
 input:focus,
 select:focus,
@@ -256,7 +256,7 @@ textarea:focus {
     outline-offset: 2px;
 }
 
-/* Animation for adding/removing tasks */
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -266,7 +266,7 @@ textarea:focus {
     animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Drag and drop styles */
+
 .task.sortable-ghost {
     opacity: 0.4;
 }

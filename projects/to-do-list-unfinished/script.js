@@ -54,7 +54,7 @@ function renderTasks() {
         taskList.appendChild(li);
     });
 
-    // Initialize drag and drop
+    
     new Sortable(taskList, {
         animation: 150,
         onEnd: function(evt) {
@@ -260,10 +260,10 @@ function editSubtask(taskIndex, subtaskIndex) {
             if (newValue !== null) subtask.value = parseFloat(newValue);
             break;
         case 'timer':
-            // Implement timer functionality
+            
             break;
         case 'checklist':
-            // Implement checklist editing
+            
             break;
         case 'text':
             newValue = prompt('Enter new text:', subtask.value);

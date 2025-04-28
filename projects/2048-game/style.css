@@ -1,0 +1,101 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #faf8ef;
+}
+
+.container {
+    width: 500px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 80px;
+    color: #776e65;
+}
+
+.score-container {
+    background-color: #bbada0;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 15px;
+    background-color: #bbada0;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.box {
+    width: 100px;
+    height: 100px;
+    background-color: #cdc1b4;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: bold;
+    color: #776e65;
+}
+
+
+.box-2 { background-color: #eee4da; }
+.box-4 { background-color: #ede0c8; }
+.box-8 { background-color: #f2b179; color: white; }
+.box-16 { background-color: #f59563; color: white; }
+.box-32 { background-color: #f67c5f; color: white; }
+.box-64 { background-color: #f65e3b; color: white; }
+.box-128 { background-color: #edcf72; color: white; }
+.box-256 { background-color: #edcc61; color: white; }
+.box-512 { background-color: #edc850; color: white; }
+.box-1024 { background-color: #edc53f; color: white; }
+.box-2048 { background-color: #edc22e; color: white; }
+
+.cover-screen {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#start-button {
+    background-color: #8f7a66;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.hide {
+    display: none;
+}

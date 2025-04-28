@@ -1,5 +1,5 @@
 let scene, camera, renderer, blackHole, stars;
-let particleCount = 5000000; // 5 million particles
+let particleCount = 5000000; 
 let blackHoleRadius = 5;
 let autoRotationSpeedX = 0.0005
 let autoRotationSpeedY = 0.002
@@ -83,13 +83,13 @@ function init() {
     renderer.setPixelRatio(window.devicePixelRatio);
     document.getElementById('space-background').appendChild(renderer.domElement);
 
-    // Black hole
+    
     const blackHoleGeometry = new THREE.SphereGeometry(blackHoleRadius, 32, 32);
     const blackHoleMaterial = new THREE.MeshBasicMaterial({ color: 0x000000});
     blackHole = new THREE.Mesh(blackHoleGeometry, blackHoleMaterial);
     scene.add(blackHole);
 
-    // Stars
+    
     const starGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);

@@ -1,0 +1,358 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+}
+
+button {
+    cursor: pointer;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #2c3e50;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #1a2530;
+}
+
+button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.bank-info {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #27ae60;
+}
+
+
+.blackjack-table {
+    background-color: #2ecc71;
+    border-radius: 50px;
+    padding: 30px;
+    margin: 20px 0;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-areas:
+        "dealer dealer dealer"
+        "deck deck deck"
+        "player player player"
+        "betting actions advisor";
+    grid-gap: 20px;
+}
+
+.dealer-area {
+    grid-area: dealer;
+    text-align: center;
+}
+
+.deck-area {
+    grid-area: deck;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player-area {
+    grid-area: player;
+    text-align: center;
+}
+
+.betting-area {
+    grid-area: betting;
+}
+
+.actions {
+    grid-area: actions;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.ai-advisor {
+    grid-area: advisor;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    height: 150px;
+    margin: 15px 0;
+    position: relative;
+}
+
+.card {
+    width: 100px;
+    height: 140px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 0 -15px;
+    position: relative;
+    transition: transform 0.3s ease;
+    background-size: cover;
+    background-position: center;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    z-index: 10;
+}
+
+.score {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.deck {
+    width: 100px;
+    height: 140px;
+    background-color: #3498db;
+    background-image: url('../assets/images/cards/back.png');
+    background-size: cover;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.deck::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+
+.card-counting-info {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    min-width: 200px;
+}
+
+.card-counting-info div {
+    margin-bottom: 8px;
+}
+
+
+.chips {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.chip {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.chip:hover {
+    transform: translateY(-5px);
+}
+
+.chip[data-value="5"] {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.chip[data-value="25"] {
+    background-color: #f39c12;
+    color: white;
+}
+
+.chip[data-value="100"] {
+    background-color: #3498db;
+    color: white;
+}
+
+.current-bet {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+
+.advice-toggle {
+    margin-bottom: 10px;
+}
+
+.advice-toggle select {
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.advice-display {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    min-height: 80px;
+}
+
+
+.lessons-panel {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.lessons-panel h3 {
+    margin-bottom: 15px;
+}
+
+.lesson-content {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    min-height: 200px;
+}
+
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.count-analysis {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.settings-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.settings-toggle {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.settings-content {
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    z-index: 50;
+}
+
+.setting {
+    margin-bottom: 15px;
+}
+
+
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+
+@media (max-width: 768px) {
+    .blackjack-table {
+        grid-template-areas:
+            "dealer"
+            "deck"
+            "player"
+            "betting"
+            "actions"
+            "advisor";
+    }
+    
+    .deck-area {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .actions {
+        flex-wrap: wrap;
+    }
+    
+    .card {
+        width: 80px;
+        height: 112px;
+    }
+}

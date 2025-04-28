@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Unicode Analyzer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .input-container {
+            text-align: center;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .emoji-input {
+            font-size: 2em;
+            padding: 10px;
+            width: 120px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        button {
+            padding: 12px 20px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3367d6;
+        }
+        .result {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            display: none;
+        }
+        .emoji-display {
+            font-size: 4em;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .emoji-name {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 6px;
+            background-color: #e7f3ff;
+            color: #4285f4;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-left: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            width: 40%;
+        }
+        .code {
+            font-family: monospace;
+            background-color: #f0f0f0;
+            padding: 3px 6px;
+            border-radius: 3px;
+        }
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #4285f4;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            border-top-color: #4285f4;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .detailed-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #4285f4;
+        }
+        .external-link {
+            color: #4285f4;
+            text-decoration: none;
+        }
+        .external-link:hover {
+            text-decoration: underline;
+        }
+        .search-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .official-name {
+            color: #4285f4;
+            font-weight: bold;
+        }
+        .cors-note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px 15px;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Emoji Unicode Analyzer</h1>
+    
+    <div class="input-container">
+        <input type="text" class="emoji-input" placeholder="Paste emoji" maxlength="5">
+        <button onclick="analyzeEmoji()">Analyze</button>
+    </div>
+    
+    <div class="toggle-container" style="justify-content: center;">
+        <label class="toggle-switch">
+            <input type="checkbox" id="detailed-toggle">
+            <span class="slider"></span>
+        </label>
+        <span>Fetch Detailed Info from Compart</span>
+        <div id="loading-indicator" class="loading" style="display:none"></div>
+    </div>
+    
+    <div id="result" class="result"></div>
+    
+    <script>
+        let lastAnalyzedEmoji = '';
+        
+        function analyzeEmoji() {
+            const input = document.querySelector('.emoji-input').value.trim();
+            const resultDiv = document.getElementById('result');
+            const detailedToggle = document.getElementById('detailed-toggle');
+            
+            if (!input) {
+                alert("Please enter an emoji");
+                return;
+            }
+            
+            lastAnalyzedEmoji = input;
+            
+            let output = `<div class="emoji-display">${input}</div>`;
+            output += `<div id="emoji-name" class="emoji-name">Analyzing emoji...<span id="name-source" class="badge" style="display:none;">From Compart</span></div>`;
+            
+            // Get code points
+            const codePoints = [];
+            for (let i = 0; i < input.length; i++) {
+                const cp = input.codePointAt(i);
+                codePoints.push(cp);
+                if (cp > 0xFFFF) {
+                    i++;
+                }
+            }
+            
+            // Analyze code points
+            output += `<h2>Unicode Information</h2>`;
+            output += `<table>`;
+            output += `<tr><th>Unicode Sequence</th><td>`;
+            
+            const unicodeSequence = codePoints.map(cp => {
+                const hex = cp.toString(16).toUpperCase().padStart(4, '0');
+                return `U+${hex}`;
+            }).join(' ');
+            
+            output += `<span class="code">${unicodeSequence}</span>`;
+            output += `</td></tr>`;
+            
+            // Get descriptions for each code point
+            output += `<tr><th>Code Point Details</th><td>`;
+            output += `<ul id="code-point-list">`;
+            for (const cp of codePoints) {
+                const hex = cp.toString(16).toUpperCase().padStart(4, '0');
+                let description = getCodePointDescription(cp);
+                output += `<li id="cp-${hex}">
+                    <span class="code">U+${hex}</span>: ${description}
+                    <div class="detailed-info" id="detail-${hex}" style="display:none;"></div>
+                </li>`;
+            }
+            output += `</ul></td></tr>`;
+            
+            // Get UTF-8 bytes
+            const encoder = new TextEncoder();
+            const bytes = encoder.encode(input);
+            const bytesHex = Array.from(bytes).map(b => 
+                b.toString(16).toUpperCase().padStart(2, '0')
+            ).join(' ');
+            
+            output += `<tr><th>UTF-8 Bytes</th><td><span class="code">${bytesHex}</span></td></tr>`;
+            
+            // Add HTML entity information
+            output += `<tr><th>HTML Entity (Decimal)</th><td>`;
+            output += codePoints.map(cp => `<span class="code">&amp;#${cp};</span>`).join(' ');
+            output += `</td></tr>`;
+            
+            output += `<tr><th>HTML Entity (Hex)</th><td>`;
+            output += codePoints.map(cp => {
+                const hex = cp.toString(16).toUpperCase();
+                return `<span class="code">&amp;#x${hex};</span>`;
+            }).join(' ');
+            output += `</td></tr>`;
+            
+            // Length information
+            output += `<tr><th>Character Length</th><td>${input.length} code units</td></tr>`;
+            output += `<tr><th>Code Points</th><td>${codePoints.length} characters</td></tr>`;
+            
+            // Check if it's an emoji
+            const isEmoji = /\p{Emoji}/u.test(input);
+            output += `<tr><th>Is Emoji</th><td>${isEmoji ? 'Yes' : 'No'}</td></tr>`;
+            
+            output += `</table>`;
+            
+            // Add usage information
+            output += `<h2>Usage Information</h2>`;
+            output += `<table>`;
+            output += `<tr><th>HTML</th><td><span class="code">${codePoints.map(cp => `&amp;#${cp};`).join('')}</span></td></tr>`;
+            output += `<tr><th>CSS</th><td><span class="code">content: "${codePoints.map(cp => `\\${cp.toString(16).padStart(6, '0')}`).join('')}";</span></td></tr>`;
+            output += `<tr><th>JavaScript</th><td><span class="code">const emoji = String.fromCodePoint(${codePoints.join(', ')});</span></td></tr>`;
+            output += `</table>`;
+            
+            // Add CORS note for clarity
+            output += `<div class="cors-note">
+                <strong>Note:</strong> Direct fetching from Compart requires handling CORS restrictions. 
+                In a production environment, you would need to use a proxy server or CORS proxy service to 
+                access external content. The implementation below uses a public CORS proxy for demonstration.
+            </div>`;
+            
+            // Add search options
+            output += `<h2>External References</h2>`;
+            output += `<div class="search-options">`;
+            output += `<a href="https://emojipedia.org/search/?q=${encodeURIComponent(input)}" class="external-link" target="_blank">Emojipedia</a>`;
+            output += `<a href="https://unicode.org/emoji/charts/full-emoji-list.html" class="external-link" target="_blank">Unicode Emoji List</a>`;
+            output += `<a href="<https://www.fileformat.info/info/unicode/char/${codePoints>[0].toString(16).toLowerCase()}/index.htm" class="external-link" target="_blank">FileFormat.Info</a>`;
+            output += `</div>`;
+            
+            resultDiv.innerHTML = output;
+            resultDiv.style.display = 'block';
+            
+            // Set a default emoji name based on the main code point
+            updateEmojiName(codePoints[0]);
+            
+            // If detailed toggle is checked, fetch additional information
+            if (detailedToggle.checked) {
+                fetchDetailedInfo(codePoints);
+            }
+        }
+        
+        function updateEmojiName(mainCodePoint) {
+            const nameElement = document.getElementById('emoji-name');
+            
+            // Just set a simple placeholder until we get the real name
+            const hex = mainCodePoint.toString(16).toUpperCase().padStart(4, '0');
+            nameElement.innerHTML = `Character U+${hex} <span id="name-source" class="badge" style="display:none;">From Compart</span>`;
+        }
+        
+        function getCodePointDescription(cp) {
+            if (cp === 0x200D) return "ZERO WIDTH JOINER (ZWJ)";
+            if (cp === 0xFE0F) return "VARIATION SELECTOR-16 (Emoji style)";
+            if (cp === 0xFE0E) return "VARIATION SELECTOR-15 (Text style)";
+            if (cp >= 0x1F300 && cp <= 0x1F5FF) return "Miscellaneous Symbols and Pictographs";
+            if (cp >= 0x1F600 && cp <= 0x1F64F) return "Emoticons";
+            if (cp >= 0x1F680 && cp <= 0x1F6FF) return "Transport and Map Symbols";
+            if (cp >= 0x1F700 && cp <= 0x1F77F) return "Alchemical Symbols";
+            if (cp >= 0x1F780 && cp <= 0x1F7FF) return "Geometric Shapes Extended";
+            if (cp >= 0x1F800 && cp <= 0x1F8FF) return "Supplemental Arrows-C";
+            if (cp >= 0x1F900 && cp <= 0x1F9FF) return "Supplemental Symbols and Pictographs";
+            return "Unicode Character";
+        }
+        
+        function fetchDetailedInfo(codePoints) {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            loadingIndicator.style.display = 'inline-block';
+            
+            const fetchPromises = codePoints.map(cp => {
+                const hex = cp.toString(16).toUpperCase().padStart(4, '0');
+                return fetchCompartInfo(hex);
+            });
+            
+            fetchOfficialEmojiName(codePoints[0]);
+            
+            Promise.all(fetchPromises)
+                .then(() => {
+                    loadingIndicator.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error("Error fetching detailed info:", error);
+                    loadingIndicator.style.display = 'none';
+                });
+        }
+        
+        function fetchOfficialEmojiName(mainCodePoint) {
+            const hex = mainCodePoint.toString(16).toUpperCase().padStart(4, '0');
+            const nameElement = document.getElementById('emoji-name');
+            const nameSourceElement = document.getElementById('name-source');
+            
+            // Use a public CORS proxy to avoid CORS issues
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const compartUrl = `https://www.compart.com/en/unicode/U+${hex}`;
+            
+            fetch(proxyUrl + compartUrl)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const nameEl = doc.querySelector('.second-column');
+                    if (nameEl) {
+                        const officialName = nameEl.textContent.trim();
+                        nameElement.innerHTML = `<span class="official-name">${officialName}</span>`;
+                        nameSourceElement.style.display = 'inline-block';
+                        nameElement.appendChild(nameSourceElement);
+                    } else {
+                        nameElement.innerHTML = `Character U+${hex}`;
+                        nameSourceElement.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching name from Compart:', error);
+                    nameElement.innerHTML = `Character U+${hex}`;
+                    nameSourceElement.style.display = 'none';
+                });
+        }
+        
+        function fetchCompartInfo(hexCode) {
+            const detailElement = document.getElementById(`detail-${hexCode}`);
+            
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const compartUrl = `https://www.compart.com/en/unicode/U+${hexCode}`;
+            
+            return fetch(proxyUrl + compartUrl)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    
+                    let infoHtml = `<p><a href="${compartUrl}" class="external-link" target="_blank">View on Compart</a></p>`;
+                    
+                    const nameEl = doc.querySelector('.second-column');
+                    if (nameEl) {
+                        infoHtml += `<p><strong>Name:</strong> ${nameEl.textContent.trim()}</p>`;
+                    }
+                    
+                    // Extract additional information from Compart
+                    // These selectors might need adjustment if Compart changes its layout
+                    const tableRows = doc.querySelectorAll('table.tech-data tr');
+                    tableRows.forEach(row => {
+                        const header = row.querySelector('th');
+                        const data = row.querySelector('td');
+                        if (header && data) {
+                            const headerText = header.textContent.trim();
+                            const dataText = data.textContent.trim();
+                            
+                            // Skip empty data or redundant information
+                            if (dataText && headerText !== "Name" && headerText !== "Representation") {
+                                infoHtml += `<p><strong>${headerText}:</strong> ${dataText}</p>`;
+                            }
+                        }
+                    });
+                    
+                    // Extract description if available
+                    const descriptionEl = doc.querySelector('.description');
+                    if (descriptionEl) {
+                        infoHtml += `<p><strong>Description:</strong> ${descriptionEl.textContent.trim()}</p>`;
+                    }
+                    
+                    detailElement.innerHTML = infoHtml;
+                    detailElement.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error fetching from Compart:', error);
+                    detailElement.innerHTML = '<p>Error loading details from Compart.</p>';
+                    detailElement.style.display = 'block';
+                });
+        }
+        
+        document.getElementById('detailed-toggle').addEventListener('change', function() {
+            if (this.checked && lastAnalyzedEmoji) {
+                const codePoints = [];
+                for (let i = 0; i < lastAnalyzedEmoji.length; i++) {
+                    const cp = lastAnalyzedEmoji.codePointAt(i);
+                    codePoints.push(cp);
+                    if (cp > 0xFFFF) {
+                        i++;
+                    }
+                }
+                fetchDetailedInfo(codePoints);
+            } else {
+                document.querySelectorAll('.detailed-info').forEach(el => {
+                    el.style.display = 'none';
+                });
+                if (lastAnalyzedEmoji) {
+                    const mainCodePoint = lastAnalyzedEmoji.codePointAt(0);
+                    const hex = mainCodePoint.toString(16).toUpperCase().padStart(4, '0');
+                    document.getElementById('emoji-name').textContent = `Character U+${hex}`;
+                    document.getElementById('name-source').style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

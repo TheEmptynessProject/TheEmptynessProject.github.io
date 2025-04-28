@@ -1,4 +1,4 @@
-/* Base */
+
 :root {
     --primary-color: #4a69bd;
     --secondary-color: #6a89cc;
@@ -33,7 +33,6 @@
     --spacing-xl: 2rem;
 }
 
-/* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -61,7 +60,6 @@ img {
     max-width: 100%;
 }
 
-/* Typography */
 h1, h2, h3, h4, h5, h6 {
     margin-bottom: 1rem;
     font-weight: 500;
@@ -88,7 +86,6 @@ code {
     font-family: 'Fira Code', monospace;
 }
 
-/* Layout */
 .content-wrapper {
     max-width: var(--container-width);
     margin: 0 auto;
@@ -111,7 +108,6 @@ code {
     margin: 0.5rem auto 0;
 }
 
-/* Navigation */
 .main-nav {
     background-color: var(--bg-color);
     box-shadow: var(--shadow-sm);
@@ -200,7 +196,6 @@ code {
     margin-left: 0.25rem;
 }
 
-/* Hero Section */
 .hero-section {
     background-color: var(--bg-color);
     padding: 3rem 1rem;
@@ -237,7 +232,6 @@ code {
     color: var(--primary-color);
 }
 
-/* CTA Buttons */
 .cta-buttons {
     display: flex;
     justify-content: center;
@@ -280,7 +274,6 @@ code {
     box-shadow: var(--shadow-md);
 }
 
-/* Features Section */
 .features-section {
     padding: 3rem 0;
     background-color: var(--bg-alt);
@@ -321,7 +314,6 @@ code {
     margin-bottom: 1rem;
 }
 
-/* Code Snippets */
 .installation-section {
     margin: 3rem auto;
     max-width: 800px;
@@ -389,7 +381,6 @@ code {
     margin-right: 0.25rem;
 }
 
-/* Examples Page */
 .code-example {
     background-color: white;
     border-radius: var(--border-radius-lg);
@@ -465,7 +456,6 @@ code {
     filter: brightness(1.05);
 }
 
-/* Zoom overlay and canvas */
 .zoom-overlay {
     background-color: rgba(0, 0, 0, 0.7) !important;
     backdrop-filter: blur(3px);
@@ -499,7 +489,6 @@ canvas[style*="position: fixed"] {
     transform: translateY(-2px);
 }
 
-/* About Page */
 .about-section {
     padding: 2rem 0;
 }
@@ -556,7 +545,6 @@ canvas[style*="position: fixed"] {
     color: white;
 }
 
-/* Footer */
 .main-footer {
     background-color: var(--bg-alt);
     padding: 2rem 0;
@@ -620,7 +608,6 @@ ul {
     padding: revert;
 }
 
-/* Responsive Styles */
 @media (max-width: 992px) {
     .features-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -733,7 +720,6 @@ ul {
     }
 }
 
-/* Animations */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }

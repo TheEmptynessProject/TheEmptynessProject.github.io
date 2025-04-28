@@ -43,7 +43,6 @@ function loadProjects(filteredProjects = allProjects) {
     const projectGrid = document.getElementById('project-grid');
     projectGrid.innerHTML = filteredProjects.map(createProjectCard).join('');
     
-    // Update filter count
     const filterCount = document.getElementById('filter-count');
     if (filteredProjects.length === allProjects.length) {
         filterCount.textContent = `Showing all ${filteredProjects.length} projects`;
@@ -51,7 +50,6 @@ function loadProjects(filteredProjects = allProjects) {
         filterCount.textContent = `Showing ${filteredProjects.length} of ${allProjects.length} projects`;
     }
     
-    // Add animation to cards with staggered delay
     const cards = document.querySelectorAll('.project-card');
     cards.forEach((card, index) => {
         setTimeout(() => {
@@ -75,21 +73,18 @@ function toggleTheme() {
     setTheme(!isDark);
 }
 
-// Set initial theme based on preferences
 if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     setTheme(true);
 } else {
     setTheme(false);
 }
 
-// Handle header visibility on scroll
 let lastScrollPosition = 0;
 const header = document.querySelector('.header');
 
 function handleScroll() {
     const currentScrollPosition = window.scrollY;
     
-    // Add shadow when scrolled
     if (currentScrollPosition > 10) {
         header.classList.add('scrolled');
     } else {
@@ -99,7 +94,6 @@ function handleScroll() {
     lastScrollPosition = currentScrollPosition;
 }
 
-// Initialize search functionality
 function initSearch() {
     const searchInput = document.getElementById('project-search');
     searchInput.addEventListener('input', (e) => {
@@ -112,7 +106,6 @@ function initSearch() {
     });
 }
 
-// Handle smooth scrolling for anchor links
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -134,7 +127,6 @@ function initSmoothScroll() {
     });
 }
 
-// Animation for particles
 function animateParticles() {
     const particles = document.querySelectorAll('.particle');
     particles.forEach(particle => {
@@ -144,14 +136,12 @@ function animateParticles() {
     });
 }
 
-// Initialize event listeners
 function initEventListeners() {
     const themeToggle = document.getElementById('theme-toggle');
     themeToggle.addEventListener('click', toggleTheme);
     
     window.addEventListener('scroll', handleScroll);
     
-    // Listen for system theme changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
         if (!localStorage.theme) {
             setTheme(e.matches);
@@ -159,15 +149,13 @@ function initEventListeners() {
     });
 }
 
-// Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     loadProjects();
     initSearch();
     initSmoothScroll();
     initEventListeners();
-    handleScroll(); // Set initial header state
+    handleScroll();
     
-    // Set random hue for theme
     const randomHue = Math.floor(Math.random() * 360);
     document.documentElement.style.setProperty('--primary-hue', randomHue);
 });

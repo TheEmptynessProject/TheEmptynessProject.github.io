@@ -3,7 +3,7 @@ class ConnectFour {
         this.rows = 6;
         this.cols = 7;
         this.board = this.createEmptyBoard();
-        this.currentPlayer = 1; // 1: Human, 2: AI
+        this.currentPlayer = 1; 
         this.gameOver = false;
 
         this.boardElement = document.getElementById('board');
@@ -316,10 +316,10 @@ class ConnectFour {
     checkWin(row, col) {
         const player = this.board[row][col];
         const directions = [
-            [[0, 1], [0, -1]], // Horizontal
-            [[1, 0], [-1, 0]], // Vertical
-            [[1, 1], [-1, -1]], // Diagonal \
-            [[1, -1], [-1, 1]]  // Diagonal /
+            [[0, 1], [0, -1]], 
+            [[1, 0], [-1, 0]], 
+            [[1, 1], [-1, -1]], 
+            [[1, -1], [-1, 1]]  
             ];
         for (const [dir1, dir2] of directions) {
             let count = 1;

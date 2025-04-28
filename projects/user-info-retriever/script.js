@@ -45,7 +45,7 @@ window.addEventListener('resize', function() {
     document.getElementById('windowSize').textContent = `${window.innerWidth}x${window.innerHeight}`;
 });
 
-// Battery Information
+
 if ('getBattery' in navigator) {
     navigator.getBattery().then(function(battery) {
         function updateBatteryInfo() {
@@ -62,7 +62,7 @@ if ('getBattery' in navigator) {
         document.getElementById(id).textContent = 'Not Available');
 }
 
-// System Resources
+
 if ('memory' in performance) {
     setInterval(() => {
         const memory = performance.memory;
@@ -75,7 +75,7 @@ if ('memory' in performance) {
 
 document.getElementById('processors').textContent = navigator.hardwareConcurrency || 'Not Available';
 
-// Browser Capabilities
+
 function checkWebGL() {
     const canvas = document.createElement('canvas');
     return !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
@@ -86,11 +86,11 @@ document.getElementById('canvasSupport').textContent = !!document.createElement(
 document.getElementById('webrtcSupport').textContent = navigator.mediaDevices && 'getUserMedia' in navigator.mediaDevices ? 'Supported' : 'Not Supported';
 document.getElementById('workersSupport').textContent = !!window.Worker ? 'Supported' : 'Not Supported';
 
-// Update network status in real-time
+
 window.addEventListener('online', () => document.getElementById('onlineStatus').textContent = 'Online');
 window.addEventListener('offline', () => document.getElementById('onlineStatus').textContent = 'Offline');
 
-// GPU Information
+
 function getGPUInfo() {
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
@@ -107,7 +107,7 @@ function getGPUInfo() {
 }
 getGPUInfo();
 
-// Audio Capabilities
+
 function checkAudioSupport() {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     document.getElementById('audioSupport').textContent = AudioContext ? 'Supported' : 'Not Supported';
@@ -129,7 +129,7 @@ function checkAudioSupport() {
 }
 checkAudioSupport();
 
-// Storage Information
+
 async function checkStorageQuota() {
     if ('storage' in navigator && 'estimate' in navigator.storage) {
         try {
@@ -147,7 +147,7 @@ async function checkStorageQuota() {
 }
 checkStorageQuota();
 
-// Additional Features
+
 document.getElementById('wasmSupport').textContent = 
     (typeof WebAssembly === 'object') ? 'Supported' : 'Not Supported';
 
@@ -160,9 +160,9 @@ document.getElementById('bluetoothSupport').textContent =
 document.getElementById('shareSupport').textContent = 
     ('share' in navigator) ? 'Supported' : 'Not Supported';
 
-// Display Details
+
 function checkDisplayDetails() {
-    // Color gamut support
+    
     if (window.matchMedia) {
         const gamuts = ['rec2020', 'p3', 'srgb'];
         let supportedGamut = 'unknown';
@@ -175,23 +175,23 @@ function checkDisplayDetails() {
         document.getElementById('colorGamut').textContent = supportedGamut;
     }
 
-    // Display type
+    
     if (window.matchMedia('(display-mode: fullscreen)').matches) document.getElementById('displayType').textContent = 'Fullscreen';
     else if (window.matchMedia('(display-mode: standalone)').matches) document.getElementById('displayType').textContent = 'Standalone';
     else document.getElementById('displayType').textContent = 'Browser';
 
-    // HDR support
+    
     document.getElementById('hdrSupport').textContent = window.matchMedia('(dynamic-range: high)').matches ? 'Supported' : 'Not Supported';
 }
 checkDisplayDetails();
 
-// Input Devices
+
 document.getElementById('keyboardLayout').textContent = navigator.keyboard ? 'Available' : 'Not Available';
 document.getElementById('pointingMethod').textContent = 
     navigator.maxTouchPoints > 0 ? 'Touch' : 'Mouse/Trackpad';
 document.getElementById('maxTouchPoints').textContent = navigator.maxTouchPoints;
 
-// Media Devices
+
 if (navigator.mediaDevices) {
     navigator.mediaDevices.enumerateDevices()
         .then(devices => {
@@ -209,7 +209,7 @@ if (navigator.mediaDevices) {
         });
 }
 
-// Performance Metrics
+
 if ('deviceMemory' in navigator) {
     document.getElementById('deviceMemory').textContent = `${navigator.deviceMemory} GB`;
 }
@@ -225,9 +225,9 @@ if ('connection' in navigator) {
     });
 }
 
-// Device Sensors Detection
+
 function checkSensors() {
-    // Accelerometer
+    
     if ('DeviceMotionEvent' in window) {
         window.addEventListener('devicemotion', (event) => {
             document.getElementById('accelerometer').textContent = 
@@ -235,7 +235,7 @@ function checkSensors() {
         }, { once: true });
     }
 
-    // Gyroscope
+    
     if ('DeviceOrientationEvent' in window) {
         window.addEventListener('deviceorientation', (event) => {
             document.getElementById('deviceOrientation').textContent = 
@@ -243,7 +243,7 @@ function checkSensors() {
         }, { once: true });
     }
 
-    // Ambient Light
+    
     if ('AmbientLightSensor' in window) {
         const sensor = new AmbientLightSensor();
         sensor.addEventListener('reading', () => {
@@ -254,16 +254,16 @@ function checkSensors() {
 }
 checkSensors();
 
-// Browser Extensions & Plugins
+
 function detectExtensions() {
-    // List installed plugins
+    
     const plugins = Array.from(navigator.plugins).map(p => p.name);
     document.getElementById('installedPlugins').textContent = plugins.join(', ') || 'None detected';
 
-    // Detect ad blockers
+    
     const detectAdBlock = async () => {
         try {
-            await fetch('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
+            await fetch('https:
             document.getElementById('adBlocker').textContent = 'Not detected';
         } catch {
             document.getElementById('adBlocker').textContent = 'Detected';
@@ -271,14 +271,14 @@ function detectExtensions() {
     };
     detectAdBlock();
 
-    // Fix Do Not Track setting display
+    
     const dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
     document.getElementById('doNotTrack').textContent = 
         dnt === '1' ? 'Enabled' : dnt === '0' ? 'Disabled' : 'Not set';
 }
 detectExtensions();
 
-// Advanced Network Information
+
 async function getAdvancedNetworkInfo() {
     if ('connection' in navigator) {
         const conn = navigator.connection;
@@ -286,7 +286,7 @@ async function getAdvancedNetworkInfo() {
         document.getElementById('bandwidth').textContent = conn.downlink ? `${conn.downlink}Mbps` : 'Unknown';
     }
 
-    // Attempt to get local IPs via WebRTC (this might be blocked by privacy settings)
+    
     const getLocalIPs = async () => {
         try {
             const pc = new RTCPeerConnection();
@@ -310,35 +310,35 @@ async function getAdvancedNetworkInfo() {
 }
 getAdvancedNetworkInfo();
 
-// Browser History & Navigation Info
+
 function getBrowserHistory() {
-    // Navigation timing using newer Performance API
+    
     const navEntry = performance.getEntriesByType('navigation')[0];
     if (navEntry) {
         const pageLoad = Math.round(navEntry.loadEventEnd);
         document.getElementById('navTiming').textContent = `${pageLoad}ms`;
     } else {
-        // Fallback to older API
+        
         const timing = performance.timing;
         const pageLoad = Math.max(0, timing.loadEventEnd - timing.navigationStart);
         document.getElementById('navTiming').textContent = `${pageLoad}ms`;
     }
     
-    // Page rendering time using Paint Timing API
+    
     const paintEntries = performance.getEntriesByType('paint');
     const fcp = paintEntries.find(entry => entry.name === 'first-contentful-paint');
     document.getElementById('renderTime').textContent = 
         fcp ? `${Math.round(fcp.startTime)}ms` : 'Not available';
     
-    // Previous page
+    
     document.getElementById('previousPage').textContent = 
         document.referrer || 'Not available';
 }
 getBrowserHistory();
 
-// Privacy Concerns Detection
+
 async function checkPrivacyConcerns() {
-    // Font detection using spans with different fonts
+    
     function detectFonts() {
         const testString = 'mmmmmmmmmmlli';
         const baseFonts = ['monospace', 'sans-serif', 'serif'];
@@ -360,7 +360,7 @@ async function checkPrivacyConcerns() {
     }
     detectFonts();
 
-    // Check browser permissions
+    
     if ('permissions' in navigator) {
         const permissions = ['geolocation', 'notifications', 'camera', 'microphone', 'clipboard-read'];
         const states = await Promise.all(permissions.map(async permission => {
@@ -374,7 +374,7 @@ async function checkPrivacyConcerns() {
         document.getElementById('browserPermissions').textContent = states.filter(Boolean).join(', ');
     }
 
-    // Clipboard access detection
+    
     if ('clipboard' in navigator) {
         try {
             await navigator.clipboard.readText();
@@ -384,7 +384,7 @@ async function checkPrivacyConcerns() {
         }
     }
 
-    // Auto-fill detection
+    
     const forms = ['email', 'tel', 'cc-number', 'street-address'];
     const autoFillSupport = forms.some(type => {
         const input = document.createElement('input');
@@ -395,9 +395,9 @@ async function checkPrivacyConcerns() {
 }
 checkPrivacyConcerns();
 
-// System Fingerprinting
+
 function generateFingerprints() {
-    // Canvas fingerprinting
+    
     function getCanvasFingerprint() {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
@@ -415,7 +415,7 @@ function generateFingerprints() {
     }
     document.getElementById('canvasFingerprint').textContent = getCanvasFingerprint();
 
-    // Fix Audio fingerprinting
+    
     function getAudioFingerprint() {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const analyser = audioContext.createAnalyser();
@@ -445,7 +445,7 @@ function generateFingerprints() {
         document.getElementById('audioFingerprint').textContent = 'Access Denied';
     }
 
-    // WebGL fingerprinting
+    
     function getWebGLFingerprint() {
         const canvas = document.createElement('canvas');
         const gl = canvas.getContext('webgl');
@@ -458,7 +458,7 @@ function generateFingerprints() {
 }
 generateFingerprints();
 
-// Regional mappings
+
 const COUNTRY_CODES = {
     'PT': 'Portugal',
     'ES': 'Spain',
@@ -467,11 +467,11 @@ const COUNTRY_CODES = {
     'IT': 'Italy',
     'GB': 'United Kingdom',
     'US': 'United States',
-    // Add more as needed
+    
 };
 
 const CURRENCY_BY_COUNTRY = {
-    // Eurozone countries
+    
     'PT': ['EUR', '€'],
     'ES': ['EUR', '€'],
     'FR': ['EUR', '€'],
@@ -484,28 +484,28 @@ const CURRENCY_BY_COUNTRY = {
     'GR': ['EUR', '€'],
     'AT': ['EUR', '€'],
     'FI': ['EUR', '€'],
-    // Non-Euro European countries
+    
     'GB': ['GBP', '£'],
     'CH': ['CHF', 'Fr'],
     'SE': ['SEK', 'kr'],
     'NO': ['NOK', 'kr'],
     'DK': ['DKK', 'kr'],
-    // Americas
+    
     'US': ['USD', '$'],
     'CA': ['CAD', '$'],
     'BR': ['BRL', 'R$'],
     'MX': ['MXN', '$'],
-    // Asia
+    
     'JP': ['JPY', '¥'],
     'CN': ['CNY', '¥'],
     'KR': ['KRW', '₩'],
     'IN': ['INR', '₹'],
-    // Oceania
+    
     'AU': ['AUD', '$'],
     'NZ': ['NZD', '$']
 };
 
-// IANA Language Mappings
+
 const IANA_LANGUAGES = {
     'pt': { name: 'Portuguese', region: 'PT', script: 'Latn' },
     'pt-BR': { name: 'Brazilian Portuguese', region: 'BR', script: 'Latn' },
@@ -542,11 +542,11 @@ const IANA_LANGUAGES = {
 };
 
 function detectRegionalInfo() {
-    // Get timezone first as it's more reliable for location
+    
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     let region = '';
     
-    // Timezone-based detection (primary method)
+    
     if (timezone.startsWith('Europe/')) {
         const tzCity = timezone.split('/')[1];
         const tzToCountry = {
@@ -564,7 +564,7 @@ function detectRegionalInfo() {
         }
     }
 
-    // Language detection (secondary method, only if timezone didn't give us a region)
+    
     const language = navigator.language || navigator.userLanguage;
     const langInfo = IANA_LANGUAGES[language] || IANA_LANGUAGES[language.split('-')[0]];
     
@@ -572,12 +572,12 @@ function detectRegionalInfo() {
         region = langInfo.region;
     }
 
-    // Display comprehensive country info
+    
     const countryName = COUNTRY_CODES[region] || region;
     document.getElementById('userCountry').textContent = 
         `${countryName} (${region}) - ${timezone}`;
 
-    // Format date and time with proper locale and timezone
+    
     const date = new Date();
     const dateFormat = new Intl.DateTimeFormat(language, {
         weekday: 'long',
@@ -590,10 +590,10 @@ function detectRegionalInfo() {
     }).format(date);
     document.getElementById('dateFormat').textContent = dateFormat;
 
-    // Currency formatting based on region (not language)
+    
     try {
         const number = 1234.56;
-        const [currency, symbol] = CURRENCY_BY_COUNTRY[region] || ['EUR', '€']; // Default to EUR for European timezones
+        const [currency, symbol] = CURRENCY_BY_COUNTRY[region] || ['EUR', '€']; 
         const currencyFormat = new Intl.NumberFormat(language, {
             style: 'currency',
             currency: currency
@@ -607,16 +607,16 @@ function detectRegionalInfo() {
     document.getElementById('userTimezone').textContent = 
         `${timezone} (UTC${-new Date().getTimezoneOffset() / 60})`;
 
-    // Update language display to show interface language vs location
+    
     document.getElementById('language').textContent = 
         `${langInfo?.name || 'Unknown'} (interface) - ${countryName} (location)`;
 }
 
 detectRegionalInfo();
 
-// Browser Data Analysis
+
 async function analyzeBrowserData() {
-    // Local Storage size
+    
     function getLocalStorageSize() {
         let total = 0;
         for (let i = 0; i < localStorage.length; i++) {
@@ -627,7 +627,7 @@ async function analyzeBrowserData() {
     }
     document.getElementById('localStorageSize').textContent = getLocalStorageSize();
 
-    // IndexedDB databases
+    
     if ('indexedDB' in window) {
         try {
             const databases = await indexedDB.databases();
@@ -638,7 +638,7 @@ async function analyzeBrowserData() {
         }
     }
 
-    // Service Workers
+    
     if ('serviceWorker' in navigator) {
         const registrations = await navigator.serviceWorker.getRegistrations();
         document.getElementById('serviceWorkers').textContent = 

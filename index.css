@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
 
 :root {
-    /* Color system */
     --primary-hue: 220;
     --color-primary: hsl(var(--primary-hue), 70%, 55%);
     --color-primary-light: hsl(var(--primary-hue), 70%, 65%);
@@ -15,11 +14,9 @@
     --color-border: #e9ecef;
     --color-shadow: rgba(0, 0, 0, 0.05);
     
-    /* Typography */
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-display: 'Playfair Display', serif;
     
-    /* Spacing */
     --space-xs: 0.25rem;
     --space-sm: 0.5rem;
     --space-md: 1rem;
@@ -27,18 +24,15 @@
     --space-xl: 2rem;
     --space-xxl: 3rem;
     
-    /* Border radius */
     --radius-sm: 0.25rem;
     --radius-md: 0.5rem;
     --radius-lg: 1rem;
     --radius-full: 9999px;
     
-    /* Transitions */
     --transition-fast: 0.15s ease;
     --transition-normal: 0.3s ease;
     --transition-slow: 0.5s ease;
     
-    /* Container width */
     --container-width: 1200px;
 }
 
@@ -57,7 +51,6 @@
     --color-shadow: rgba(0, 0, 0, 0.2);
 }
 
-/* Base styles */
 * {
     margin: 0;
     padding: 0;
@@ -84,7 +77,6 @@ body {
     padding: 0 var(--space-lg);
 }
 
-/* Typography */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     line-height: 1.2;
@@ -95,7 +87,6 @@ h2 {
     margin-bottom: var(--space-lg);
 }
 
-/* Header styles */
 .header {
     position: fixed;
     top: 0;
@@ -248,7 +239,6 @@ h2 {
     transform: translateY(20px);
 }
 
-/* Hero section */
 .hero {
     padding: 140px 0 80px;
     position: relative;
@@ -340,7 +330,6 @@ h2 {
     }
 }
 
-/* Projects section */
 .projects-section {
     padding: var(--space-xxl) 0;
 }
@@ -505,7 +494,6 @@ h2 {
     width: 100%;
 }
 
-/* Footer */
 .footer {
     background-color: var(--color-bg-offset);
     padding: var(--space-xl) 0;
@@ -538,7 +526,6 @@ h2 {
     font-size: 0.9rem;
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
     .hero-title {
         font-size: 2.5rem;

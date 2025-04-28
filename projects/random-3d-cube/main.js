@@ -67,10 +67,10 @@ function generateIllusionTexture(width, height) {
       const grayscale = aux(x, y);
 
       const index = (y * width + x) * 4;
-      data[index] = grayscale; // Red
-      data[index + 1] = grayscale; // Green
-      data[index + 2] = grayscale; // Blue
-      data[index + 3] = 255; // Alpha
+      data[index] = grayscale; 
+      data[index + 1] = grayscale; 
+      data[index + 2] = grayscale; 
+      data[index + 3] = 255; 
     }
   }
 

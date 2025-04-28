@@ -207,7 +207,7 @@ function toggleFullscreen() {
 	draw();
 }
 
-// Event Listeners
+
 canvas.addEventListener('click', (e) => {
 	const rect = canvas.getBoundingClientRect();
 	const x = e.clientX - rect.left;
