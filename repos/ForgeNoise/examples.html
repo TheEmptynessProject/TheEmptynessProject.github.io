@@ -1,230 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Interactive examples for ForgeNoise - Advanced noise generation library with real-time visualization and customizable parameters.">
-    <meta name="keywords" content="noise generation, procedural generation, perlin noise, simplex noise, worley noise, examples">
-    <title>Interactive Examples - ForgeNoise</title>
-    <link rel="canonical" href="https://theemptynessproject.github.io/repos/ForgeNoise/examples" />
-    <link rel="icon" type="image/x-icon" href="./main-256.ico">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
-    <script src="js/nav.js" defer></script>
-    <script src="js/copy.js" defer></script>
-</head>
-<body>
-    <nav class="main-nav">
-        <div class="nav-container">
-            <a href="/" class="brand-logo">
-                <img src="./main-256.ico" alt="ForgeNoise Logo" class="logo-icon">
-                <span>ForgeNoise</span>
-            </a>
-            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-            <div class="nav-links">
-                <a href="index.html" class="nav-item">Home</a>
-                <a href="benchmark.html" class="nav-item">Benchmarks</a>
-                <a href="examples.html" class="nav-item">Examples</a>
-                <a href="api.html" class="nav-item">API</a>
-                <a href="about.html" class="nav-item">About</a>
-            </div>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="Interactive examples for ForgeNoise - Advanced noise generation library with real-time visualization and customizable parameters." name="description"/>
+  <meta content="noise generation, procedural generation, perlin noise, simplex noise, worley noise, examples" name="keywords"/>
+  <title>
+   Interactive Examples - ForgeNoise
+  </title>
+  <link href="https://theemptynessproject.github.io/repos/ForgeNoise/examples" rel="canonical"/>
+  <link href="./main-256.ico" rel="icon" type="image/x-icon"/>
+  <link href="css/styles.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;family=Fira+Code:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <script defer="" src="js/nav.js">
+  </script>
+  <script defer="" src="js/copy.js">
+  </script>
+ </head>
+ <body>
+  <nav class="main-nav">
+   <div class="nav-container">
+    <a class="brand-logo" href="/">
+     <img alt="ForgeNoise Logo" class="logo-icon" src="./main-256.ico"/>
+     <span>
+      ForgeNoise
+     </span>
+    </a>
+    <button aria-label="Toggle navigation" class="nav-toggle">
+     ☰
+    </button>
+    <div class="nav-links">
+     <a class="nav-item" href="index.html">
+      Home
+     </a>
+     <a class="nav-item" href="benchmark.html">
+      Benchmarks
+     </a>
+     <a class="nav-item" href="examples.html">
+      Examples
+     </a>
+     <a class="nav-item" href="api.html">
+      API
+     </a>
+     <a class="nav-item" href="about.html">
+      About
+     </a>
+    </div>
+   </div>
+  </nav>
+  <main class="hero-section">
+   <div class="hero-content">
+    <h1 class="hero-title">
+     Interactive
+     <span class="highlight">
+      Examples
+     </span>
+    </h1>
+    <p class="hero-subtitle">
+     Explore different noise types with real-time visualizations. Click a canvas to zoom in, and edit the code blocks to see changes instantly.
+    </p>
+   </div>
+   <section class="installation-section">
+    <h2 class="section-title">
+     Noise Configuration
+    </h2>
+    <p class="hero-subtitle">
+     Edit the seed value to change the noise pattern globally:
+    </p>
+    <div class="code-snippet">
+     <button aria-label="Copy code" class="copy-button">
+      <span class="copy-text">
+       Copy
+      </span>
+      <svg class="copy-icon" height="18" viewbox="0 0 24 24" width="18">
+       <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" fill="currentColor">
+       </path>
+      </svg>
+     </button>
+     <pre><code contenteditable="true" id="noise-seed">window.noise = new ForgeNoise(12345);</code></pre>
+    </div>
+   </section>
+   <section class="features-section">
+    <h2 class="section-title">
+     Basic Noise Types
+    </h2>
+    <div class="features-grid">
+     <div class="code-example">
+      <h3>
+       2D Perlin Noise
+      </h3>
+      <div class="code-content">
+       <div class="code-input">
+        <div class="code-snippet">
+         <pre contenteditable="true" data-canvas="perlin2d"><code>return noise.generate2D01(x / 16, y / 16)</code></pre>
         </div>
-    </nav>
-
-    <main class="hero-section">
-        <div class="hero-content">
-            <h1 class="hero-title">Interactive <span class="highlight">Examples</span></h1>
-            <p class="hero-subtitle">Explore different noise types with real-time visualizations. Click a canvas to zoom in, and edit the code blocks to see changes instantly.</p>
+       </div>
+       <div class="canvas-container">
+        <canvas height="256" id="perlin2d" width="256">
+        </canvas>
+       </div>
+      </div>
+     </div>
+     <div class="code-example">
+      <h3>
+       2D Simplex Noise
+      </h3>
+      <div class="code-content">
+       <div class="code-input">
+        <div class="code-snippet">
+         <pre contenteditable="true" data-canvas="simplex2d"><code>return noise.generateSimplex2D01(x / 16, y / 16)</code></pre>
         </div>
-
-        <section class="installation-section">
-            <h2 class="section-title">Noise Configuration</h2>
-            <p class="hero-subtitle">Edit the seed value to change the noise pattern globally:</p>
-            <div class="code-snippet">
-                <button class="copy-button" aria-label="Copy code">
-                    <span class="copy-text">Copy</span>
-                    <svg class="copy-icon" viewBox="0 0 24 24" width="18" height="18">
-                        <path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
-                    </svg>
-                </button>
-                <pre><code id="noise-seed" contenteditable="true">window.noise = new ForgeNoise(12345);</code></pre>
-            </div>
-        </section>
-
-        <section class="features-section">
-            <h2 class="section-title">Basic Noise Types</h2>
-            <div class="features-grid">
-                <div class="code-example">
-                    <h3>2D Perlin Noise</h3>
-                    <div class="code-content">
-                        <div class="code-input">
-                            <div class="code-snippet">
-                                <pre contenteditable="true" data-canvas="perlin2d"><code>return noise.generate2D01(x / 16, y / 16)</code></pre>
-                            </div>
-                        </div>
-                        <div class="canvas-container">
-                            <canvas id="perlin2d" width="256" height="256"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="code-example">
-                    <h3>2D Simplex Noise</h3>
-                    <div class="code-content">
-                        <div class="code-input">
-                            <div class="code-snippet">
-                                <pre contenteditable="true" data-canvas="simplex2d"><code>return noise.generateSimplex2D01(x / 16, y / 16)</code></pre>
-                            </div>
-                        </div>
-                        <div class="canvas-container">
-                            <canvas id="simplex2d" width="256" height="256"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="code-example">
-                    <h3>2D Worley Noise</h3>
-                    <div class="code-content">
-                        <div class="code-input">
-                            <div class="code-snippet">
-                                <pre contenteditable="true" data-canvas="worley2d"><code>return noise.generateWorley2D01(x / 16, y / 16)</code></pre>
-                            </div>
-                        </div>
-                        <div class="canvas-container">
-                            <canvas id="worley2d" width="256" height="256"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="features-section">
-            <h2 class="section-title">Advanced Techniques</h2>
-            <div class="features-grid">
-                <div class="code-example">
-                    <h3>Domain Warping</h3>
-                    <div class="code-content">
-                        <div class="code-input">
-                            <div class="code-snippet">
-                                <pre contenteditable="true" data-canvas="warped2d"><code>return (noise.warp2D(x / 16, y / 16, { 
+       </div>
+       <div class="canvas-container">
+        <canvas height="256" id="simplex2d" width="256">
+        </canvas>
+       </div>
+      </div>
+     </div>
+     <div class="code-example">
+      <h3>
+       2D Worley Noise
+      </h3>
+      <div class="code-content">
+       <div class="code-input">
+        <div class="code-snippet">
+         <pre contenteditable="true" data-canvas="worley2d"><code>return noise.generateWorley2D01(x / 16, y / 16)</code></pre>
+        </div>
+       </div>
+       <div class="canvas-container">
+        <canvas height="256" id="worley2d" width="256">
+        </canvas>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="features-section">
+    <h2 class="section-title">
+     Advanced Techniques
+    </h2>
+    <div class="features-grid">
+     <div class="code-example">
+      <h3>
+       Domain Warping
+      </h3>
+      <div class="code-content">
+       <div class="code-input">
+        <div class="code-snippet">
+         <pre contenteditable="true" data-canvas="warped2d"><code>return (noise.warp2D(x / 16, y / 16, { 
   warpStrength: 1, 
   warpScale: 1 
 }) + 1) * 0.5</code></pre>
-                            </div>
-                        </div>
-                        <div class="canvas-container">
-                            <canvas id="warped2d" width="256" height="256"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="code-example">
-                    <h3>Fractional Brownian Motion (fBm)</h3>
-                    <div class="code-content">
-                        <div class="code-input">
-                            <div class="code-snippet">
-                                <pre contenteditable="true" data-canvas="fbm2d"><code>return (noise.generateFractal2D(x / 16, y / 16, { 
+        </div>
+       </div>
+       <div class="canvas-container">
+        <canvas height="256" id="warped2d" width="256">
+        </canvas>
+       </div>
+      </div>
+     </div>
+     <div class="code-example">
+      <h3>
+       Fractional Brownian Motion (fBm)
+      </h3>
+      <div class="code-content">
+       <div class="code-input">
+        <div class="code-snippet">
+         <pre contenteditable="true" data-canvas="fbm2d"><code>return (noise.generateFractal2D(x / 16, y / 16, { 
   octaves: 6, 
   lacunarity: 2.0, 
   persistence: 0.5 
 }) + 1) * 0.5</code></pre>
-                            </div>
-                        </div>
-                        <div class="canvas-container">
-                            <canvas id="fbm2d" width="256" height="256"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="code-example">
-                    <h3>Ridged Multifractal</h3>
-                    <div class="code-content">
-                        <div class="code-input">
-                            <div class="code-snippet">
-                                <pre contenteditable="true" data-canvas="ridged2d"><code>return (noise.generateFractal2D(x / 16, y / 16, { 
+        </div>
+       </div>
+       <div class="canvas-container">
+        <canvas height="256" id="fbm2d" width="256">
+        </canvas>
+       </div>
+      </div>
+     </div>
+     <div class="code-example">
+      <h3>
+       Ridged Multifractal
+      </h3>
+      <div class="code-content">
+       <div class="code-input">
+        <div class="code-snippet">
+         <pre contenteditable="true" data-canvas="ridged2d"><code>return (noise.generateFractal2D(x / 16, y / 16, { 
   octaves: 6, 
   ridged: true, 
   lacunarity: 1.0, 
   persistence: 0.5 
 })) * 0.5</code></pre>
-                            </div>
-                        </div>
-                        <div class="canvas-container">
-                            <canvas id="ridged2d" width="256" height="256"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="features-section">
-            <h2 class="section-title">Combined Techniques</h2>
-            <div class="features-grid">
-                <div class="code-example">
-                    <h3>Perlin Masked with Simplex</h3>
-                    <div class="code-content">
-                        <div class="code-input">
-                            <div class="code-snippet">
-                                <pre contenteditable="true" data-canvas="perlin-simplex-mask"><code>let perlin = noise.generate2D01(x / 16, y / 16);
+        </div>
+       </div>
+       <div class="canvas-container">
+        <canvas height="256" id="ridged2d" width="256">
+        </canvas>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="features-section">
+    <h2 class="section-title">
+     Combined Techniques
+    </h2>
+    <div class="features-grid">
+     <div class="code-example">
+      <h3>
+       Perlin Masked with Simplex
+      </h3>
+      <div class="code-content">
+       <div class="code-input">
+        <div class="code-snippet">
+         <pre contenteditable="true" data-canvas="perlin-simplex-mask"><code>let perlin = noise.generate2D01(x / 16, y / 16);
 let simplex = noise.generateSimplex2D01(x / 16, y / 16);
 return perlin * simplex;</code></pre>
-                            </div>
-                        </div>
-                        <div class="canvas-container">
-                            <canvas id="perlin-simplex-mask" width="256" height="256"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="code-example">
-                    <h3>Worley Masked with Perlin</h3>
-                    <div class="code-content">
-                        <div class="code-input">
-                            <div class="code-snippet">
-                                <pre contenteditable="true" data-canvas="worley-perlin-mask"><code>let worley = noise.generateWorley2D01(x / 16, y / 16);
+        </div>
+       </div>
+       <div class="canvas-container">
+        <canvas height="256" id="perlin-simplex-mask" width="256">
+        </canvas>
+       </div>
+      </div>
+     </div>
+     <div class="code-example">
+      <h3>
+       Worley Masked with Perlin
+      </h3>
+      <div class="code-content">
+       <div class="code-input">
+        <div class="code-snippet">
+         <pre contenteditable="true" data-canvas="worley-perlin-mask"><code>let worley = noise.generateWorley2D01(x / 16, y / 16);
 let perlin = noise.generate2D01(x / 16, y / 16);
 return worley * perlin;</code></pre>
-                            </div>
-                        </div>
-                        <div class="canvas-container">
-                            <canvas id="worley-perlin-mask" width="256" height="256"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="code-example">
-                    <h3>Simplex Masked with fBm</h3>
-                    <div class="code-content">
-                        <div class="code-input">
-                            <div class="code-snippet">
-                                <pre contenteditable="true" data-canvas="simplex-fbm-mask"><code>let simplex = noise.generateSimplex2D01(x / 16, y / 16);
+        </div>
+       </div>
+       <div class="canvas-container">
+        <canvas height="256" id="worley-perlin-mask" width="256">
+        </canvas>
+       </div>
+      </div>
+     </div>
+     <div class="code-example">
+      <h3>
+       Simplex Masked with fBm
+      </h3>
+      <div class="code-content">
+       <div class="code-input">
+        <div class="code-snippet">
+         <pre contenteditable="true" data-canvas="simplex-fbm-mask"><code>let simplex = noise.generateSimplex2D01(x / 16, y / 16);
 let fbm = (noise.generateFractal2D(x / 16, y / 16, { 
   octaves: 4, 
   lacunarity: 2.0, 
   persistence: 0.5 
 }) + 1) * 0.5;
 return simplex * fbm;</code></pre>
-                            </div>
-                        </div>
-                        <div class="canvas-container">
-                            <canvas id="simplex-fbm-mask" width="256" height="256"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="features-section">
-            <h2 class="section-title">Experimental Combinations</h2>
-            <div class="features-grid">
-                <div class="code-example">
-                    <h3>Warped fBm with Turbulence</h3>
-                    <div class="code-content">
-                        <div class="code-input">
-                            <div class="code-snippet">
-                                <pre contenteditable="true" data-canvas="warped-fbm-turbulence"><code>let warped = noise.warp2D(x / 16, y / 16, { 
+        </div>
+       </div>
+       <div class="canvas-container">
+        <canvas height="256" id="simplex-fbm-mask" width="256">
+        </canvas>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="features-section">
+    <h2 class="section-title">
+     Experimental Combinations
+    </h2>
+    <div class="features-grid">
+     <div class="code-example">
+      <h3>
+       Warped fBm with Turbulence
+      </h3>
+      <div class="code-content">
+       <div class="code-input">
+        <div class="code-snippet">
+         <pre contenteditable="true" data-canvas="warped-fbm-turbulence"><code>let warped = noise.warp2D(x / 16, y / 16, { 
   warpStrength: 2, 
   warpScale: 1.5 
 });
@@ -235,37 +292,41 @@ let fbm = noise.generateFractal2D(warped, y / 16, {
   persistence: 0.6 
 });
 return (fbm + 1) * 0.5;</code></pre>
-                            </div>
-                        </div>
-                        <div class="canvas-container">
-                            <canvas id="warped-fbm-turbulence" width="256" height="256"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="code-example">
-                    <h3>Voronoi Edges with Perlin Modulation</h3>
-                    <div class="code-content">
-                        <div class="code-input">
-                            <div class="code-snippet">
-                                <pre contenteditable="true" data-canvas="voronoi-perlin-edges"><code>let voronoi = noise.generateVoronoi2D(x / 16, y / 16).distance;
+        </div>
+       </div>
+       <div class="canvas-container">
+        <canvas height="256" id="warped-fbm-turbulence" width="256">
+        </canvas>
+       </div>
+      </div>
+     </div>
+     <div class="code-example">
+      <h3>
+       Voronoi Edges with Perlin Modulation
+      </h3>
+      <div class="code-content">
+       <div class="code-input">
+        <div class="code-snippet">
+         <pre contenteditable="true" data-canvas="voronoi-perlin-edges"><code>let voronoi = noise.generateVoronoi2D(x / 16, y / 16).distance;
 let edges = Math.min(voronoi, 0.1) / 0.1; // Highlight edges
 let perlin = noise.generate2D01(x / 16, y / 16);
 return edges * perlin;</code></pre>
-                            </div>
-                        </div>
-                        <div class="canvas-container">
-                            <canvas id="voronoi-perlin-edges" width="256" height="256"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="code-example">
-                    <h3>Tiled Simplex with Ridged Noise</h3>
-                    <div class="code-content">
-                        <div class="code-input">
-                            <div class="code-snippet">
-                                <pre contenteditable="true" data-canvas="tiled-simplex-ridged"><code>let tiled = noise.generateTiling2D(x / 16, y / 16, { 
+        </div>
+       </div>
+       <div class="canvas-container">
+        <canvas height="256" id="voronoi-perlin-edges" width="256">
+        </canvas>
+       </div>
+      </div>
+     </div>
+     <div class="code-example">
+      <h3>
+       Tiled Simplex with Ridged Noise
+      </h3>
+      <div class="code-content">
+       <div class="code-input">
+        <div class="code-snippet">
+         <pre contenteditable="true" data-canvas="tiled-simplex-ridged"><code>let tiled = noise.generateTiling2D(x / 16, y / 16, { 
   periodX: 64, 
   periodY: 64 
 });
@@ -276,43 +337,60 @@ let ridged = noise.generateFractal2D(x / 16, y / 16, {
   persistence: 0.5 
 });
 return (tiled + ridged + 2) * 0.25;</code></pre>
-                            </div>
-                        </div>
-                        <div class="canvas-container">
-                            <canvas id="tiled-simplex-ridged" width="256" height="256"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="main-footer">
-        <div class="footer-container">
-            <div class="footer-logo">
-                <img src="./main-256.ico" alt="ForgeNoise Logo" class="logo-icon-sm">
-                <span>ForgeNoise</span>
-            </div>
-            <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="benchmark.html">Benchmarks</a>
-                <a href="examples.html">Examples</a>
-                <a href="api.html">API</a>
-                <a href="about.html">About</a>
-                <a href="https://github.com/TheEmptynessProject/ForgeNoise">GitHub</a>
-            </div>
-            <div class="footer-copyright">
-                &copy; 2025 The Emptyness Project. Released under MIT License.
-            </div>
         </div>
-    </footer>
-
-    <div class="popup" id="canvas-popup">
-        <canvas class="popup-canvas" width="512" height="512"></canvas>
-        <button class="close-btn">Close</button>
+       </div>
+       <div class="canvas-container">
+        <canvas height="256" id="tiled-simplex-ridged" width="256">
+        </canvas>
+       </div>
+      </div>
+     </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/gh/TheEmptynessProject/ForgeNoise@main/dist/forgeNoise.min.js"></script>
-    <script src="js/script.js"></script>
-</body>
+   </section>
+  </main>
+  <footer class="main-footer">
+   <div class="footer-container">
+    <div class="footer-logo">
+     <img alt="ForgeNoise Logo" class="logo-icon-sm" src="./main-256.ico"/>
+     <span>
+      ForgeNoise
+     </span>
+    </div>
+    <div class="footer-links">
+     <a href="index.html">
+      Home
+     </a>
+     <a href="benchmark.html">
+      Benchmarks
+     </a>
+     <a href="examples.html">
+      Examples
+     </a>
+     <a href="api.html">
+      API
+     </a>
+     <a href="about.html">
+      About
+     </a>
+     <a href="https://github.com/TheEmptynessProject/ForgeNoise">
+      GitHub
+     </a>
+    </div>
+    <div class="footer-copyright">
+     © 2025 The Emptyness Project. Released under MIT License.
+    </div>
+   </div>
+  </footer>
+  <div class="popup" id="canvas-popup">
+   <canvas class="popup-canvas" height="512" width="512">
+   </canvas>
+   <button class="close-btn">
+    Close
+   </button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/TheEmptynessProject/ForgeNoise@main/dist/forgeNoise.min.js">
+  </script>
+  <script src="js/script.js">
+  </script>
+ </body>
 </html>

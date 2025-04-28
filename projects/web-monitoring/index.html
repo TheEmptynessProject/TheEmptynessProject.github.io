@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clipboard Monitor</title>
-    <style>
-        body {
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Clipboard Monitor
+  </title>
+  <style>
+   body {
             font-family: monospace;
             max-width: 800px;
             margin: 0 auto;
@@ -55,23 +57,26 @@
         .content {
             word-break: break-all;
         }
-    </style>
-</head>
-<body>
-    <button id="permissionBtn">Enable Monitoring</button>
-    <div id="clipboardContent"></div>
-    <div id="history"></div>
-
-    <script>
-        let initialClipboardData = '';
+  </style>
+ </head>
+ <body>
+  <button id="permissionBtn">
+   Enable Monitoring
+  </button>
+  <div id="clipboardContent">
+  </div>
+  <div id="history">
+  </div>
+  <script>
+   let initialClipboardData = '';
         let hasPermission = false;
 
-        // Add additional tracking properties
+        
         let activeApplication = '';
         let clipboardSource = '';
         let lastModified = null;
 
-        // Enhance HistoryEntry class
+        
         class HistoryEntry {
             constructor(type, content = '', details = '') {
                 this.timestamp = new Date();
@@ -83,7 +88,7 @@
                 this.activeApp = activeApplication;
                 this.source = clipboardSource;
                 this.modifiedTime = lastModified;
-                // Get active browser tab info
+                
                 if (window.chrome && chrome.tabs) {
                     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                         this.tabInfo = tabs[0];
@@ -138,7 +143,7 @@
             detectContentType(content) {
                 if (!content) return 'empty';
                 if (content.startsWith('data:')) return 'base64';
-                if (content.match(/^[\w\-]+:\/\//)) return 'url';
+                if (content.match(/^[\w\-]+:\/\
                 if (content.match(/<[^>]+>/)) return 'html';
                 if (content.match(/^[\w\-]+=[^\s]/)) return 'key-value';
                 return 'plain-text';
@@ -156,14 +161,14 @@
         let lastKeyCombo = [];
         const keyboardShortcuts = new Set();
         let lastKeyboardShortcutTime = 0;
-        const KEYBOARD_DEBOUNCE_TIME = 300; // ms
+        const KEYBOARD_DEBOUNCE_TIME = 300; 
 
         function addHistoryEntry(entry) {
             history.unshift(entry);
             updateHistoryDisplay();
         }
 
-        // Enhanced history display
+        
         function updateHistoryDisplay() {
             const historyDiv = document.getElementById('history');
             historyDiv.innerHTML = history.map(entry => `
@@ -190,7 +195,7 @@
             `).join('');
         }
 
-        // Enhanced window focus tracking
+        
         window.addEventListener('focus', async function() {
             const entry = new HistoryEntry('FOCUS_GAIN', '', `Window gained focus at ${new Date().toLocaleTimeString()}`);
             addHistoryEntry(entry);
@@ -222,7 +227,7 @@
             addHistoryEntry(entry);
         });
 
-        // Enhanced clipboard monitoring
+        
         document.addEventListener('copy', function(e) {
             const text = window.getSelection().toString();
             const entry = new HistoryEntry('COPY', text, `Text copied at ${new Date().toLocaleTimeString()}`);
@@ -245,7 +250,7 @@
             }
         });
 
-        // Visibility change detection
+        
         document.addEventListener('visibilitychange', async function() {
             if (!hasPermission) return;
             
@@ -275,7 +280,7 @@
             addHistoryEntry(entry);
         });
 
-        // Simplified permission handling
+        
         document.getElementById('permissionBtn').addEventListener('click', async () => {
             try {
                 const initialContent = await navigator.clipboard.readText();
@@ -291,13 +296,13 @@
             }
         });
 
-        // Enhanced window/tab tracking
+        
         window.addEventListener('beforeunload', function(e) {
             const entry = new HistoryEntry('TAB_CLOSE', '', 'Tab being closed');
             addHistoryEntry(entry);
         });
 
-        // Track mouse movements between windows
+        
         document.addEventListener('mouseleave', function(e) {
             lastMousePosition = { x: e.clientX, y: e.clientY };
             if (e.clientY <= 0 || e.clientX <= 0 || 
@@ -312,10 +317,10 @@
             }
         });
 
-        // Modify tracking variables
+        
         let lastMousePosition = { x: 0, y: 0 };
 
-        // Keep only essential mouse events
+        
         document.addEventListener('mouseenter', function(e) {
             lastMousePosition = { x: e.clientX, y: e.clientY };
             const entry = new HistoryEntry(
@@ -337,7 +342,7 @@
             addHistoryEntry(entry);
         });
 
-        // Add window resize tracking
+        
         let resizeTimeout;
         window.addEventListener('resize', function() {
             clearTimeout(resizeTimeout);
@@ -351,7 +356,7 @@
             }, 500);
         });
 
-        // Add scroll tracking
+        
         let scrollTimeout;
         document.addEventListener('scroll', function() {
             clearTimeout(scrollTimeout);
@@ -377,7 +382,7 @@
             statusEl.innerHTML = `<small>${timestamp}</small> - ${message}`;
         }
 
-        // Track keyboard combinations with debounce
+        
         document.addEventListener('keydown', (e) => {
             const now = performance.now();
             if (now - lastKeyboardShortcutTime < KEYBOARD_DEBOUNCE_TIME) {
@@ -401,7 +406,7 @@
             }
         });
 
-        // Track network status changes
+        
         window.addEventListener('online', () => {
             const entry = new HistoryEntry('NETWORK_CHANGE', '', 'Connection restored');
             addHistoryEntry(entry);
@@ -412,14 +417,14 @@
             addHistoryEntry(entry);
         });
 
-        // Track system idle state
+        
         let idleCheckInterval = setInterval(() => {
             const idleTime = performance.now() - lastActivityTime;
-            if (idleTime > 60000) { // 1 minute
+            if (idleTime > 60000) { 
                 const entry = new HistoryEntry('IDLE_STATE', '', `System idle for ${Math.floor(idleTime/1000)}s`);
                 addHistoryEntry(entry);
             }
         }, 30000);
-    </script>
-</body>
+  </script>
+ </body>
 </html>

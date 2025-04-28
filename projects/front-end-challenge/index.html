@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>50 Days of Front-End Navigator</title>
-    <style>
-        :root {
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   50 Days of Front-End Navigator
+  </title>
+  <style>
+   :root {
             --primary-color: #3498db;
             --secondary-color: #2ecc71;
             --background-color: #f5f6fa;
@@ -131,25 +133,40 @@
         #selectBtn:hover {
             background: var(--primary-color);
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Frontend Challenges Navigator</h1>
-        <div id="currentChallenge">Current Challenge: <span id="challengeNumber"></span></div>
-        <div id="challengeInfo" class="challenge-info">
-            <div class="challenge-name"></div>
-            <ul class="features-list"></ul>
-            <div class="notes"></div>
-        </div>
-        <div class="navigation">
-            <button id="prevBtn" onclick="navigate(-1)">Previous</button>
-            <button id="selectBtn" onclick="selectChallenge()">Select Challenge</button>
-            <button id="nextBtn" onclick="navigate(1)">Next</button>
-        </div>
+  </style>
+ </head>
+ <body>
+  <div class="container">
+   <h1>
+    Frontend Challenges Navigator
+   </h1>
+   <div id="currentChallenge">
+    Current Challenge:
+    <span id="challengeNumber">
+    </span>
+   </div>
+   <div class="challenge-info" id="challengeInfo">
+    <div class="challenge-name">
     </div>
-    <script>
-        const currentPath = window.location.pathname;
+    <ul class="features-list">
+    </ul>
+    <div class="notes">
+    </div>
+   </div>
+   <div class="navigation">
+    <button id="prevBtn" onclick="navigate(-1)">
+     Previous
+    </button>
+    <button id="selectBtn" onclick="selectChallenge()">
+     Select Challenge
+    </button>
+    <button id="nextBtn" onclick="navigate(1)">
+     Next
+    </button>
+   </div>
+  </div>
+  <script>
+   const currentPath = window.location.pathname;
         let currentChallenge = parseInt(currentPath.split('/')[1]) || 1;
 
         async function loadChallengeInfo(challengeNumber) {
@@ -210,6 +227,6 @@
         }
 
         updateUI();
-    </script>
-</body>
+  </script>
+ </body>
 </html>

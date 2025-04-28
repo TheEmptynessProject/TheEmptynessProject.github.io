@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pincushion</title>
-    <style>
-        body {
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Pincushion
+  </title>
+  <style>
+   body {
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -14,12 +16,13 @@
         #canvas {
             display: block;
         }
-    </style>
-</head>
-<body>
-    <canvas id="canvas"></canvas>
-    <script>
-        const canvas = document.getElementById('canvas');
+  </style>
+ </head>
+ <body>
+  <canvas id="canvas">
+  </canvas>
+  <script>
+   const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
         let centerX, centerY, radius;
@@ -220,6 +223,6 @@
 
         resizeCanvas();
         animate();
-    </script>
-</body>
+  </script>
+ </body>
 </html>

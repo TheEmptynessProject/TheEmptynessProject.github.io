@@ -1,148 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackjack Card Counting Trainer</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Blackjack Card Counting Trainer</h1>
-            <div class="bank-info">
-                <span>Bank: $<span id="player-bank">1000</span></span>
-            </div>
-        </header>
-        
-        <main>
-            <div class="blackjack-table">
-                <div class="dealer-area">
-                    <h2>Dealer</h2>
-                    <div id="dealer-cards" class="cards-container"></div>
-                    <div id="dealer-score" class="score">0</div>
-                </div>
-                
-                <div class="deck-area">
-                    <div id="deck" class="deck"></div>
-                    <div id="card-counting-info" class="card-counting-info">
-                        <div>Running Count: <span id="current-count">0</span></div>
-                        <div>True Count: <span id="true-count">0</span></div>
-                        <div>Decks Remaining: <span id="decks-remaining">6.0</span></div>
-                        <div>Win Probability: <span id="win-probability">-</span></div>
-                    </div>
-                </div>
-                
-                <div class="player-area">
-                    <h2>Player</h2>
-                    <div id="player-cards" class="cards-container"></div>
-                    <div id="player-score" class="score">0</div>
-                </div>
-                
-                <div class="betting-area">
-                    <div class="chips">
-                        <div class="chip" data-value="5">$5</div>
-                        <div class="chip" data-value="25">$25</div>
-                        <div class="chip" data-value="100">$100</div>
-                    </div>
-                    <div class="current-bet">
-                        <span>Current Bet: $<span id="bet-amount">0</span></span>
-                        <button id="clear-bet">Clear</button>
-                    </div>
-                </div>
-                
-                <div class="actions">
-                    <button id="deal-btn">Deal</button>
-                    <button id="hit-btn" disabled>Hit</button>
-                    <button id="stand-btn" disabled>Stand</button>
-                    <button id="double-btn" disabled>Double</button>
-                    <button id="split-btn" disabled>Split</button>
-                </div>
-                
-                <div class="ai-advisor">
-                    <div class="advice-toggle">
-                        <label for="advisor-toggle">AI Advisor:</label>
-                        <select id="advisor-toggle">
-                            <option value="off">Off</option>
-                            <option value="basic">Basic Strategy</option>
-                            <option value="counting">Counting Strategy</option>
-                            <option value="full">Full Analysis</option>
-                        </select>
-                    </div>
-                    <div id="advice-display" class="advice-display">
-                        <p>Turn on the AI Advisor for strategic guidance.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="lessons-panel">
-                <h3>Card Counting Lessons</h3>
-                <select id="lesson-selector">
-                    <option value="intro">Introduction to Card Counting</option>
-                    <option value="hi-lo">Hi-Lo System</option>
-                    <option value="true-count">True Count Calculation</option>
-                    <option value="betting">Betting Strategies</option>
-                    <option value="deviations">Strategy Deviations</option>
-                </select>
-                <div id="lesson-content" class="lesson-content">
-                    <p>Select a lesson to learn about card counting techniques.</p>
-                </div>
-            </div>
-        </main>
-        
-        <div id="game-result" class="modal hidden">
-            <div class="modal-content">
-                <h2 id="result-title">Round Complete</h2>
-                <p id="result-message"></p>
-                <div id="count-analysis" class="count-analysis">
-                    <h3>Count Analysis</h3>
-                    <p>Running Count: <span id="final-count">0</span></p>
-                    <p>True Count: <span id="final-true-count">0</span></p>
-                    <p>Optimal Bet: <span id="optimal-bet">-</span></p>
-                </div>
-                <button id="next-hand-btn">Next Hand</button>
-            </div>
-        </div>
-        
-        <div id="settings-panel" class="settings-panel">
-            <button id="settings-toggle" class="settings-toggle">⚙️</button>
-            <div class="settings-content hidden">
-                <h3>Game Settings</h3>
-                <div class="setting">
-                    <label for="decks">Number of Decks:</label>
-                    <select id="decks">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="4">4</option>
-                        <option value="6" selected>6</option>
-                        <option value="8">8</option>
-                    </select>
-                </div>
-                <div class="setting">
-                    <label for="penetration">Deck Penetration (%):</label>
-                    <input type="range" id="penetration" min="50" max="90" value="75" step="5">
-                    <span id="penetration-value">75%</span>
-                </div>
-                <div class="setting">
-                    <label for="count-system">Counting System:</label>
-                    <select id="count-system">
-                        <option value="hi-lo" selected>Hi-Lo</option>
-                        <option value="ko">K-O (Knockout)</option>
-                        <option value="hi-opt1">Hi-Opt I</option>
-                        <option value="hi-opt2">Hi-Opt II</option>
-                    </select>
-                </div>
-                <button id="apply-settings">Apply Settings</button>
-            </div>
-        </div>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Blackjack Card Counting Trainer
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="container">
+   <header>
+    <h1>
+     Blackjack Card Counting Trainer
+    </h1>
+    <div class="bank-info">
+     <span>
+      Bank: $
+      <span id="player-bank">
+       1000
+      </span>
+     </span>
     </div>
-    
-    <footer>
-        <p>Blackjack Card Counting Trainer | For educational purposes only</p>
-    </footer>
-    
-    <script src="js/animations.js"></script>
-    <script src="js/ai.js"></script>
-    <script src="js/game.js"></script>
-</body>
+   </header>
+   <main>
+    <div class="blackjack-table">
+     <div class="dealer-area">
+      <h2>
+       Dealer
+      </h2>
+      <div class="cards-container" id="dealer-cards">
+      </div>
+      <div class="score" id="dealer-score">
+       0
+      </div>
+     </div>
+     <div class="deck-area">
+      <div class="deck" id="deck">
+      </div>
+      <div class="card-counting-info" id="card-counting-info">
+       <div>
+        Running Count:
+        <span id="current-count">
+         0
+        </span>
+       </div>
+       <div>
+        True Count:
+        <span id="true-count">
+         0
+        </span>
+       </div>
+       <div>
+        Decks Remaining:
+        <span id="decks-remaining">
+         6.0
+        </span>
+       </div>
+       <div>
+        Win Probability:
+        <span id="win-probability">
+         -
+        </span>
+       </div>
+      </div>
+     </div>
+     <div class="player-area">
+      <h2>
+       Player
+      </h2>
+      <div class="cards-container" id="player-cards">
+      </div>
+      <div class="score" id="player-score">
+       0
+      </div>
+     </div>
+     <div class="betting-area">
+      <div class="chips">
+       <div class="chip" data-value="5">
+        $5
+       </div>
+       <div class="chip" data-value="25">
+        $25
+       </div>
+       <div class="chip" data-value="100">
+        $100
+       </div>
+      </div>
+      <div class="current-bet">
+       <span>
+        Current Bet: $
+        <span id="bet-amount">
+         0
+        </span>
+       </span>
+       <button id="clear-bet">
+        Clear
+       </button>
+      </div>
+     </div>
+     <div class="actions">
+      <button id="deal-btn">
+       Deal
+      </button>
+      <button disabled="" id="hit-btn">
+       Hit
+      </button>
+      <button disabled="" id="stand-btn">
+       Stand
+      </button>
+      <button disabled="" id="double-btn">
+       Double
+      </button>
+      <button disabled="" id="split-btn">
+       Split
+      </button>
+     </div>
+     <div class="ai-advisor">
+      <div class="advice-toggle">
+       <label for="advisor-toggle">
+        AI Advisor:
+       </label>
+       <select id="advisor-toggle">
+        <option value="off">
+         Off
+        </option>
+        <option value="basic">
+         Basic Strategy
+        </option>
+        <option value="counting">
+         Counting Strategy
+        </option>
+        <option value="full">
+         Full Analysis
+        </option>
+       </select>
+      </div>
+      <div class="advice-display" id="advice-display">
+       <p>
+        Turn on the AI Advisor for strategic guidance.
+       </p>
+      </div>
+     </div>
+    </div>
+    <div class="lessons-panel">
+     <h3>
+      Card Counting Lessons
+     </h3>
+     <select id="lesson-selector">
+      <option value="intro">
+       Introduction to Card Counting
+      </option>
+      <option value="hi-lo">
+       Hi-Lo System
+      </option>
+      <option value="true-count">
+       True Count Calculation
+      </option>
+      <option value="betting">
+       Betting Strategies
+      </option>
+      <option value="deviations">
+       Strategy Deviations
+      </option>
+     </select>
+     <div class="lesson-content" id="lesson-content">
+      <p>
+       Select a lesson to learn about card counting techniques.
+      </p>
+     </div>
+    </div>
+   </main>
+   <div class="modal hidden" id="game-result">
+    <div class="modal-content">
+     <h2 id="result-title">
+      Round Complete
+     </h2>
+     <p id="result-message">
+     </p>
+     <div class="count-analysis" id="count-analysis">
+      <h3>
+       Count Analysis
+      </h3>
+      <p>
+       Running Count:
+       <span id="final-count">
+        0
+       </span>
+      </p>
+      <p>
+       True Count:
+       <span id="final-true-count">
+        0
+       </span>
+      </p>
+      <p>
+       Optimal Bet:
+       <span id="optimal-bet">
+        -
+       </span>
+      </p>
+     </div>
+     <button id="next-hand-btn">
+      Next Hand
+     </button>
+    </div>
+   </div>
+   <div class="settings-panel" id="settings-panel">
+    <button class="settings-toggle" id="settings-toggle">
+     ⚙️
+    </button>
+    <div class="settings-content hidden">
+     <h3>
+      Game Settings
+     </h3>
+     <div class="setting">
+      <label for="decks">
+       Number of Decks:
+      </label>
+      <select id="decks">
+       <option value="1">
+        1
+       </option>
+       <option value="2">
+        2
+       </option>
+       <option value="4">
+        4
+       </option>
+       <option selected="" value="6">
+        6
+       </option>
+       <option value="8">
+        8
+       </option>
+      </select>
+     </div>
+     <div class="setting">
+      <label for="penetration">
+       Deck Penetration (%):
+      </label>
+      <input id="penetration" max="90" min="50" step="5" type="range" value="75"/>
+      <span id="penetration-value">
+       75%
+      </span>
+     </div>
+     <div class="setting">
+      <label for="count-system">
+       Counting System:
+      </label>
+      <select id="count-system">
+       <option selected="" value="hi-lo">
+        Hi-Lo
+       </option>
+       <option value="ko">
+        K-O (Knockout)
+       </option>
+       <option value="hi-opt1">
+        Hi-Opt I
+       </option>
+       <option value="hi-opt2">
+        Hi-Opt II
+       </option>
+      </select>
+     </div>
+     <button id="apply-settings">
+      Apply Settings
+     </button>
+    </div>
+   </div>
+  </div>
+  <footer>
+   <p>
+    Blackjack Card Counting Trainer | For educational purposes only
+   </p>
+  </footer>
+  <script src="js/animations.js">
+  </script>
+  <script src="js/ai.js">
+  </script>
+  <script src="js/game.js">
+  </script>
+ </body>
 </html>

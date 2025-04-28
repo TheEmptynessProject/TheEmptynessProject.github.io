@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Binary File Difference Finder</title>
-    <style>
-        body {
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Binary File Difference Finder
+  </title>
+  <style>
+   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 20px;
@@ -156,36 +158,46 @@ a:hover {
     text-decoration: underline;
     background-color: rgba(255, 255, 255, 0.1);
 }
-    </style>
-</head>
-<body>
-    <div id="app">
-        <h2>Binary File Difference Finder</h2>
-        <div class="input-section">
-            <div class="file-input">
-                <input type="file" id="file1" accept="*/*">
-            </div>
-			<div class="button-group">
-				<button onclick="findDifferences(false)">Find 1000 Differences</button>
-				<button onclick="findDifferences(true)">Find All Differences</button>
-			</div>
-            <div class="file-input">
-                <input type="file" id="file2" accept="*/*">
-            </div>
-        </div>
-        <div class="file-content">
-            <pre id="file1Content"></pre>
-            <pre id="file2Content"></pre>
-        </div>
-        <h3>Differences:</h3>
-        <div class="differences" id="output"></div>
-        <div id="progressContainer">
-            <progress id="progressBar" value="0" max="100"></progress>
-        </div>
+  </style>
+ </head>
+ <body>
+  <div id="app">
+   <h2>
+    Binary File Difference Finder
+   </h2>
+   <div class="input-section">
+    <div class="file-input">
+     <input accept="*/*" id="file1" type="file"/>
     </div>
-    <script>
-        async function displayFileContent(file, contentElement) {
-            const chunkSize = 1024 * 1024; // 1MB chunks
+    <div class="button-group">
+     <button onclick="findDifferences(false)">
+      Find 1000 Differences
+     </button>
+     <button onclick="findDifferences(true)">
+      Find All Differences
+     </button>
+    </div>
+    <div class="file-input">
+     <input accept="*/*" id="file2" type="file"/>
+    </div>
+   </div>
+   <div class="file-content">
+    <pre id="file1Content"></pre>
+    <pre id="file2Content"></pre>
+   </div>
+   <h3>
+    Differences:
+   </h3>
+   <div class="differences" id="output">
+   </div>
+   <div id="progressContainer">
+    <progress id="progressBar" max="100" value="0">
+    </progress>
+   </div>
+  </div>
+  <script>
+   async function displayFileContent(file, contentElement) {
+            const chunkSize = 1024 * 1024; 
             let offset = 0;
 
             while (offset < file.size) {
@@ -265,7 +277,7 @@ a:hover {
 
             try {
                 console.log(`Comparing files.`);
-                const chunkSize = 1024 * 1024; // 1MB chunks
+                const chunkSize = 1024 * 1024; 
                 let offset = 0;
                 let differenceCount = 0;
                 const maxLength = Math.min(file1.size, file2.size);
@@ -315,6 +327,6 @@ a:hover {
                 console.error(`Error comparing files: ${error.message}`);
             }
         }
-    </script>
-</body>
+  </script>
+ </body>
 </html>

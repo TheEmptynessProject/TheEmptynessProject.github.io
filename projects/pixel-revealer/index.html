@@ -1,30 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Pixel Revealer</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <form id="uploadForm">
-        <input type="file" id="imageInput" accept="image/*" required>
-        <br>
-        <label for="pixelInput">Number of pixels to reveal:</label>
-        <input type="number" id="pixelInput" min="1" value="1000">
-        <br>
-        <button type="submit">Reveal Pixels</button>
-    </form>
-
-    <div id="imageContainer" class="hidden">
-        <canvas id="canvas"></canvas>
-    </div>
-
-    <div id="controls" class="hidden">
-        <button id="revealMore">Reveal More Pixels</button>
-        <button id="reset">Reset</button>
-    </div>
-
-    <script src="script.js"></script>
-</body>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Image Pixel Revealer
+  </title>
+  <link href="styles.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <form id="uploadForm">
+   <input accept="image/*" id="imageInput" required="" type="file"/>
+   <br/>
+   <label for="pixelInput">
+    Number of pixels to reveal:
+   </label>
+   <input id="pixelInput" min="1" type="number" value="1000"/>
+   <br/>
+   <button type="submit">
+    Reveal Pixels
+   </button>
+  </form>
+  <div class="hidden" id="imageContainer">
+   <canvas id="canvas">
+   </canvas>
+  </div>
+  <div class="hidden" id="controls">
+   <button id="revealMore">
+    Reveal More Pixels
+   </button>
+   <button id="reset">
+    Reset
+   </button>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
 </html>

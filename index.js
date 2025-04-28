@@ -1,9 +1,8 @@
 const projects = [
-    { title: "Clipboard Monitor", description: "A tool for detecting copy and paste actions.", link: "projects/clipboard-monitor-copy-paste-detection/index.html", icon: "fas fa-clipboard" },
+    { title: "Web monitoring", description: "A web monitoring tool that tracks user events on a webpage.", link: "projects/web-monitoring/index.html", icon: "fas fa-eye" },
     { title: "Pincushion Illusion", description: "A visual demonstration of the pincushion illusion.", link: "projects/pincushion-illusion/index.html", icon: "fas fa-eye" },
     { title: "Pixel Revealer", description: "A tool for revealing hidden pixels in images.", link: "projects/pixel-revealer/index.html", icon: "fas fa-image" },
     { title: "3D Cube", description: "Generate and display a random 3D cube.", link: "projects/random-3d-cube/index.html", icon: "fas fa-cube" },
-    { title: "To-Do List", description: "A simple to-do list application (unfinished).", link: "projects/to-do-list-unfinished/index.html", icon: "fas fa-tasks" },
     { title: "Particle Blackhole", description: "A simulation of a black hole with too many particles.", link: "projects/too-many-particles-blackhole/index.html", icon: "fas fa-circle" },
     { title: "Useless Waves", description: "An artistic representation of wave patterns.", link: "projects/useless-waves/index.html", icon: "fas fa-wave-square" },
     { title: "User Info Retriever", description: "A tool for retrieving user information.", link: "projects/user-info-retriever/index.html", icon: "fas fa-user" },
@@ -17,6 +16,12 @@ const projects = [
     { title: "Cellular Automaton Simulator", description: "A cellular automaton simulator with customizable rules", link: "projects/cellular-automaton-simulator/index.html", icon: "fas fa-th" },
     { title: "Tic Tac Toe vs Bot", description: "Play tic tac toe against the perfect bot", link: "projects/tic-tac-toe-bot/index.html", icon: "fas fa-times" },
     { title: "Connect Four vs Bot", description: "Play connect four against the perfect bot", link: "projects/connect-four-bot/index.html", icon: "fas fa-grip-lines-vertical" },
+    { title: "2048 Game", description: "A simple 2048 game clone", link: "projects/2048-game/index.html", icon: "fas fa-th-large" },
+    { title: "Blackjack with Card Counting", description: "A simple blackjack game with a card counting teacher", link: "projects/blackjack-card-counter/index.html", icon: "fas fa-chess" },
+    { title: "Color Palette Generator", description: "Generate color palettes from images", link: "projects/color-palette/index.html", icon: "fas fa-palette" },
+    { title: "Emoji Info", description: "Get information about emojis", link: "projects/emoji-info/index.html", icon: "fas fa-smile" },
+    { title: "Mancala Game", description: "A simple mancala game", link: "projects/mancala-game/index.html", icon: "fas fa-gamepad" },
+    { title: "Minesweeper", description: "A simple minesweeper game", link: "projects/minesweeper/index.html", icon: "fas fa-bomb" },
     { title: "Forge Noise", description: "A high-performance JavaScript library for procedural noise generation.", link: "repos/ForgeNoise/index.html", icon: "fas fa-signal" },
 ];
 

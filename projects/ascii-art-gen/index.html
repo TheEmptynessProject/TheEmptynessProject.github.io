@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASCII Art gen</title>
-    <style>
-        body {
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   ASCII Art gen
+  </title>
+  <style>
+   body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             max-width: 1200px;
             margin: 0 auto;
@@ -134,7 +136,7 @@
             background-color: #1976D2;
         }
     
-        /* Custom scrollbar for the result container */
+        
         #result::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -200,53 +202,78 @@
     .mode-select option {
         background-color: #2d2d2d;
     }
-    </style>
-</head>
-<body>
-    <div class="container">  
-        <div class="controls">
-            <div class="input-group">
-                <label for="imageInput">Choose an image:</label>
-                <input type="file" id="imageInput" accept="image/*">
-            </div>
-
-            <div class="input-group">
-                <label for="modeSelect">Art Style:</label>
-                <select id="modeSelect" class="mode-select">
-                    <option value="ascii">Classic ASCII</option>
-                    <option value="shading">Shading Blocks</option>
-                    <option value="vertical">Vertical Blocks</option>
-                    <option value="horizontal">Horizontal Blocks</option>
-                    <option value="quadrant">Quadrant Blocks</option>
-                </select>
-            </div>
-            
-            <div class="input-group">
-                <label for="widthInput">Output Width (characters):</label>
-                <input type="number" id="widthInput" value="100" min="10" max="400">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="column">
-                <h3>Original Image</h3>
-                <img id="preview" src="" alt="Preview" style="display: none;">
-            </div>
-            <div class="column">
-                <h3>ASCII Result</h3>
-                <button id="downloadBtn" style="display: none;">Download ASCII Art</button>
-                <div class="zoom-controls">
-                    <button id="zoomOutBtn" class="zoom-btn">-</button>
-                    <span id="zoomLevel">100%</span>
-                    <button id="zoomInBtn" class="zoom-btn">+</button>
-                </div>
-                <div id="result"></div>
-            </div>
-        </div>
+  </style>
+ </head>
+ <body>
+  <div class="container">
+   <div class="controls">
+    <div class="input-group">
+     <label for="imageInput">
+      Choose an image:
+     </label>
+     <input accept="image/*" id="imageInput" type="file"/>
     </div>
-
-    <script>
-        const ASCII_CHARS = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,"^`\'. ';
+    <div class="input-group">
+     <label for="modeSelect">
+      Art Style:
+     </label>
+     <select class="mode-select" id="modeSelect">
+      <option value="ascii">
+       Classic ASCII
+      </option>
+      <option value="shading">
+       Shading Blocks
+      </option>
+      <option value="vertical">
+       Vertical Blocks
+      </option>
+      <option value="horizontal">
+       Horizontal Blocks
+      </option>
+      <option value="quadrant">
+       Quadrant Blocks
+      </option>
+     </select>
+    </div>
+    <div class="input-group">
+     <label for="widthInput">
+      Output Width (characters):
+     </label>
+     <input id="widthInput" max="400" min="10" type="number" value="100"/>
+    </div>
+   </div>
+   <div class="row">
+    <div class="column">
+     <h3>
+      Original Image
+     </h3>
+     <img alt="Preview" id="preview" src="" style="display: none;"/>
+    </div>
+    <div class="column">
+     <h3>
+      ASCII Result
+     </h3>
+     <button id="downloadBtn" style="display: none;">
+      Download ASCII Art
+     </button>
+     <div class="zoom-controls">
+      <button class="zoom-btn" id="zoomOutBtn">
+       -
+      </button>
+      <span id="zoomLevel">
+       100%
+      </span>
+      <button class="zoom-btn" id="zoomInBtn">
+       +
+      </button>
+     </div>
+     <div id="result">
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+   const ASCII_CHARS = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,"^`\'. ';
         const SHADING_BLOCKS = '█▓▒░ ';
 const VERTICAL_BLOCKS = '█▇▆▅▄▃▂▁ ';
 const HORIZONTAL_BLOCKS = '█▉▊▋▌▍▎▏ ';
@@ -413,6 +440,6 @@ zoomOutBtn.addEventListener('click', () => {
         updateZoom();
     }
 });
-    </script>
-</body>
+  </script>
+ </body>
 </html>

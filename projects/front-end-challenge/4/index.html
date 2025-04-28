@@ -1,93 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Custom Video Player</title>
-</head>
-<body>
-    <div class="video-container">
-        <video class="video-player" src="video.mp4" controlsList="nodownload" disablePictureInPicture>
-            <track kind="captions" src="captions.vtt" label="English" />
-            Error
-        </video>
-        
-        <div class="skip-overlay left">-10s</div>
-        <div class="skip-overlay right">+10s</div>
-        <div class="frame-indicator">Frame by frame mode</div>
-        
-        <div class="controls">
-            <button class="play-pause" data-tooltip="Play">▶</button>
-            <input type="range" class="time-slider" min="0" value="0" step="0.1" data-tooltip="0:00">
-            <span class="time-display">0:00 / 0:00</span>
-            <div class="volume-control">
-                <button class="mute" data-tooltip="Mute">🔊</button>
-                <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="1" data-tooltip="100%">
-            </div>
-            <div style="position: relative;">
-                <button class="speed" data-tooltip="Playback Speed">1x</button>
-                <div class="speed-menu">
-                    <div class="speed-option" data-speed="0.25">0.25x</div>
-                    <div class="speed-option" data-speed="0.5">0.5x</div>
-                    <div class="speed-option" data-speed="1">1x</div>
-                    <div class="speed-option" data-speed="1.5">1.5x</div>
-                    <div class="speed-option" data-speed="2">2x</div>
-                </div>
-            </div>
-            <button class="captions" data-tooltip="Captions">CC</button>
-            <button class="download" data-tooltip="Download">💾</button>
-            <button class="fullscreen" data-tooltip="Fullscreen">⛶</button>
-        </div>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="styles.css" rel="stylesheet"/>
+  <title>
+   Custom Video Player
+  </title>
+ </head>
+ <body>
+  <div class="video-container">
+   <video class="video-player" controlslist="nodownload" disablepictureinpicture="" src="video.mp4">
+    <track kind="captions" label="English" src="captions.vtt"/>
+    Error
+   </video>
+   <div class="skip-overlay left">
+    -10s
+   </div>
+   <div class="skip-overlay right">
+    +10s
+   </div>
+   <div class="frame-indicator">
+    Frame by frame mode
+   </div>
+   <div class="controls">
+    <button class="play-pause" data-tooltip="Play">
+     ▶
+    </button>
+    <input class="time-slider" data-tooltip="0:00" min="0" step="0.1" type="range" value="0"/>
+    <span class="time-display">
+     0:00 / 0:00
+    </span>
+    <div class="volume-control">
+     <button class="mute" data-tooltip="Mute">
+      🔊
+     </button>
+     <input class="volume-slider" data-tooltip="100%" max="1" min="0" step="0.01" type="range" value="1"/>
     </div>
-
-    <div class="keyboard-shortcuts">
-        <h3>Keyboard Shortcuts</h3>
-        <div class="shortcut">
-            <span>Play/Pause</span>
-            <span class="key">Space</span>
-        </div>
-        <div class="shortcut">
-            <span>Forward 10s</span>
-            <span class="key">→</span>
-        </div>
-        <div class="shortcut">
-            <span>Backward 10s</span>
-            <span class="key">←</span>
-        </div>
-        <div class="shortcut">
-            <span>Volume Up</span>
-            <span class="key">↑</span>
-        </div>
-        <div class="shortcut">
-            <span>Volume Down</span>
-            <span class="key">↓</span>
-        </div>
-        <div class="shortcut">
-            <span>Mute</span>
-            <span class="key">M</span>
-        </div>
-        <div class="shortcut">
-            <span>Fullscreen</span>
-            <span class="key">F</span>
-        </div>
-        <div class="shortcut">
-            <span>Toggle Frame-by-Frame Mode</span>
-            <span class="key">.</span>
-        </div>
-        <div class="shortcut">
-            <span>Next Frame (in Frame-by-Frame Mode)</span>
-            <span class="key">→</span>
-        </div>
-        <div class="shortcut">
-            <span>Previous Frame (in Frame-by-Frame Mode)</span>
-            <span class="key">←</span>
-        </div>
-        <div class="shortcut">
-            <span>Toggle Captions</span>
-            <span class="key">C</span>
-        </div>
+    <div style="position: relative;">
+     <button class="speed" data-tooltip="Playback Speed">
+      1x
+     </button>
+     <div class="speed-menu">
+      <div class="speed-option" data-speed="0.25">
+       0.25x
+      </div>
+      <div class="speed-option" data-speed="0.5">
+       0.5x
+      </div>
+      <div class="speed-option" data-speed="1">
+       1x
+      </div>
+      <div class="speed-option" data-speed="1.5">
+       1.5x
+      </div>
+      <div class="speed-option" data-speed="2">
+       2x
+      </div>
+     </div>
     </div>
-    <script src="script.js"></script>
-</body>
+    <button class="captions" data-tooltip="Captions">
+     CC
+    </button>
+    <button class="download" data-tooltip="Download">
+     💾
+    </button>
+    <button class="fullscreen" data-tooltip="Fullscreen">
+     ⛶
+    </button>
+   </div>
+  </div>
+  <div class="keyboard-shortcuts">
+   <h3>
+    Keyboard Shortcuts
+   </h3>
+   <div class="shortcut">
+    <span>
+     Play/Pause
+    </span>
+    <span class="key">
+     Space
+    </span>
+   </div>
+   <div class="shortcut">
+    <span>
+     Forward 10s
+    </span>
+    <span class="key">
+     →
+    </span>
+   </div>
+   <div class="shortcut">
+    <span>
+     Backward 10s
+    </span>
+    <span class="key">
+     ←
+    </span>
+   </div>
+   <div class="shortcut">
+    <span>
+     Volume Up
+    </span>
+    <span class="key">
+     ↑
+    </span>
+   </div>
+   <div class="shortcut">
+    <span>
+     Volume Down
+    </span>
+    <span class="key">
+     ↓
+    </span>
+   </div>
+   <div class="shortcut">
+    <span>
+     Mute
+    </span>
+    <span class="key">
+     M
+    </span>
+   </div>
+   <div class="shortcut">
+    <span>
+     Fullscreen
+    </span>
+    <span class="key">
+     F
+    </span>
+   </div>
+   <div class="shortcut">
+    <span>
+     Toggle Frame-by-Frame Mode
+    </span>
+    <span class="key">
+     .
+    </span>
+   </div>
+   <div class="shortcut">
+    <span>
+     Next Frame (in Frame-by-Frame Mode)
+    </span>
+    <span class="key">
+     →
+    </span>
+   </div>
+   <div class="shortcut">
+    <span>
+     Previous Frame (in Frame-by-Frame Mode)
+    </span>
+    <span class="key">
+     ←
+    </span>
+   </div>
+   <div class="shortcut">
+    <span>
+     Toggle Captions
+    </span>
+    <span class="key">
+     C
+    </span>
+   </div>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
 </html>

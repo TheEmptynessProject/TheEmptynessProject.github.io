@@ -1,83 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Emptyness Project</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="index.css">
-</head>
-<body>
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo-container">
-                    <div class="logo-icon">
-                        <span class="logo-letter">Ɛ</span>
-                    </div>
-                    <h1 class="logo-text">The Emptyness Project</h1>
-                </div>
-                <nav class="main-nav">
-                    <a href="#projects" class="nav-link">Projects</a>
-                    <a href="https://github.com/TheEmptynessProject" target="_blank" class="nav-link">
-                        <i class="fab fa-github"></i>
-                        <span>GitHub</span>
-                    </a>
-                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-                        <i class="fas fa-sun light-icon"></i>
-                        <i class="fas fa-moon dark-icon"></i>
-                    </button>
-                </nav>
-            </div>
-        </div>
-    </header>
-
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h2 class="hero-title">Creations</h2>
-                <p class="hero-description">A collection of interactive web things.</p>
-            </div>
-        </div>
-        <div class="hero-decoration">
-            <div class="particle" id="particle-1"></div>
-            <div class="particle" id="particle-2"></div>
-            <div class="particle" id="particle-3"></div>
-        </div>
-    </section>
-
-    <main>
-        <section id="projects" class="projects-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Our Projects</h2>
-                    <div class="search-container">
-                        <div class="search-wrapper">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="project-search" placeholder="Search projects..." class="search-input">
-                        </div>
-                        <div class="filter-count" id="filter-count"></div>
-                    </div>
-                </div>
-                <div class="projects-grid" id="project-grid"></div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <div class="logo-icon small">
-                        <span class="logo-letter">Ɛ</span>
-                    </div>
-                    <p>The Emptyness Project</p>
-                </div>
-                <div class="copyright">© 2025 The Emptyness Project. All rights reserved.</div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="index.js"></script>
-</body>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   The Emptyness Project
+  </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="index.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header class="header">
+   <div class="container">
+    <div class="header-content">
+     <div class="logo-container">
+      <div class="logo-icon">
+       <span class="logo-letter">
+        Ɛ
+       </span>
+      </div>
+      <h1 class="logo-text">
+       The Emptyness Project
+      </h1>
+     </div>
+     <nav class="main-nav">
+      <a class="nav-link" href="#projects">
+       Projects
+      </a>
+      <a class="nav-link" href="https://github.com/TheEmptynessProject" target="_blank">
+       <i class="fab fa-github">
+       </i>
+       <span>
+        GitHub
+       </span>
+      </a>
+      <button aria-label="Toggle dark mode" class="theme-toggle" id="theme-toggle">
+       <i class="fas fa-sun light-icon">
+       </i>
+       <i class="fas fa-moon dark-icon">
+       </i>
+      </button>
+     </nav>
+    </div>
+   </div>
+  </header>
+  <section class="hero">
+   <div class="container">
+    <div class="hero-content">
+     <h2 class="hero-title">
+      Creations
+     </h2>
+     <p class="hero-description">
+      A collection of interactive web things.
+     </p>
+    </div>
+   </div>
+   <div class="hero-decoration">
+    <div class="particle" id="particle-1">
+    </div>
+    <div class="particle" id="particle-2">
+    </div>
+    <div class="particle" id="particle-3">
+    </div>
+   </div>
+  </section>
+  <main>
+   <section class="projects-section" id="projects">
+    <div class="container">
+     <div class="section-header">
+      <h2>
+       Our Projects
+      </h2>
+      <div class="search-container">
+       <div class="search-wrapper">
+        <i class="fas fa-search search-icon">
+        </i>
+        <input class="search-input" id="project-search" placeholder="Search projects..." type="text"/>
+       </div>
+       <div class="filter-count" id="filter-count">
+       </div>
+      </div>
+     </div>
+     <div class="projects-grid" id="project-grid">
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="footer">
+   <div class="container">
+    <div class="footer-content">
+     <div class="footer-logo">
+      <div class="logo-icon small">
+       <span class="logo-letter">
+        Ɛ
+       </span>
+      </div>
+      <p>
+       The Emptyness Project
+      </p>
+     </div>
+     <div class="copyright">
+      © 2025 The Emptyness Project. All rights reserved.
+     </div>
+    </div>
+   </div>
+  </footer>
+  <script src="index.js">
+  </script>
+ </body>
 </html>

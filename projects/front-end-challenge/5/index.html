@@ -1,58 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pricing Table</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="pricing-container" id="pricingContainer"></div>
-
-    <div class="modal" id="purchaseModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <h2 class="plan-name" id="modalPlanName"></h2>
-            
-            <div class="plan-recommender">
-                <label>How many team members do you have?</label>
-                <select id="teamSize">
-                    <option value="1-5">1-5 members</option>
-                    <option value="6-20">6-20 members</option>
-                    <option value="21+">21+ members</option>
-                </select>
-                
-                <label>What's your primary use case?</label>
-                <select id="useCase">
-                    <option value="personal">Personal Use</option>
-                    <option value="business">Business</option>
-                    <option value="enterprise">Enterprise</option>
-                </select>
-            </div>
-
-            <div class="billing-toggle">
-                <span>Monthly</span>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="billingToggle">
-                    <span class="slider"></span>
-                </label>
-                <span>Annual (Save 20%)</span>
-            </div>
-
-            <div id="modalPrice" class="plan-price"></div>
-            <div class="savings-badge" id="annualSavings" style="display: none;">Save $120/year</div>
-            
-            <button class="cta-button primary-button" onclick="startFreeTrial()">
-                Start 7-Day Free Trial
-            </button>
-            
-            <div class="guarantee">
-                <span>🔒</span>
-                30-day money-back guarantee
-            </div>
-        </div>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Pricing Table
+  </title>
+  <link href="styles.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="pricing-container" id="pricingContainer">
+  </div>
+  <div class="modal" id="purchaseModal">
+   <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">
+     ×
+    </button>
+    <h2 class="plan-name" id="modalPlanName">
+    </h2>
+    <div class="plan-recommender">
+     <label>
+      How many team members do you have?
+     </label>
+     <select id="teamSize">
+      <option value="1-5">
+       1-5 members
+      </option>
+      <option value="6-20">
+       6-20 members
+      </option>
+      <option value="21+">
+       21+ members
+      </option>
+     </select>
+     <label>
+      What's your primary use case?
+     </label>
+     <select id="useCase">
+      <option value="personal">
+       Personal Use
+      </option>
+      <option value="business">
+       Business
+      </option>
+      <option value="enterprise">
+       Enterprise
+      </option>
+     </select>
     </div>
-
-    <script src="script.js"></script>
-</body>
+    <div class="billing-toggle">
+     <span>
+      Monthly
+     </span>
+     <label class="toggle-switch">
+      <input id="billingToggle" type="checkbox"/>
+      <span class="slider">
+      </span>
+     </label>
+     <span>
+      Annual (Save 20%)
+     </span>
+    </div>
+    <div class="plan-price" id="modalPrice">
+    </div>
+    <div class="savings-badge" id="annualSavings" style="display: none;">
+     Save $120/year
+    </div>
+    <button class="cta-button primary-button" onclick="startFreeTrial()">
+     Start 7-Day Free Trial
+    </button>
+    <div class="guarantee">
+     <span>
+      🔒
+     </span>
+     30-day money-back guarantee
+    </div>
+   </div>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
 </html>

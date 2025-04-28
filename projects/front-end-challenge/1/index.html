@@ -1,69 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
-    <title>Sign-up Form with Validation</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <main>
-        <form id="signup-form" complete-percent="0" novalidate autocomplete="off">
-            <h2>Sign Up</h2>
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" 
-                       id="username" 
-                       name="username" 
-                       required 
-                       maxlength="20"
-                       autocomplete="off"
-                       spellcheck="false">
-                <span class="input-message"></span>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" 
-                       id="email" 
-                       name="email" 
-                       required
-                       autocomplete="off"
-                       spellcheck="false">
-                <span class="input-message"></span>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div class="password-container">
-                    <input type="password" 
-                           id="password" 
-                           name="password" 
-                           required
-                           autocomplete="new-password">
-                    <button type="button" class="toggle-password" aria-label="Toggle password visibility">
-                        👁️
-                    </button>
-                </div>
-                <span class="input-message"></span>
-            </div>
-            <div class="form-group">
-                <label for="confirm-password">Confirm Password</label>
-                <div class="password-container">
-                    <input type="password" 
-                           id="confirm-password" 
-                           name="confirm-password" 
-                           required
-                           autocomplete="new-password">
-                    <button type="button" class="toggle-password" aria-label="Toggle password visibility">
-                        👁️
-                    </button>
-                </div>
-                <span class="input-message"></span>
-            </div>
-            <button id="submit-button" type="submit" disabled>Sign Up</button>
-        </form>
-    </main>
-    <script src="script.js" defer></script>
-</body>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="default-src 'self'" http-equiv="Content-Security-Policy"/>
+  <title>
+   Sign-up Form with Validation
+  </title>
+  <link href="styles.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <main>
+   <form autocomplete="off" complete-percent="0" id="signup-form" novalidate="">
+    <h2>
+     Sign Up
+    </h2>
+    <div class="form-group">
+     <label for="username">
+      Username
+     </label>
+     <input autocomplete="off" id="username" maxlength="20" name="username" required="" spellcheck="false" type="text"/>
+     <span class="input-message">
+     </span>
+    </div>
+    <div class="form-group">
+     <label for="email">
+      Email
+     </label>
+     <input autocomplete="off" id="email" name="email" required="" spellcheck="false" type="email"/>
+     <span class="input-message">
+     </span>
+    </div>
+    <div class="form-group">
+     <label for="password">
+      Password
+     </label>
+     <div class="password-container">
+      <input autocomplete="new-password" id="password" name="password" required="" type="password"/>
+      <button aria-label="Toggle password visibility" class="toggle-password" type="button">
+       👁️
+      </button>
+     </div>
+     <span class="input-message">
+     </span>
+    </div>
+    <div class="form-group">
+     <label for="confirm-password">
+      Confirm Password
+     </label>
+     <div class="password-container">
+      <input autocomplete="new-password" id="confirm-password" name="confirm-password" required="" type="password"/>
+      <button aria-label="Toggle password visibility" class="toggle-password" type="button">
+       👁️
+      </button>
+     </div>
+     <span class="input-message">
+     </span>
+    </div>
+    <button disabled="" id="submit-button" type="submit">
+     Sign Up
+    </button>
+   </form>
+  </main>
+  <script defer="" src="script.js">
+  </script>
+ </body>
 </html>

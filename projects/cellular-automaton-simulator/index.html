@@ -1,45 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Cellular Automaton Simulator</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <canvas id="gameCanvas" width="600" height="400"></canvas>
-        
-        <div class="controls">
-            <button id="startStop">Start</button>
-            <button id="clear">Clear</button>
-            <button id="random">Random</button>
-            <button id="fullscreen">Fullscreen</button>
-        </div>
-
-        <div class="rules">
-            <h3>Rules Configuration</h3>
-            <label>
-                Survival Range:
-                <input type="number" id="survivalMin" min="0" max="8" value="2"> to
-                <input type="number" id="survivalMax" min="0" max="8" value="3">
-                neighbors
-            </label>
-            <label>
-                Birth Range:
-                <input type="number" id="birthMin" min="0" max="8" value="3"> to
-                <input type="number" id="birthMax" min="0" max="8" value="3">
-                neighbors
-            </label>
-            <div class="time-control">
-                <label>
-                    Speed:
-                    <input type="range" id="timeScale" min="1" max="100" value="50">
-                    <span id="timeScaleValue">50x</span>
-                </label>
-            </div>
-        </div>
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   Cellular Automaton Simulator
+  </title>
+  <link href="styles.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="container">
+   <canvas height="400" id="gameCanvas" width="600">
+   </canvas>
+   <div class="controls">
+    <button id="startStop">
+     Start
+    </button>
+    <button id="clear">
+     Clear
+    </button>
+    <button id="random">
+     Random
+    </button>
+    <button id="fullscreen">
+     Fullscreen
+    </button>
+   </div>
+   <div class="rules">
+    <h3>
+     Rules Configuration
+    </h3>
+    <label>
+     Survival Range:
+     <input id="survivalMin" max="8" min="0" type="number" value="2"/>
+     to
+     <input id="survivalMax" max="8" min="0" type="number" value="3"/>
+     neighbors
+    </label>
+    <label>
+     Birth Range:
+     <input id="birthMin" max="8" min="0" type="number" value="3"/>
+     to
+     <input id="birthMax" max="8" min="0" type="number" value="3"/>
+     neighbors
+    </label>
+    <div class="time-control">
+     <label>
+      Speed:
+      <input id="timeScale" max="100" min="1" type="range" value="50"/>
+      <span id="timeScaleValue">
+       50x
+      </span>
+     </label>
     </div>
-
-    <script src="script.js"></script>
-</body>
+   </div>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
 </html>

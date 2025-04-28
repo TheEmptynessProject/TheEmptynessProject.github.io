@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Infinity</title>
-    <style>
-        body { 
+ <head>
+  <title>
+   Infinity
+  </title>
+  <style>
+   body { 
             margin: 0;
             overflow: hidden;
         }
@@ -32,24 +34,49 @@
             padding: 15px;
             border-radius: 5px;
         }
-    </style>
-</head>
-<body>
-    <div id="stats">
-        Distance traveled:<br>
-        <span id="meters">0</span> meters<br>
-        <span id="miles">0</span> miles<br>
-        Speed: <span id="speed">0</span> m/s<br>
-        Acceleration: <span id="acceleration">0</span> m/s²<br>
-        Peak Acceleration: <span id="peakAcceleration">0</span> m/s²
-    </div>
-    <div id="controls">
-        Controls:<br>
-        W - Hold to accelerate
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-        const scene = new THREE.Scene();
+  </style>
+ </head>
+ <body>
+  <div id="stats">
+   Distance traveled:
+   <br/>
+   <span id="meters">
+    0
+   </span>
+   meters
+   <br/>
+   <span id="miles">
+    0
+   </span>
+   miles
+   <br/>
+   Speed:
+   <span id="speed">
+    0
+   </span>
+   m/s
+   <br/>
+   Acceleration:
+   <span id="acceleration">
+    0
+   </span>
+   m/s²
+   <br/>
+   Peak Acceleration:
+   <span id="peakAcceleration">
+    0
+   </span>
+   m/s²
+  </div>
+  <div id="controls">
+   Controls:
+   <br/>
+   W - Hold to accelerate
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
+  </script>
+  <script>
+   const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -191,7 +218,7 @@
             const hueChangeRate = 1 / velocityFactor;
             
             const targetHue = (distanceMeters / 1000) % 1;
-            const maxHueChange = hueChangeRate * (0.8/60); //less than 1 frame at 60fps
+            const maxHueChange = hueChangeRate * (0.8/60); 
             
             if (hue !== targetHue) {
                 const diff = targetHue - hue;
@@ -306,6 +333,7 @@
         window.addEventListener('focus', handleWindowFocus);
 
         animate();
-    </script>
-</body>
-</html>r
+  </script>
+ </body>
+</html>
+r

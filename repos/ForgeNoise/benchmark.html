@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Benchmark - ForgeNoise</title>
-  <link rel="icon" type="image/x-icon" href="./main-256.ico">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/gh/TheEmptynessProject/ForgeNoise@main/dist/forgeNoise.min.js"></script>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Benchmark - ForgeNoise
+  </title>
+  <link href="./main-256.ico" rel="icon" type="image/x-icon"/>
+  <link href="css/styles.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;family=Fira+Code:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/gh/TheEmptynessProject/ForgeNoise@main/dist/forgeNoise.min.js">
+  </script>
   <script type="module">
-    import FastNoiseLite from 'https://cdn.jsdelivr.net/npm/fastnoise-lite@1.1.1/FastNoiseLite.min.js';
+   import FastNoiseLite from 'https:
     const fnl = new FastNoiseLite();
     fnl.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
     window.FastNoiseLite = FastNoiseLite;
     window.fnl = fnl;
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/noisejs@latest/index.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/noisejs@latest/index.min.js">
+  </script>
   <style>
-    table {
+   table {
       border-collapse: collapse;
       width: 100%;
       margin-bottom: 2rem;
@@ -94,41 +99,63 @@
       }
     }
   </style>
-  <script src="js/nav.js" defer></script>
-</head>
-<body>
+  <script defer="" src="js/nav.js">
+  </script>
+ </head>
+ <body>
   <nav class="main-nav">
-    <div class="nav-container">
-      <a href="/" class="brand-logo">
-        <img src="./main-256.ico" alt="ForgeNoise Logo" class="logo-icon">
-        <span>ForgeNoise</span>
-      </a>
-      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-      <div class="nav-links">
-        <a href="index.html" class="nav-item">Home</a>
-        <a href="benchmark.html" class="nav-item">Benchmarks</a>
-        <a href="examples.html" class="nav-item">Examples</a>
-        <a href="api.html" class="nav-item">API</a>
-        <a href="about.html" class="nav-item">About</a>
-      </div>
+   <div class="nav-container">
+    <a class="brand-logo" href="/">
+     <img alt="ForgeNoise Logo" class="logo-icon" src="./main-256.ico"/>
+     <span>
+      ForgeNoise
+     </span>
+    </a>
+    <button aria-label="Toggle navigation" class="nav-toggle">
+     ☰
+    </button>
+    <div class="nav-links">
+     <a class="nav-item" href="index.html">
+      Home
+     </a>
+     <a class="nav-item" href="benchmark.html">
+      Benchmarks
+     </a>
+     <a class="nav-item" href="examples.html">
+      Examples
+     </a>
+     <a class="nav-item" href="api.html">
+      API
+     </a>
+     <a class="nav-item" href="about.html">
+      About
+     </a>
     </div>
+   </div>
   </nav>
-
   <main>
-    <h1 class="section-title">Performance Benchmark</h1>
-    <p class="hero-subtitle">Compare performance of ForgeNoise against other popular noise libraries</p>
-    
-    <div class="benchmark-controls">
-      <button id="localStorageToggle" class="benchmark-btn">Local Storage (On)</button>
-      <button id="clearLocalStorage" class="benchmark-btn">Clear Local Storage</button>
-    </div>
-    
-    <div id="results3D" class="benchmark-results"></div>
-    <div id="results2D" class="benchmark-results"></div>
-    <div id="averageResults" class="benchmark-results"></div>
-
-    <script>
-      window.addEventListener('load', () => {
+   <h1 class="section-title">
+    Performance Benchmark
+   </h1>
+   <p class="hero-subtitle">
+    Compare performance of ForgeNoise against other popular noise libraries
+   </p>
+   <div class="benchmark-controls">
+    <button class="benchmark-btn" id="localStorageToggle">
+     Local Storage (On)
+    </button>
+    <button class="benchmark-btn" id="clearLocalStorage">
+     Clear Local Storage
+    </button>
+   </div>
+   <div class="benchmark-results" id="results3D">
+   </div>
+   <div class="benchmark-results" id="results2D">
+   </div>
+   <div class="benchmark-results" id="averageResults">
+   </div>
+   <script>
+    window.addEventListener('load', () => {
         const ITERATIONS = 100000;
         let localStorageEnabled = true;
 
@@ -359,26 +386,40 @@
         displayResults(results2D, "results2D", "2D Noise Performance");
         displayAverageResults(calculateAveragePerformance());
       });
-    </script>
+   </script>
   </main>
   <footer class="main-footer">
-    <div class="footer-container">
-        <div class="footer-logo">
-            <img src="./main-256.ico" alt="ForgeNoise Logo" class="logo-icon-sm">
-            <span>ForgeNoise</span>
-        </div>
-        <div class="footer-links">
-            <a href="index.html">Home</a>
-            <a href="benchmark.html">Benchmarks</a>
-            <a href="examples.html">Examples</a>
-            <a href="api.html">API</a>
-            <a href="about.html">About</a>
-            <a href="https://github.com/TheEmptynessProject/ForgeNoise">GitHub</a>
-        </div>
-        <div class="footer-copyright">
-            &copy; 2025 The Emptyness Project. Released under MIT License.
-        </div>
+   <div class="footer-container">
+    <div class="footer-logo">
+     <img alt="ForgeNoise Logo" class="logo-icon-sm" src="./main-256.ico"/>
+     <span>
+      ForgeNoise
+     </span>
     </div>
-</footer>
-</body>
+    <div class="footer-links">
+     <a href="index.html">
+      Home
+     </a>
+     <a href="benchmark.html">
+      Benchmarks
+     </a>
+     <a href="examples.html">
+      Examples
+     </a>
+     <a href="api.html">
+      API
+     </a>
+     <a href="about.html">
+      About
+     </a>
+     <a href="https://github.com/TheEmptynessProject/ForgeNoise">
+      GitHub
+     </a>
+    </div>
+    <div class="footer-copyright">
+     © 2025 The Emptyness Project. Released under MIT License.
+    </div>
+   </div>
+  </footer>
+ </body>
 </html>

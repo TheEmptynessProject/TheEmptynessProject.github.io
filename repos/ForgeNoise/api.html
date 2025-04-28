@@ -1,198 +1,447 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Documentation - ForgeNoise</title>
-    <link rel="icon" type="image/x-icon" href="./main-256.ico">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
-    <script src="js/nav.js" defer></script>
-    <script src="js/copy.js" defer></script>
-</head>
-<body>
-    <nav class="main-nav">
-        <div class="nav-container">
-            <a href="/" class="brand-logo">
-                <img src="./main-256.ico" alt="ForgeNoise Logo" class="logo-icon">
-                <span>ForgeNoise</span>
-            </a>
-            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-            <div class="nav-links">
-                <a href="index.html" class="nav-item">Home</a>
-                <a href="benchmark.html" class="nav-item">Benchmarks</a>
-                <a href="examples.html" class="nav-item">Examples</a>
-                <a href="api.html" class="nav-item">API</a>
-                <a href="about.html" class="nav-item">About</a>
-            </div>
-        </div>
-    </nav>
-
-    <main class="hero-section">
-        <h1 class="section-title">API Documentation</h1>
-        <p class="hero-subtitle">Complete reference for using the ForgeNoise library in your projects</p>
-
-        <section class="installation-section">
-            <h2 class="section-title">Constructor</h2>
-            <div class="code-snippet">
-                <button class="copy-button" aria-label="Copy code">
-                    <span class="copy-text">Copy</span>
-                    <svg class="copy-icon" viewBox="0 0 24 24" width="18" height="18">
-                        <path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
-                    </svg>
-                </button>
-                <pre><code>new ForgeNoise(seed)</code></pre>
-            </div>
-            <div class="method-card">
-                <h3>Parameters</h3>
-                <p>Initializes a noise generator with an optional seed for reproducibility.</p>
-                <ul>
-                    <li><code>seed</code> (Number, optional): Random seed value to ensure reproducible results</li>
-                </ul>
-            </div>
-        </section>
-        
-        <section class="features-section">
-            <h2 class="section-title">Noise Functions</h2>
-            
-            <div class="method-card">
-                <h3>generate2D(x, y)</h3>
-                <p>Generates 2D Perlin noise at the specified coordinates.</p>
-                <ul>
-                    <li><code>x</code> (Number): X-coordinate</li>
-                    <li><code>y</code> (Number): Y-coordinate</li>
-                    <li>Returns: Number in range [-1, 1]</li>
-                </ul>
-            </div>
-            
-            <div class="method-card">
-                <h3>generate3D(x, y, z)</h3>
-                <p>Generates 3D Perlin noise at the specified coordinates.</p>
-                <ul>
-                    <li><code>x</code> (Number): X-coordinate</li>
-                    <li><code>y</code> (Number): Y-coordinate</li>
-                    <li><code>z</code> (Number): Z-coordinate</li>
-                    <li>Returns: Number in range [-1, 1]</li>
-                </ul>
-            </div>
-            
-            <div class="method-card">
-                <h3>generateSimplex2D(x, y)</h3>
-                <p>Generates 2D Simplex noise at the specified coordinates.</p>
-                <ul>
-                    <li><code>x</code> (Number): X-coordinate</li>
-                    <li><code>y</code> (Number): Y-coordinate</li>
-                    <li>Returns: Number in range [-1, 1]</li>
-                </ul>
-            </div>
-            
-            <div class="method-card">
-                <h3>generateWorley2D(x, y)</h3>
-                <p>Generates 2D Worley noise at the specified coordinates.</p>
-                <ul>
-                    <li><code>x</code> (Number): X-coordinate</li>
-                    <li><code>y</code> (Number): Y-coordinate</li>
-                    <li>Returns: Number in range [0, ~1.414]</li>
-                </ul>
-            </div>
-        </section>
-        
-        <section class="features-section">
-            <h2 class="section-title">Advanced Functions</h2>
-            
-            <div class="method-card">
-                <h3>warp2D(x, y, options)</h3>
-                <p>Generates 2D warped noise using domain warping technique.</p>
-                <ul>
-                    <li><code>x</code> (Number): X-coordinate</li>
-                    <li><code>y</code> (Number): Y-coordinate</li>
-                    <li><code>options</code> (Object):
-                        <ul>
-                            <li><code>warpStrength</code> (Number): Controls distortion amount</li>
-                            <li><code>warpScale</code> (Number): Controls frequency of distortion</li>
-                            <li><code>iterations</code> (Number): Number of warping iterations</li>
-                        </ul>
-                    </li>
-                    <li>Returns: Number in range [-1, 1]</li>
-                </ul>
-            </div>
-            
-            <div class="method-card">
-                <h3>generateFractal2D(x, y, options)</h3>
-                <p>Generates 2D fractal Brownian motion (fBm) noise.</p>
-                <ul>
-                    <li><code>x</code> (Number): X-coordinate</li>
-                    <li><code>y</code> (Number): Y-coordinate</li>
-                    <li><code>options</code> (Object):
-                        <ul>
-                            <li><code>octaves</code> (Number): Number of noise layers</li>
-                            <li><code>lacunarity</code> (Number): How frequency increases each octave</li>
-                            <li><code>persistence</code> (Number): How amplitude diminishes each octave</li>
-                            <li><code>scale</code> (Number): Initial frequency scale</li>
-                            <li><code>normalized</code> (Boolean): Whether to normalize output value</li>
-                            <li><code>ridged</code> (Boolean): Whether to use ridged noise</li>
-                            <li><code>turbulence</code> (Boolean): Whether to use turbulence</li>
-                        </ul>
-                    </li>
-                    <li>Returns: Number in range [-1, 1]</li>
-                </ul>
-            </div>
-        </section>
-        
-        <section class="features-section">
-            <h2 class="section-title">Range Mapping</h2>
-            
-            <div class="method-card">
-                <h3>generate2D01(x, y)</h3>
-                <p>2D Perlin noise mapped to range [0, 1].</p>
-                <ul>
-                    <li><code>x</code> (Number): X-coordinate</li>
-                    <li><code>y</code> (Number): Y-coordinate</li>
-                    <li>Returns: Number in range [0, 1]</li>
-                </ul>
-            </div>
-            
-            <div class="method-card">
-                <h3>generateSimplex2D01(x, y)</h3>
-                <p>2D Simplex noise mapped to range [0, 1].</p>
-                <ul>
-                    <li><code>x</code> (Number): X-coordinate</li>
-                    <li><code>y</code> (Number): Y-coordinate</li>
-                    <li>Returns: Number in range [0, 1]</li>
-                </ul>
-            </div>
-            
-            <div class="method-card">
-                <h3>generateWorley2D01(x, y)</h3>
-                <p>2D Worley noise mapped to range [0, 1].</p>
-                <ul>
-                    <li><code>x</code> (Number): X-coordinate</li>
-                    <li><code>y</code> (Number): Y-coordinate</li>
-                    <li>Returns: Number in range [0, 1]</li>
-                </ul>
-            </div>
-        </section>
-    </main>
-    <footer class="main-footer">
-        <div class="footer-container">
-            <div class="footer-logo">
-                <img src="./main-256.ico" alt="ForgeNoise Logo" class="logo-icon-sm">
-                <span>ForgeNoise</span>
-            </div>
-            <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="benchmark.html">Benchmarks</a>
-                <a href="examples.html">Examples</a>
-                <a href="api.html">API</a>
-                <a href="about.html">About</a>
-                <a href="https://github.com/TheEmptynessProject/ForgeNoise">GitHub</a>
-            </div>
-            <div class="footer-copyright">
-                &copy; 2025 The Emptyness Project. Released under MIT License.
-            </div>
-        </div>
-    </footer>
-</body>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   API Documentation - ForgeNoise
+  </title>
+  <link href="./main-256.ico" rel="icon" type="image/x-icon"/>
+  <link href="css/styles.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;family=Fira+Code:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <script defer="" src="js/nav.js">
+  </script>
+  <script defer="" src="js/copy.js">
+  </script>
+ </head>
+ <body>
+  <nav class="main-nav">
+   <div class="nav-container">
+    <a class="brand-logo" href="/">
+     <img alt="ForgeNoise Logo" class="logo-icon" src="./main-256.ico"/>
+     <span>
+      ForgeNoise
+     </span>
+    </a>
+    <button aria-label="Toggle navigation" class="nav-toggle">
+     ☰
+    </button>
+    <div class="nav-links">
+     <a class="nav-item" href="index.html">
+      Home
+     </a>
+     <a class="nav-item" href="benchmark.html">
+      Benchmarks
+     </a>
+     <a class="nav-item" href="examples.html">
+      Examples
+     </a>
+     <a class="nav-item" href="api.html">
+      API
+     </a>
+     <a class="nav-item" href="about.html">
+      About
+     </a>
+    </div>
+   </div>
+  </nav>
+  <main class="hero-section">
+   <h1 class="section-title">
+    API Documentation
+   </h1>
+   <p class="hero-subtitle">
+    Complete reference for using the ForgeNoise library in your projects
+   </p>
+   <section class="installation-section">
+    <h2 class="section-title">
+     Constructor
+    </h2>
+    <div class="code-snippet">
+     <button aria-label="Copy code" class="copy-button">
+      <span class="copy-text">
+       Copy
+      </span>
+      <svg class="copy-icon" height="18" viewbox="0 0 24 24" width="18">
+       <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" fill="currentColor">
+       </path>
+      </svg>
+     </button>
+     <pre><code>new ForgeNoise(seed)</code></pre>
+    </div>
+    <div class="method-card">
+     <h3>
+      Parameters
+     </h3>
+     <p>
+      Initializes a noise generator with an optional seed for reproducibility.
+     </p>
+     <ul>
+      <li>
+       <code>
+        seed
+       </code>
+       (Number, optional): Random seed value to ensure reproducible results
+      </li>
+     </ul>
+    </div>
+   </section>
+   <section class="features-section">
+    <h2 class="section-title">
+     Noise Functions
+    </h2>
+    <div class="method-card">
+     <h3>
+      generate2D(x, y)
+     </h3>
+     <p>
+      Generates 2D Perlin noise at the specified coordinates.
+     </p>
+     <ul>
+      <li>
+       <code>
+        x
+       </code>
+       (Number): X-coordinate
+      </li>
+      <li>
+       <code>
+        y
+       </code>
+       (Number): Y-coordinate
+      </li>
+      <li>
+       Returns: Number in range [-1, 1]
+      </li>
+     </ul>
+    </div>
+    <div class="method-card">
+     <h3>
+      generate3D(x, y, z)
+     </h3>
+     <p>
+      Generates 3D Perlin noise at the specified coordinates.
+     </p>
+     <ul>
+      <li>
+       <code>
+        x
+       </code>
+       (Number): X-coordinate
+      </li>
+      <li>
+       <code>
+        y
+       </code>
+       (Number): Y-coordinate
+      </li>
+      <li>
+       <code>
+        z
+       </code>
+       (Number): Z-coordinate
+      </li>
+      <li>
+       Returns: Number in range [-1, 1]
+      </li>
+     </ul>
+    </div>
+    <div class="method-card">
+     <h3>
+      generateSimplex2D(x, y)
+     </h3>
+     <p>
+      Generates 2D Simplex noise at the specified coordinates.
+     </p>
+     <ul>
+      <li>
+       <code>
+        x
+       </code>
+       (Number): X-coordinate
+      </li>
+      <li>
+       <code>
+        y
+       </code>
+       (Number): Y-coordinate
+      </li>
+      <li>
+       Returns: Number in range [-1, 1]
+      </li>
+     </ul>
+    </div>
+    <div class="method-card">
+     <h3>
+      generateWorley2D(x, y)
+     </h3>
+     <p>
+      Generates 2D Worley noise at the specified coordinates.
+     </p>
+     <ul>
+      <li>
+       <code>
+        x
+       </code>
+       (Number): X-coordinate
+      </li>
+      <li>
+       <code>
+        y
+       </code>
+       (Number): Y-coordinate
+      </li>
+      <li>
+       Returns: Number in range [0, ~1.414]
+      </li>
+     </ul>
+    </div>
+   </section>
+   <section class="features-section">
+    <h2 class="section-title">
+     Advanced Functions
+    </h2>
+    <div class="method-card">
+     <h3>
+      warp2D(x, y, options)
+     </h3>
+     <p>
+      Generates 2D warped noise using domain warping technique.
+     </p>
+     <ul>
+      <li>
+       <code>
+        x
+       </code>
+       (Number): X-coordinate
+      </li>
+      <li>
+       <code>
+        y
+       </code>
+       (Number): Y-coordinate
+      </li>
+      <li>
+       <code>
+        options
+       </code>
+       (Object):
+       <ul>
+        <li>
+         <code>
+          warpStrength
+         </code>
+         (Number): Controls distortion amount
+        </li>
+        <li>
+         <code>
+          warpScale
+         </code>
+         (Number): Controls frequency of distortion
+        </li>
+        <li>
+         <code>
+          iterations
+         </code>
+         (Number): Number of warping iterations
+        </li>
+       </ul>
+      </li>
+      <li>
+       Returns: Number in range [-1, 1]
+      </li>
+     </ul>
+    </div>
+    <div class="method-card">
+     <h3>
+      generateFractal2D(x, y, options)
+     </h3>
+     <p>
+      Generates 2D fractal Brownian motion (fBm) noise.
+     </p>
+     <ul>
+      <li>
+       <code>
+        x
+       </code>
+       (Number): X-coordinate
+      </li>
+      <li>
+       <code>
+        y
+       </code>
+       (Number): Y-coordinate
+      </li>
+      <li>
+       <code>
+        options
+       </code>
+       (Object):
+       <ul>
+        <li>
+         <code>
+          octaves
+         </code>
+         (Number): Number of noise layers
+        </li>
+        <li>
+         <code>
+          lacunarity
+         </code>
+         (Number): How frequency increases each octave
+        </li>
+        <li>
+         <code>
+          persistence
+         </code>
+         (Number): How amplitude diminishes each octave
+        </li>
+        <li>
+         <code>
+          scale
+         </code>
+         (Number): Initial frequency scale
+        </li>
+        <li>
+         <code>
+          normalized
+         </code>
+         (Boolean): Whether to normalize output value
+        </li>
+        <li>
+         <code>
+          ridged
+         </code>
+         (Boolean): Whether to use ridged noise
+        </li>
+        <li>
+         <code>
+          turbulence
+         </code>
+         (Boolean): Whether to use turbulence
+        </li>
+       </ul>
+      </li>
+      <li>
+       Returns: Number in range [-1, 1]
+      </li>
+     </ul>
+    </div>
+   </section>
+   <section class="features-section">
+    <h2 class="section-title">
+     Range Mapping
+    </h2>
+    <div class="method-card">
+     <h3>
+      generate2D01(x, y)
+     </h3>
+     <p>
+      2D Perlin noise mapped to range [0, 1].
+     </p>
+     <ul>
+      <li>
+       <code>
+        x
+       </code>
+       (Number): X-coordinate
+      </li>
+      <li>
+       <code>
+        y
+       </code>
+       (Number): Y-coordinate
+      </li>
+      <li>
+       Returns: Number in range [0, 1]
+      </li>
+     </ul>
+    </div>
+    <div class="method-card">
+     <h3>
+      generateSimplex2D01(x, y)
+     </h3>
+     <p>
+      2D Simplex noise mapped to range [0, 1].
+     </p>
+     <ul>
+      <li>
+       <code>
+        x
+       </code>
+       (Number): X-coordinate
+      </li>
+      <li>
+       <code>
+        y
+       </code>
+       (Number): Y-coordinate
+      </li>
+      <li>
+       Returns: Number in range [0, 1]
+      </li>
+     </ul>
+    </div>
+    <div class="method-card">
+     <h3>
+      generateWorley2D01(x, y)
+     </h3>
+     <p>
+      2D Worley noise mapped to range [0, 1].
+     </p>
+     <ul>
+      <li>
+       <code>
+        x
+       </code>
+       (Number): X-coordinate
+      </li>
+      <li>
+       <code>
+        y
+       </code>
+       (Number): Y-coordinate
+      </li>
+      <li>
+       Returns: Number in range [0, 1]
+      </li>
+     </ul>
+    </div>
+   </section>
+  </main>
+  <footer class="main-footer">
+   <div class="footer-container">
+    <div class="footer-logo">
+     <img alt="ForgeNoise Logo" class="logo-icon-sm" src="./main-256.ico"/>
+     <span>
+      ForgeNoise
+     </span>
+    </div>
+    <div class="footer-links">
+     <a href="index.html">
+      Home
+     </a>
+     <a href="benchmark.html">
+      Benchmarks
+     </a>
+     <a href="examples.html">
+      Examples
+     </a>
+     <a href="api.html">
+      API
+     </a>
+     <a href="about.html">
+      About
+     </a>
+     <a href="https://github.com/TheEmptynessProject/ForgeNoise">
+      GitHub
+     </a>
+    </div>
+    <div class="footer-copyright">
+     © 2025 The Emptyness Project. Released under MIT License.
+    </div>
+   </div>
+  </footer>
+ </body>
 </html>

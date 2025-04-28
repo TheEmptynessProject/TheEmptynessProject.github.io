@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minesweeper</title>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Minesweeper
+  </title>
   <style>
-    body {
+   body {
       font-family: 'Arial', sans-serif;
       display: flex;
       flex-direction: column;
@@ -153,60 +155,84 @@
       background-color: #f2f2f2;
     }
   </style>
-</head>
-<body>
-  <h1>Minesweeper</h1>
-  
+ </head>
+ <body>
+  <h1>
+   Minesweeper
+  </h1>
   <div class="game-container">
-    <div class="controls">
-      <select id="difficulty">
-        <option value="beginner">Beginner (9x9, 10 mines)</option>
-        <option value="intermediate">Intermediate (16x16, 40 mines)</option>
-        <option value="expert">Expert (16x30, 99 mines)</option>
-        <option value="custom">Custom</option>
-      </select>
-      <div id="custom-controls" style="display: none;">
-        <input type="number" id="custom-width" min="5" max="50" value="10" placeholder="Width">
-        <input type="number" id="custom-height" min="5" max="50" value="10" placeholder="Height">
-        <input type="number" id="custom-mines" min="1" max="2500" value="10" placeholder="Mines">
-      </div>
-      <button id="new-game">New Game</button>
+   <div class="controls">
+    <select id="difficulty">
+     <option value="beginner">
+      Beginner (9x9, 10 mines)
+     </option>
+     <option value="intermediate">
+      Intermediate (16x16, 40 mines)
+     </option>
+     <option value="expert">
+      Expert (16x30, 99 mines)
+     </option>
+     <option value="custom">
+      Custom
+     </option>
+    </select>
+    <div id="custom-controls" style="display: none;">
+     <input id="custom-width" max="50" min="5" placeholder="Width" type="number" value="10"/>
+     <input id="custom-height" max="50" min="5" placeholder="Height" type="number" value="10"/>
+     <input id="custom-mines" max="2500" min="1" placeholder="Mines" type="number" value="10"/>
     </div>
-    
-    <div class="game-info">
-      <div class="counter" id="mine-counter">000</div>
-      <div class="counter" id="timer">000</div>
+    <button id="new-game">
+     New Game
+    </button>
+   </div>
+   <div class="game-info">
+    <div class="counter" id="mine-counter">
+     000
     </div>
-    
-    <div class="game-board" id="board"></div>
+    <div class="counter" id="timer">
+     000
+    </div>
+   </div>
+   <div class="game-board" id="board">
+   </div>
   </div>
-  
   <div class="high-scores">
-    <h2>High Scores</h2>
-    <table id="high-scores-table">
-      <thead>
-        <tr>
-          <th>Difficulty</th>
-          <th>Time</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody id="high-scores-body">
-      </tbody>
-    </table>
+   <h2>
+    High Scores
+   </h2>
+   <table id="high-scores-table">
+    <thead>
+     <tr>
+      <th>
+       Difficulty
+      </th>
+      <th>
+       Time
+      </th>
+      <th>
+       Date
+      </th>
+     </tr>
+    </thead>
+    <tbody id="high-scores-body">
+    </tbody>
+   </table>
   </div>
-  
   <div class="modal" id="result-modal">
-    <div class="modal-content">
-      <h2 class="modal-title" id="result-title"></h2>
-      <p id="result-message"></p>
-      <p id="result-time"></p>
-      <button id="play-again">Play Again</button>
-    </div>
+   <div class="modal-content">
+    <h2 class="modal-title" id="result-title">
+    </h2>
+    <p id="result-message">
+    </p>
+    <p id="result-time">
+    </p>
+    <button id="play-again">
+     Play Again
+    </button>
+   </div>
   </div>
-
   <script>
-    class Minesweeper {
+   class Minesweeper {
       constructor() {
         this.board = document.getElementById('board');
         this.mineCounter = document.getElementById('mine-counter');
@@ -232,7 +258,7 @@
         this.startTime = null;
         this.elapsedTime = 0;
         
-        // Setup event listeners
+        
         document.getElementById('new-game').addEventListener('click', () => this.setupGame());
         document.getElementById('play-again').addEventListener('click', () => {
           this.resultModal.style.display = 'none';
@@ -247,13 +273,13 @@
           }
         });
         
-        // Initialize game
+        
         this.loadHighScores();
         this.setupGame();
       }
       
       setupGame() {
-        // Clear previous game state
+        
         clearInterval(this.timerInterval);
         this.board.innerHTML = '';
         this.cells = [];
@@ -265,7 +291,7 @@
         this.elapsedTime = 0;
         this.timerDisplay.textContent = '000';
         
-        // Set game difficulty
+        
         this.difficulty = this.difficultySelect.value;
         switch (this.difficulty) {
           case 'beginner':
@@ -294,16 +320,16 @@
             break;
         }
         
-        // Update mine counter
+        
         this.updateMineCounter();
         
-        // Create game board
+        
         this.board.style.setProperty('--grid-size', this.width);
         this.createBoard();
       }
       
       createBoard() {
-        // Create cells
+        
         for (let y = 0; y < this.height; y++) {
           for (let x = 0; x < this.width; x++) {
             const cell = document.createElement('div');
@@ -311,10 +337,10 @@
             cell.dataset.x = x;
             cell.dataset.y = y;
             
-            // Left click to reveal cell
+            
             cell.addEventListener('click', (e) => this.handleCellClick(x, y));
             
-            // Right click to flag cell
+            
             cell.addEventListener('contextmenu', (e) => {
               e.preventDefault();
               this.handleRightClick(x, y);
@@ -348,7 +374,7 @@
         let minesPlaced = 0;
         const totalCells = this.width * this.height;
         
-        // Make sure we don't place a mine at the first click or adjacent to it
+        
         const safeArea = [];
         for (let y = Math.max(0, firstClickY - 1); y <= Math.min(this.height - 1, firstClickY + 1); y++) {
           for (let x = Math.max(0, firstClickX - 1); x <= Math.min(this.width - 1, firstClickX + 1); x++) {
@@ -369,7 +395,7 @@
           }
         }
         
-        // Calculate neighbor mines for each cell
+        
         for (let y = 0; y < this.height; y++) {
           for (let x = 0; x < this.width; x++) {
             const cellIndex = y * this.width + x;
@@ -403,16 +429,16 @@
         const cellIndex = y * this.width + x;
         const cell = this.cells[cellIndex];
         
-        // Can't click on flagged cells
+        
         if (cell.isFlagged) return;
         
-        // Start timer on first click
+        
         if (this.revealedCells.length === 0) {
           this.placeMines(x, y);
           this.startTimer();
         }
         
-        // Game over if mine is clicked
+        
         if (cell.isMine) {
           this.revealMines();
           this.endGame(false);
@@ -421,7 +447,7 @@
         
         this.revealCell(x, y);
         
-        // Check for win
+        
         this.checkWin();
       }
       
@@ -431,11 +457,11 @@
         const cellIndex = y * this.width + x;
         const cell = this.cells[cellIndex];
         
-        // Can't flag revealed cells
+        
         if (cell.isRevealed) return;
         
         if (cell.isFlagged) {
-          // Remove flag
+          
           cell.isFlagged = false;
           cell.element.classList.remove('flag');
           const flagIndex = this.flaggedCells.indexOf(cellIndex);
@@ -443,7 +469,7 @@
             this.flaggedCells.splice(flagIndex, 1);
           }
         } else {
-          // Add flag
+          
           cell.isFlagged = true;
           cell.element.classList.add('flag');
           this.flaggedCells.push(cellIndex);
@@ -466,7 +492,7 @@
           cell.element.textContent = cell.neighborMines;
           cell.element.classList.add(`number-${cell.neighborMines}`);
         } else {
-          // Recursively reveal adjacent cells
+          
           for (let dy = -1; dy <= 1; dy++) {
             for (let dx = -1; dx <= 1; dx++) {
               const nx = x + dx;
@@ -495,7 +521,7 @@
       checkWin() {
         const remainingUnrevealedCells = this.width * this.height - this.revealedCells.length;
         if (remainingUnrevealedCells === this.mines) {
-          // Auto-flag remaining mines
+          
           this.cells.forEach((cell, index) => {
             if (cell.isMine && !cell.isFlagged) {
               cell.isFlagged = true;
@@ -527,7 +553,7 @@
       }
       
       saveHighScore() {
-        if (this.difficulty === 'custom') return; // Don't save scores for custom games
+        if (this.difficulty === 'custom') return; 
         
         const highScores = this.getHighScores();
         
@@ -537,7 +563,7 @@
           date: new Date().toLocaleDateString()
         });
         
-        // Sort and keep only the top 5 scores per difficulty
+        
         const sortedScores = highScores
           .sort((a, b) => a.time - b.time)
           .reduce((acc, score) => {
@@ -559,7 +585,7 @@
         
         try {
           const parsedScores = JSON.parse(savedScores);
-          // Convert from object format to array
+          
           return Object.values(parsedScores).flat();
         } catch (e) {
           return [];
@@ -601,10 +627,10 @@
       }
     }
 
-    // Initialize the game when the page loads
+    
     document.addEventListener('DOMContentLoaded', () => {
       const game = new Minesweeper();
     });
   </script>
-</body>
+ </body>
 </html>
