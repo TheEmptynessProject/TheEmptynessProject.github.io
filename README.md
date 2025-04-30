@@ -9,7 +9,6 @@ A collection of interactive web things using pure static and open-source html, j
 - **[Connect Four vs Bot](https://theemptynessproject.github.io/projects/connect-four-bot/index.html)** - Test your skills against an AI that never makes mistakes
 - **[Mancala Game](https://theemptynessproject.github.io/projects/mancala-game/index.html)** - Play this ancient counting and strategy board game
 - **[Minesweeper](https://theemptynessproject.github.io/projects/minesweeper/index.html)** - Classic bomb-finding puzzle game with customizable difficulty
-- **[Blackjack with Card Counting](https://theemptynessproject.github.io/projects/blackjack-card-counter/index.html)** - Learn to play blackjack while mastering card counting techniques
 - **[Infinity](https://theemptynessproject.github.io/projects/infinity-speed/index.html)** - An endless acceleration experience that pushes your reflexes to the limit
 
 ## 🎨 Visual Experiments
