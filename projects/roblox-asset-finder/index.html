@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Roblox Asset Link Generator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 400px;
+      margin: 2em auto;
+      line-height: 1.4;
+    }
+    input, button {
+      font-size: 1em;
+      padding: .5em;
+      margin-top: .5em;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      cursor: pointer;
+    }
+    .output {
+      margin-top: 1em;
+      word-break: break-all;
+    }
+    .output a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    .output a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Roblox Asset Link Generator</h1>
+  <label for="assetId">Asset ID:</label>
+  <input id="assetId" type="text" placeholder="e.g. 6858594080">
+
+  <button id="libBtn">Generate Library URL</button>
+  <button id="legacyBtn">Generate Legacy Asset URL</button>
+
+  <div id="output" class="output"></div>
+
+  <script>
+    const getId = () => document.getElementById('assetId').value.trim();
+    const output = document.getElementById('output');
+
+    function showLink(type) {
+      const id = getId();
+      if (!/^\d+$/.test(id)) {
+        output.innerText = '❌ Please enter a valid numeric ID.';
+        return;
+      }
+      let url;
+      if (type === 'library') {
+        url = `https://www.roblox.com/library/${id}`;
+      } else {
+        url = `http://www.roblox.com/asset/?id=${id}`;
+      }
+      output.innerHTML = `
+        <strong>${type === 'library' ? 'Library URL:' : 'Legacy Asset URL:'}</strong><br>
+        <a href="${url}" target="_blank">${url}</a>
+      `;
+    }
+
+    document.getElementById('libBtn').addEventListener('click', () => showLink('library'));
+    document.getElementById('legacyBtn').addEventListener('click', () => showLink('legacy'));
+  </script>
+</body>
+</html>
